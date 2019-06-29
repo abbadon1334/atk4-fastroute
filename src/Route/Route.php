@@ -2,7 +2,7 @@
 
 namespace Abbadon1334\ATKFastRoute\Route;
 
-use Abbadon1334\ATKFastRoute\Handler\OnRoute;
+use Abbadon1334\ATKFastRoute\Handler\RoutedAbstract;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
@@ -22,7 +22,7 @@ class Route implements iRoute
 
     public static function fromArray(array $route): iRoute
     {
-        return new Route($route[1], $route[0], OnRoute::fromArray($route[2]));
+        return new Route($route[1], $route[0], RoutedAbstract::fromArray($route[2]));
     }
 
     public function getMethods(): array

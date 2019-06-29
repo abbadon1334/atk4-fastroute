@@ -6,3 +6,4 @@ composer.phar
 .php_cs.cache
 /build
 /docs
+routes.cache

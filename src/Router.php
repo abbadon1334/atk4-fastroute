@@ -22,9 +22,8 @@ use function FastRoute\simpleDispatcher;
 
 class Router
 {
-    public $use_cache      = false;
-    public $cache_disabled = false;
-    public $cache_file;
+    protected $use_cache      = false;
+    protected $cache_file;
 
     /** @var iRoute[] */
     protected $route_collection = [];
@@ -49,6 +48,12 @@ class Router
     {
         $this->app = $app;
         $this->setUpApp();
+    }
+
+    public function enableCacheRoutes($cache_path)
+    {
+        $this->use_cache = true;
+        $this->cache_file = $cache_path;
     }
 
     /**
@@ -86,7 +91,8 @@ class Router
 
         if (Dispatcher::FOUND !== $status) {
             $allowed_methods = $route[1] ?? [];
-            return $this->onRouteFail($request, $status, $allowed_methods);
+            $this->onRouteFail($request, $status, $allowed_methods);
+            return $this->app->run();
         }
 
         /** @var iOnRoute $handler */
@@ -120,7 +126,7 @@ class Router
 
         return cachedDispatcher($closure, [
             'cacheFile'     => $this->cache_file,
-            'cacheDisabled' => $this->cache_disabled,
+            'cacheDisabled' => false,
         ]);
     }
 

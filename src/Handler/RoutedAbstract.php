@@ -4,7 +4,7 @@ namespace Abbadon1334\ATKFastRoute\Handler;
 
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 
-abstract class OnRoute implements iOnRoute
+abstract class RoutedAbstract
 {
     public static function fromArray(array $array): iOnRoute
     {
@@ -17,8 +17,4 @@ abstract class OnRoute implements iOnRoute
 
         return RoutedUI::fromArray($array);
     }
-
-    abstract public function onRoute(...$parameters);
-
-    abstract public function toArray(): array;
 }

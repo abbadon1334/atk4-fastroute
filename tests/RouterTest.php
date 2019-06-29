@@ -13,6 +13,11 @@ class RouterTest extends TestCase
         ini_set('detect_unicode','Off');
     }
 
+    public function tearDown(): void
+    {
+        @unlink(__DIR__ .'/../demos/routes.cache');
+    }
+
     public function inc(string $path, $METHOD, $URI)
     {
         $_SERVER['REQUEST_METHOD'] = $METHOD;
@@ -52,6 +57,12 @@ class RouterTest extends TestCase
             ['index.php', 'POST', '/test?atk_centered_loader_callback=ajax&__atk_callback=1'],
             ['index.php', 'PUT', '/test'], // FAIL - method not allowed
             ['index.php', 'GET', '/abc'], // FAIL - not found
+            ['cached.php', 'GET', '/callable'],
+            ['cached.php', 'GET', '/test'],
+            ['cached.php', 'GET', '/test2'],
+            ['cached.php', 'POST', '/test?atk_centered_loader_callback=ajax&__atk_callback=1'],
+            ['cached.php', 'PUT', '/test'], // FAIL - method not allowed
+            ['cached.php', 'GET', '/abc'], // FAIL - not found
         ];
     }
 }
