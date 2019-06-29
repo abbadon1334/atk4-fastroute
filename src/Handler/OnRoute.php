@@ -2,18 +2,20 @@
 
 namespace Abbadon1334\ATKFastRoute\Handler;
 
-abstract class Handler implements iHandler
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
+
+abstract class OnRoute implements iOnRoute
 {
-    public static function fromArray(array $array): iHandler
+    public static function fromArray(array $array): iOnRoute
     {
         $firstArg  = $array[0];
         $secondArg = $array[1] ?? null;
 
         if (is_string($firstArg) && is_string($secondArg)) {
-            return MethodHandler::fromArray($array);
+            return RoutedMethod::fromArray($array);
         }
 
-        return UIHandler::fromArray($array);
+        return RoutedUI::fromArray($array);
     }
 
     abstract public function onRoute(...$parameters);

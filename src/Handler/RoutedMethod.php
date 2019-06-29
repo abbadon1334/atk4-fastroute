@@ -3,7 +3,10 @@
 
 namespace Abbadon1334\ATKFastRoute\Handler;
 
-class MethodHandler implements iHandler, iHandlerArrayable
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iArrayable;
+
+class RoutedMethod implements iOnRoute, iArrayable
 {
     /**
      * Class Name to be called.
@@ -33,7 +36,7 @@ class MethodHandler implements iHandler, iHandlerArrayable
         $this->ClassMethod = $ClassMethod;
     }
 
-    public static function fromArray(array $array): iHandler
+    public static function fromArray(array $array): iOnRoute
     {
         return new self(...$array);
     }

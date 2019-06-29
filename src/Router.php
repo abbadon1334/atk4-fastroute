@@ -2,21 +2,19 @@
 
 namespace Abbadon1334\ATKFastRoute;
 
-use Abbadon1334\ATKFastRoute\Handler\iHandler;
-use Abbadon1334\ATKFastRoute\Handler\iHandlerAfterRoute;
-use Abbadon1334\ATKFastRoute\Handler\iHandlerBeforeRoute;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRouteable;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iNeedAppRun;
 use Abbadon1334\ATKFastRoute\Route\iRoute;
 use Abbadon1334\ATKFastRoute\Route\Route;
 use Abbadon1334\ATKFastRoute\View\MethodNotAllowed;
 use Abbadon1334\ATKFastRoute\View\NotFound;
-use atk4\core\AppScopeTrait;
-use atk4\core\InitializerTrait;
+use atk4\ui\App;
 use atk4\ui\Exception;
-use atk4\ui\jsExpressionable;
 use Closure;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\ServerRequestFactory;
 use function FastRoute\cachedDispatcher;
@@ -24,11 +22,6 @@ use function FastRoute\simpleDispatcher;
 
 class Router
 {
-    use AppScopeTrait;
-    use InitializerTrait {
-        init as _init;
-    }
-
     public $use_cache      = false;
     public $cache_disabled = false;
     public $cache_file;
@@ -52,13 +45,9 @@ class Router
      */
     protected $_default_method_not_allowed = MethodNotAllowed::class;
 
-    /**
-     * @throws \atk4\core\Exception
-     */
-    public function init(): void
+    public function __construct(App $app)
     {
-        $this->_init();
-
+        $this->app = $app;
         $this->setUpApp();
     }
 
@@ -70,45 +59,52 @@ class Router
         // prepare ui\App for pretty urls
         $this->app->setDefaults(['url_building_ext' => '']);
 
-        // catch beforeRender to output request
-        $this->app->addHook('beforeRender', function (): void {
-            $this->handleRouteRequest();
-        });
+        /**
+         * Removed
+         * Some handler don't need to run the application
+         * moved to router run
+         * $this->app->addHook('beforeRender', function (): void {
+         * $this->handleRouteRequest();
+         * });
+         */
     }
 
     /**
      * @param ServerRequestInterface|null $request
      *
-     * @throws Exception
      * @return bool
+     * @throws Exception
      */
-    protected function handleRouteRequest(?ServerRequestInterface $request = null)
+    protected function handleRouteRequest(?ServerRequestInterface $request = NULL)
     {
         $dispatcher = $this->getDispatcher();
 
         $request = $request ?? ServerRequestFactory::fromGlobals();
 
         $route  = $dispatcher->dispatch($request->getMethod(), $request->getUri()->getPath());
-        $status = (int)$route[0];
+        $status = $route[0];
 
         if (Dispatcher::FOUND !== $status) {
-            $this->onRouteFail($request, $status);
-
-            return false;
+            $allowed_methods = $route[1] ?? [];
+            return $this->onRouteFail($request, $status, $allowed_methods);
         }
 
-        /** @var iHandler $handler */
+        /** @var iOnRoute $handler */
         $handler    = $route[1];
         $parameters = $route[2];
 
-        if ($handler instanceof iHandlerBeforeRoute) {
-            $handler->OnBeforeRoute($this->app);
+        if ($handler instanceof iBeforeRoutable) {
+            $handler->OnBeforeRoute($this->app, ...$parameters);
         }
 
-        $handler->onRoute(...$parameters);
+        $handler->onRoute($this->app, ...$parameters);
 
-        if ($handler instanceof iHandlerAfterRoute) {
-            $handler->OnAfterRoute($this->app);
+        if ($handler instanceof iAfterRouteable) {
+            $handler->OnAfterRoute($this->app, ...$parameters);
+        }
+
+        if ($handler instanceOf iNeedAppRun) {
+            $this->app->run();
         }
 
         return true;
@@ -128,10 +124,14 @@ class Router
         ]);
     }
 
-    protected function onRouteFail(?ServerRequestInterface $request, $status): bool
+    protected function onRouteFail(ServerRequestInterface $request, $status, array $allowed_methods = []): bool
     {
+        if (!isset($this->app->html)) {
+            $this->app->initLayout('Generic');
+        }
+
         if (Dispatcher::METHOD_NOT_ALLOWED === $status) {
-            return $this->routeMethodNotAllowed();
+            return $this->routeMethodNotAllowed($allowed_methods);
         }
 
         return $this->routeNotFound();
@@ -145,10 +145,12 @@ class Router
         return false;
     }
 
-    private function routeMethodNotAllowed(): bool
+    private function routeMethodNotAllowed(array $allowed_methods = []): bool
     {
         http_response_code(405);
-        $this->app->add(new $this->_default_method_not_allowed());
+        $this->app->add(new $this->_default_method_not_allowed([
+            '_allowed_methods' => $allowed_methods
+        ]));
 
         return false;
     }
@@ -158,10 +160,10 @@ class Router
      */
     public function setBaseDir(string $base_dir): void
     {
-        $this->base_dir = "/".trim($base_dir, '/').'/';
+        $this->base_dir = "/" . trim($base_dir, '/') . '/';
     }
 
-    public function addRoute(array $methods, string $routePattern, iHandler $handler): void
+    public function addRoute(array $methods, string $routePattern, iOnRoute $handler): void
     {
         $pattern                  = $this->buildPattern($routePattern);
         $this->route_collection[] = new Route($pattern, $methods, $handler);
@@ -169,7 +171,7 @@ class Router
 
     protected function buildPattern($routePattern)
     {
-        return $this->base_dir.trim($routePattern, '/');
+        return $this->base_dir . trim($routePattern, '/');
     }
 
     protected function routeCollect(RouteCollector $rc): void
@@ -177,5 +179,10 @@ class Router
         foreach ($this->route_collection as $r) {
             $rc->addRoute(...$r->toArray());
         }
+    }
+
+    public function run()
+    {
+        $this->handleRouteRequest();
     }
 }

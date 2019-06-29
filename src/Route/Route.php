@@ -2,10 +2,10 @@
 
 namespace Abbadon1334\ATKFastRoute\Route;
 
-use Abbadon1334\ATKFastRoute\Handler\Handler;
-use Abbadon1334\ATKFastRoute\Handler\iHandler;
-use Abbadon1334\ATKFastRoute\Handler\MethodHandler;
-use Abbadon1334\ATKFastRoute\Handler\UIHandler;
+use Abbadon1334\ATKFastRoute\Handler\OnRoute;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
+use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
+use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 
 class Route implements iRoute
 {
@@ -13,7 +13,7 @@ class Route implements iRoute
     protected $route;
     protected $handler;
 
-    public function __construct(string $route, ?array $methods = null, ?iHandler $handler = null)
+    public function __construct(string $route, ?array $methods = null, ?iOnRoute $handler = null)
     {
         $this->methods = $methods ?? [];
         $this->route   = $route;
@@ -22,7 +22,7 @@ class Route implements iRoute
 
     public static function fromArray(array $route): iRoute
     {
-        return new Route($route[1], $route[0], Handler::fromArray($route[2]));
+        return new Route($route[1], $route[0], OnRoute::fromArray($route[2]));
     }
 
     public function getMethods(): array
@@ -35,7 +35,7 @@ class Route implements iRoute
         return $this->route;
     }
 
-    public function getHandler(): iHandler
+    public function getHandler(): iOnRoute
     {
         return $this->handler;
     }
@@ -47,12 +47,12 @@ class Route implements iRoute
 
     public function handleWithUI(string $class, array $defaults = []): void
     {
-        $this->handler = new UIHandler($class, $defaults);
+        $this->handler = new RoutedUI($class, $defaults);
     }
 
     public function handleWithMethod(string $ControllerClass, string $ControllerMethod): void
     {
-        $this->handler = new MethodHandler($ControllerClass, $ControllerMethod);
+        $this->handler = new RoutedMethod($ControllerClass, $ControllerMethod);
     }
 
     public function toArray(): array
