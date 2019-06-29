@@ -13,7 +13,7 @@ class Route implements iRoute
     protected $route;
     protected $handler;
 
-    public function __construct(string $route, ?array $methods = NULL, ?iHandler $handler = NULL)
+    public function __construct(string $route, ?array $methods = null, ?iHandler $handler = null)
     {
         $this->methods = $methods ?? [];
         $this->route   = $route;

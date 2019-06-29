@@ -3,7 +3,7 @@
 
 namespace Abbadon1334\ATKFastRoute\Handler;
 
-class MethodHandler implements iHandler,iHandlerArrayable
+class MethodHandler implements iHandler, iHandlerArrayable
 {
     /**
      * Class Name to be called.
@@ -38,7 +38,7 @@ class MethodHandler implements iHandler,iHandlerArrayable
         return new self(...$array);
     }
 
-    public function onRoute(...$parameters)
+    public function onRoute(...$parameters): void
     {
         $class = new $this->ClassName();
 

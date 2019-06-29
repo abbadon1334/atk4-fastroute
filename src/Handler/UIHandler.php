@@ -2,10 +2,7 @@
 
 namespace Abbadon1334\ATKFastRoute\Handler;
 
-use Handler\iHandlerAfterRoute;
-use Handler\iHandlerBeforeRoute;
-
-class UIHandler implements iHandler,iHandlerArrayable,iHandlerAfterRoute
+class UIHandler implements iHandler, iHandlerArrayable, iHandlerAfterRoute
 {
     /**
      * @var string
@@ -30,7 +27,7 @@ class UIHandler implements iHandler,iHandlerArrayable,iHandlerAfterRoute
         return new static(...$array);
     }
 
-    public function onRoute(...$parameters)
+    public function onRoute(...$parameters): void
     {
         $class = $this->ClassName;
 
@@ -42,7 +39,7 @@ class UIHandler implements iHandler,iHandlerArrayable,iHandlerAfterRoute
         return [$this->ClassName, $this->default];
     }
 
-    public function OnAfterRoute(\atk4\ui\App $app)
+    public function OnAfterRoute(\atk4\ui\App $app): void
     {
         $app->add($this->onRouteResult);
     }

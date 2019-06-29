@@ -7,7 +7,7 @@ abstract class Handler implements iHandler
     public static function fromArray(array $array): iHandler
     {
         $firstArg  = $array[0];
-        $secondArg = $array[1] ?? NULL;
+        $secondArg = $array[1] ?? null;
 
         if (is_string($firstArg) && is_string($secondArg)) {
             return MethodHandler::fromArray($array);

@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-
-namespace Handler;
-
+namespace Abbadon1334\ATKFastRoute\Handler;
 
 interface iHandlerBeforeRoute
 {
