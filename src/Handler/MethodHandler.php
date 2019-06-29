@@ -6,14 +6,26 @@ namespace Abbadon1334\ATKFastRoute\Handler;
 class MethodHandler implements iHandler,iHandlerArrayable
 {
     /**
+     * Class Name to be called.
+     *
      * @var string
      */
     protected $ClassName;
 
     /**
+     * Class Method to be called.
+     *
      * @var string
      */
     protected $ClassMethod;
+
+    /**
+     * Store the result of the onRoute call.
+     *
+     * @var mixed
+     */
+    protected $onRouteResult;
+
 
     public function __construct(string $ClassName, string $ClassMethod)
     {
@@ -30,7 +42,7 @@ class MethodHandler implements iHandler,iHandlerArrayable
     {
         $class = new $this->ClassName();
 
-        return $class::{$this->ClassMethod}(...$parameters);
+        $this->onRouteResult = $class::{$this->ClassMethod}(...$parameters);
     }
 
     public function toArray(): array

@@ -2,7 +2,10 @@
 
 namespace Abbadon1334\ATKFastRoute\Handler;
 
-class UIHandler implements iHandler,iHandlerArrayable
+use Handler\iHandlerAfterRoute;
+use Handler\iHandlerBeforeRoute;
+
+class UIHandler implements iHandler,iHandlerArrayable,iHandlerAfterRoute
 {
     /**
      * @var string
@@ -13,6 +16,8 @@ class UIHandler implements iHandler,iHandlerArrayable
      * @var array
      */
     protected $default;
+
+    protected $onRouteResult;
 
     public function __construct(string $ClassName, array $default = [])
     {
@@ -29,11 +34,16 @@ class UIHandler implements iHandler,iHandlerArrayable
     {
         $class = $this->ClassName;
 
-        return new $class($this->default, ...$parameters);
+        $this->onRouteResult = new $class($this->default, ...$parameters);
     }
 
     public function toArray(): array
     {
         return [$this->ClassName, $this->default];
+    }
+
+    public function OnAfterRoute(\atk4\ui\App $app)
+    {
+        $app->add($this->onRouteResult);
     }
 }

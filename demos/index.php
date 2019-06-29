@@ -46,14 +46,14 @@ if(!class_exists(ATKView::class)) {
 }
 
 $app = new App([
-    'fix_incompatible' => false
+//    'fix_incompatible' => false
 ]);
 
 $app->title = $_SERVER['REQUEST_METHOD'] . ' => ' . $_SERVER['REQUEST_URI'];
 $app->initLayout('Generic');
 $app->add($router = new Router());
 
-//$router->setBaseDir('/nemesi/atk4-fastroute/demos/');
+$router->setBaseDir('/nemesi/atk4-fastroute/demos');
 $router->addRoute(
     ['GET','POST'],
     '/test',
@@ -70,6 +70,6 @@ $router->addRoute(
     ['GET','POST'],
     '/callable',
     new CallableHandler(function(...$parameters) {
-        return 'test callable';
+        echo 'test callable';
     })
 );

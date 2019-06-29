@@ -82,11 +82,7 @@ class Router
         $handler    = $route[1];
         $parameters = $route[2];
 
-        $result = $handler->onRoute(...$parameters);
-
-        if ($result instanceof jsExpressionable) {
-            $this->app->add($result);
-        }
+        $handler->onRoute(...$parameters);
 
         return true;
     }
@@ -129,12 +125,13 @@ class Router
      */
     public function setBaseDir(string $base_dir): void
     {
-        $this->base_dir = "/" . trim($base_dir, '/');
+        $this->base_dir = "/" . trim($base_dir, '/') . '/';
     }
 
     public function addRoute(array $methods, string $routePattern, iHandler $handler): void
     {
-        $this->route_collection[] = new Route($this->buildPattern($routePattern), $methods, $handler);
+        $pattern = $this->buildPattern($routePattern);
+        $this->route_collection[] = new Route($pattern, $methods, $handler);
     }
 
     protected function buildPattern($routePattern)
