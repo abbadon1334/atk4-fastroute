@@ -139,6 +139,7 @@ class Router
 
     protected function routeNotFound(): bool
     {
+        http_response_code(404);
         $this->app->add(new $this->_default_not_found());
 
         return false;
@@ -146,6 +147,7 @@ class Router
 
     private function routeMethodNotAllowed(): bool
     {
+        http_response_code(405);
         $this->app->add(new $this->_default_method_not_allowed());
 
         return false;
