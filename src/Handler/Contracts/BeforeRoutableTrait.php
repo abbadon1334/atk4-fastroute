@@ -4,7 +4,7 @@ namespace Abbadon1334\ATKFastRoute\Handler\Contracts;
 
 use atk4\ui\App;
 
-trait BeforeRouteableTrait
+trait BeforeRoutableTrait
 {
     /** @var callable Store the OnBefore function if defined manually */
     protected $func_before_route;

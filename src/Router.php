@@ -3,7 +3,7 @@
 namespace Abbadon1334\ATKFastRoute;
 
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
-use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRouteable;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iNeedAppRun;
 use Abbadon1334\ATKFastRoute\Route\iRoute;
@@ -105,7 +105,7 @@ class Router
 
         $handler->onRoute($this->app, ...$parameters);
 
-        if ($handler instanceof iAfterRouteable) {
+        if ($handler instanceof iAfterRoutable) {
             $handler->OnAfterRoute($this->app, ...$parameters);
         }
 

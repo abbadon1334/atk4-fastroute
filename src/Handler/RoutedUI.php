@@ -2,22 +2,22 @@
 
 namespace Abbadon1334\ATKFastRoute\Handler;
 
-use Abbadon1334\ATKFastRoute\Handler\Contracts\AfterRouteableTrait;
-use Abbadon1334\ATKFastRoute\Handler\Contracts\BeforeRouteableTrait;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\AfterRoutableTrait;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\BeforeRoutableTrait;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
-use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRouteable;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iArrayable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iNeedAppRun;
 use atk4\ui\App;
 
-class RoutedUI implements iOnRoute, iArrayable, iAfterRouteable, iBeforeRoutable, iNeedAppRun
+class RoutedUI implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable, iNeedAppRun
 {
-    use AfterRouteableTrait {
+    use AfterRoutableTrait {
         OnAfterRoute as _OnAfterRoute;
     }
 
-    use BeforeRouteableTrait {
+    use BeforeRoutableTrait {
         OnBeforeRoute as _OnBeforeRoute;
     }
 
