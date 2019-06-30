@@ -38,9 +38,19 @@ class RoutedMethod implements iOnRoute, iArrayable
 
     public function onRoute(...$parameters): void
     {
-        $class = new $this->ClassName();
+        $class = $this->ClassName;
+        $method = $this->ClassMethod;
 
-        $this->onRouteResult = $class::{$this->ClassMethod}(...$parameters);
+        $MethodChecker = new \ReflectionMethod($class,$method);
+
+        if($MethodChecker->isStatic())
+        {
+            $this->onRouteResult = $class::{$method}(...$parameters);
+            return;
+        }
+
+        $class = new $class();
+        $this->onRouteResult = $class->{$method}(...$parameters);
     }
 
     public static function fromArray(array $array): iOnRoute
