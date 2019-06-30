@@ -60,18 +60,17 @@ class RoutedUI implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable,
     {
         $app->add($this->onRouteResult);
 
-        $this->_OnAfterRoute($app,...$parameters);
+        $this->_OnAfterRoute($app, ...$parameters);
     }
 
-    public function OnBeforeRoute(App $app, ...$parameters)
+    public function OnBeforeRoute(App $app, ...$parameters): void
     {
-        if(is_null($this->func_before_route)) {
-            if(!isset($app->html))
-            {
+        if (is_null($this->func_before_route)) {
+            if (!isset($app->html)) {
                 $app->initLayout('Generic');
             }
         }
 
-        $this->_OnBeforeRoute($app,...$parameters);
+        $this->_OnBeforeRoute($app, ...$parameters);
     }
 }

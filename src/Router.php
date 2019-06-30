@@ -50,9 +50,9 @@ class Router
         $this->setUpApp();
     }
 
-    public function enableCacheRoutes($cache_path)
+    public function enableCacheRoutes($cache_path): void
     {
-        $this->use_cache = true;
+        $this->use_cache  = true;
         $this->cache_file = $cache_path;
     }
 
@@ -64,7 +64,7 @@ class Router
         // prepare ui\App for pretty urls
         $this->app->setDefaults(['url_building_ext' => '']);
 
-        /**
+        /*
          * Removed
          * Some handler don't need to run the application
          * moved to router run
@@ -77,10 +77,10 @@ class Router
     /**
      * @param ServerRequestInterface|null $request
      *
-     * @return bool
      * @throws Exception
+     * @return bool
      */
-    protected function handleRouteRequest(?ServerRequestInterface $request = NULL)
+    protected function handleRouteRequest(?ServerRequestInterface $request = null)
     {
         $dispatcher = $this->getDispatcher();
 
@@ -92,6 +92,7 @@ class Router
         if (Dispatcher::FOUND !== $status) {
             $allowed_methods = $route[1] ?? [];
             $this->onRouteFail($request, $status, $allowed_methods);
+
             return $this->app->run();
         }
 
@@ -109,7 +110,7 @@ class Router
             $handler->OnAfterRoute($this->app, ...$parameters);
         }
 
-        if ($handler instanceOf iNeedAppRun) {
+        if ($handler instanceof iNeedAppRun) {
             $this->app->run();
         }
 
@@ -155,7 +156,7 @@ class Router
     {
         http_response_code(405);
         $this->app->add(new $this->_default_method_not_allowed([
-            '_allowed_methods' => $allowed_methods
+            '_allowed_methods' => $allowed_methods,
         ]));
 
         return false;
@@ -166,7 +167,7 @@ class Router
      */
     public function setBaseDir(string $base_dir): void
     {
-        $this->base_dir = "/" . trim($base_dir, '/') . '/';
+        $this->base_dir = "/".trim($base_dir, '/').'/';
     }
 
     public function addRoute(array $methods, string $routePattern, iOnRoute $handler): void
@@ -177,7 +178,7 @@ class Router
 
     protected function buildPattern($routePattern)
     {
-        return $this->base_dir . trim($routePattern, '/');
+        return $this->base_dir.trim($routePattern, '/');
     }
 
     protected function routeCollect(RouteCollector $rc): void
@@ -187,7 +188,7 @@ class Router
         }
     }
 
-    public function run()
+    public function run(): void
     {
         $this->handleRouteRequest();
     }
