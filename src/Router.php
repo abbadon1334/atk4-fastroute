@@ -112,13 +112,13 @@ class Router
 
         /** @var iOnRoute $handler */
         $handler = $route[1];
-        $parameters = $route[2];
+        $parameters = array_values($route[2]);
 
         if ($handler instanceof iBeforeRoutable) {
             $handler->OnBeforeRoute($this->app, ...$parameters);
         }
 
-        $handler->onRoute($this->app, ...$parameters);
+        $handler->onRoute(...$parameters);
 
         if ($handler instanceof iAfterRoutable) {
             $handler->OnAfterRoute($this->app, ...$parameters);

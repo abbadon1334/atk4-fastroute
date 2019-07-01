@@ -11,7 +11,12 @@ if (! class_exists(ATKView::class)) {
     {
         public function handleRequest(...$parameters)
         {
-            echo 'test';
+            echo json_encode($parameters);
+        }
+
+        public static function staticHandleRequest(...$parameters)
+        {
+            echo json_encode($parameters);
         }
     }
 
