@@ -30,5 +30,5 @@ return [
         ['GET'],
         '/test-parameters-static/{id:\d+}/{title}',
         ['StandardClass', 'staticHandleRequest'],
-    ]
+    ],
 ];

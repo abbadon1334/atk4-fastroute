@@ -31,7 +31,6 @@ class RouterTest extends TestCase
             $this->inc($file, $METHOD, $URI);
             $content = ob_get_clean();
         } catch (\Throwable $e) {
-
             ob_end_flush();
 
             $e = new Exception($e->getMessage(), $e->getCode(), $e);
@@ -43,10 +42,9 @@ class RouterTest extends TestCase
             throw $e;
         }
 
-        $this->assertEquals($status,http_response_code());
+        $this->assertEquals($status, http_response_code());
 
-        if($excepted !== null)
-        {
+        if ($excepted !== null) {
             $this->assertEquals($excepted, $content);
         }
     }
@@ -67,8 +65,8 @@ class RouterTest extends TestCase
             ['POST', '/test?atk_centered_loader_callback=ajax&__atk_callback=1', 200, null],
             ['PUT', '/test', 405, null], // FAIL - method not allowed
             ['GET', '/abc', 404, null], // FAIL - not found
-            ['GET', '/test-parameters/6/test',200,json_encode(["6", 'test'])], // test params
-            ['GET', '/test-parameters-static/6/test',200,json_encode(["6", 'test'])], // test params
+            ['GET', '/test-parameters/6/test', 200, json_encode(['6', 'test'])], // test params
+            ['GET', '/test-parameters-static/6/test', 200, json_encode(['6', 'test'])], // test params
         ];
 
         $result = [];
