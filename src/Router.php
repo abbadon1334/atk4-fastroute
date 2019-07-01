@@ -6,10 +6,12 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iNeedAppRun;
+use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
 use Abbadon1334\ATKFastRoute\Route\iRoute;
 use Abbadon1334\ATKFastRoute\Route\Route;
 use Abbadon1334\ATKFastRoute\View\MethodNotAllowed;
 use Abbadon1334\ATKFastRoute\View\NotFound;
+use atk4\core\ConfigTrait;
 use atk4\ui\App;
 use atk4\ui\Exception;
 use Closure;
@@ -22,6 +24,14 @@ use function FastRoute\simpleDispatcher;
 
 class Router
 {
+    use ConfigTrait {
+        ConfigTrait::setConfig as protected;
+        ConfigTrait::getConfig as protected;
+        ConfigTrait::_lookupConfigElement as protected;
+        readConfig as _readConfig;
+        ConfigTrait::readConfig as protected;
+    }
+
     protected $use_cache      = false;
     protected $cache_file;
 
@@ -95,6 +105,8 @@ class Router
 
             return $this->app->run();
         }
+
+        http_response_code(200);
 
         /** @var iOnRoute $handler */
         $handler    = $route[1];
@@ -173,7 +185,12 @@ class Router
     public function addRoute(array $methods, string $routePattern, iOnRoute $handler): void
     {
         $pattern                  = $this->buildPattern($routePattern);
-        $this->route_collection[] = new Route($pattern, $methods, $handler);
+        $this->_addRoute(new Route($pattern, $methods, $handler));
+    }
+
+    protected function _addRoute(iRoute $r)
+    {
+        $this->route_collection[] = $r;
     }
 
     protected function buildPattern($routePattern)
@@ -188,8 +205,21 @@ class Router
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function run(): void
     {
         $this->handleRouteRequest();
+    }
+
+    public function loadRoutes($file, $format_type)
+    {
+        $this->_readConfig([$file], $format_type);
+
+        foreach($this->config as $route_array)
+        {
+            $this->_addRoute( Route::fromArray($route_array));
+        }
     }
 }

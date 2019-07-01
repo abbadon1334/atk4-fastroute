@@ -55,7 +55,7 @@ class RoutedMethod implements iOnRoute, iArrayable
 
     public static function fromArray(array $array): iOnRoute
     {
-        return new self(...$array);
+        return new static(...$array);
     }
 
     public function toArray(): array

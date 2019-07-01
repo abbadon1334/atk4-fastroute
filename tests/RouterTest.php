@@ -18,12 +18,12 @@ class RouterTest extends TestCase
         @unlink(__DIR__ .'/../demos/routes.cache');
     }
 
-    public function inc(string $path, $METHOD, $URI)
+    public function inc(string $file, $METHOD, $URI)
     {
         $_SERVER['REQUEST_METHOD'] = $METHOD;
         $_SERVER['REQUEST_URI']    = $URI;
 
-        include __DIR__ .'/../demos/' . $path;
+        include __DIR__ .'/../demos/' . $file;
 
         /** @var Router $router */
         return $router;
@@ -33,36 +33,45 @@ class RouterTest extends TestCase
      * @runInSeparateProcess
      * @dataProvider dataProviderTestDemos
      */
-    public function testDemos($path, $METHOD, $URI)
+    public function testDemos($file, $METHOD, $URI, $status)
     {
         try {
-            $this->inc($path,$METHOD,$URI)->run();
+            $this->inc($file,$METHOD,$URI);
         } catch (\atk4\core\Exception $e) {
-            $e->addMoreInfo('path', $path);
+            $e->addMoreInfo('path', $file);
             $e->addMoreInfo('method', $METHOD);
             $e->addMoreInfo('uri', $URI);
 
             throw $e;
         }
 
-        $this->addToAssertionCount(1);
+        $this->assertEquals(http_response_code(), $status);
     }
 
     public function dataProviderTestDemos()
     {
-        return [
-            ['index.php', 'GET', '/callable'],
-            ['index.php', 'GET', '/test'],
-            ['index.php', 'GET', '/test2'],
-            ['index.php', 'POST', '/test?atk_centered_loader_callback=ajax&__atk_callback=1'],
-            ['index.php', 'PUT', '/test'], // FAIL - method not allowed
-            ['index.php', 'GET', '/abc'], // FAIL - not found
-            ['cached.php', 'GET', '/callable'],
-            ['cached.php', 'GET', '/test'],
-            ['cached.php', 'GET', '/test2'],
-            ['cached.php', 'POST', '/test?atk_centered_loader_callback=ajax&__atk_callback=1'],
-            ['cached.php', 'PUT', '/test'], // FAIL - method not allowed
-            ['cached.php', 'GET', '/abc'], // FAIL - not found
+        $files = [
+            'index.php',
+            'cached.php',
+            'using-config.php',
         ];
+
+        $cases = [
+            ['GET', '/callable', 200],
+            ['GET', '/test', 200],
+            ['GET', '/test2', 200],
+            ['POST', '/test?atk_centered_loader_callback=ajax&__atk_callback=1', 200],
+            ['PUT', '/test', 405], // FAIL - method not allowed
+            ['GET', '/abc', 404], // FAIL - not found
+        ];
+
+        $result = [];
+        foreach($files as $f) {
+            foreach($cases as $c) {
+                $result[] = array_merge([$f],$c);
+            }
+        }
+
+        return $result;
     }
 }

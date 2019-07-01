@@ -9,13 +9,19 @@ class RoutedCallable implements iOnRoute
     /** @var callable */
     protected $func;
 
-    public function __construct(callable $func)
+    /** @var array */
+    protected $extra_arguments;
+
+    public function __construct(callable $func,...$extra_arguments)
     {
         $this->func = $func;
+        $this->extra_arguments = $extra_arguments;
     }
 
     public function onRoute(...$parameters)
     {
-        return ($this->func)(...$parameters);
+        $arguments = array_merge($this->extra_arguments,$parameters);
+
+        return ($this->func)(...$arguments);
     }
 }
