@@ -200,10 +200,10 @@ class Router
         return $this->base_dir.trim($routePattern, '/');
     }
 
-    protected function routeCollect(RouteCollector $rc): void
+    protected function routeCollect(RouteCollector $routeCollector): void
     {
-        foreach ($this->route_collection as $r) {
-            $rc->addRoute(...$r->toArray());
+        foreach ($this->route_collection as $route) {
+            $routeCollector->addRoute(...$route->toArray());
         }
     }
 

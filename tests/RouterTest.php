@@ -2,16 +2,10 @@
 
 namespace Abbadon1334\ATKFastRoute\Test;
 
-use Abbadon1334\ATKFastRoute\Router;
 use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
 {
-    public function setUp() : void
-    {
-        ini_set('detect_unicode', 'Off');
-    }
-
     public function tearDown(): void
     {
         @unlink(__DIR__.'/../demos/routes.cache');
@@ -23,9 +17,6 @@ class RouterTest extends TestCase
         $_SERVER['REQUEST_URI'] = $URI;
 
         include __DIR__.'/../demos/'.$file;
-
-        /* @var Router $router */
-        return $router;
     }
 
     /**

@@ -18,7 +18,7 @@ trait AfterRoutableTrait
 
     public function OnAfterRoute(App $app, ...$parameters): void
     {
-        if (! is_null($this->func_after_route)) {
+        if (null !== $this->func_after_route) {
             ($this->func_after_route)($app, ...$parameters);
         }
     }
