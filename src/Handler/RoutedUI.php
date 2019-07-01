@@ -1,14 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\Handler;
 
 use Abbadon1334\ATKFastRoute\Handler\Contracts\AfterRoutableTrait;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\BeforeRoutableTrait;
-use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iArrayable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iNeedAppRun;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use atk4\ui\App;
 
 class RoutedUI implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable, iNeedAppRun
@@ -36,7 +38,7 @@ class RoutedUI implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable,
     public function __construct(string $ClassName, array $default = [])
     {
         $this->ClassName = $ClassName;
-        $this->default   = $default;
+        $this->default = $default;
     }
 
     public static function fromArray(array $array): iOnRoute

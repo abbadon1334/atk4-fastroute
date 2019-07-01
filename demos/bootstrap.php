@@ -2,21 +2,14 @@
 
 ini_set('display_errors', 1);
 
-include __DIR__ . '/../vendor/autoload.php';
+include __DIR__.'/../vendor/autoload.php';
 
-use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
-use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
-use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
-use Abbadon1334\ATKFastRoute\Router;
-use atk4\ui\App;
 use atk4\ui\View;
 
-if(!class_exists(ATKView::class)) {
-
+if (!class_exists(ATKView::class)) {
     class StandardClass
     {
-
-        function handleRequest(...$parameters)
+        public function handleRequest(...$parameters)
         {
             echo 'test';
         }
@@ -26,7 +19,7 @@ if(!class_exists(ATKView::class)) {
     {
         public $text;
 
-        function init()
+        public function init()
         {
             parent::init();
 
@@ -36,7 +29,7 @@ if(!class_exists(ATKView::class)) {
             $loader = $this->app->add('Loader');
             $loader->set(function ($l) use ($loader) {
                 $number = rand(1, 100);
-                $l->add(['Text', 'random :' . $number]);
+                $l->add(['Text', 'random :'.$number]);
             });
 
             /** @var Button $button */

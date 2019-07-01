@@ -1,9 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\Route;
 
-use Abbadon1334\ATKFastRoute\Handler\HandlerHelper;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
+use Abbadon1334\ATKFastRoute\Handler\HandlerHelper;
 use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 
@@ -16,13 +18,13 @@ class Route implements iRoute
     public function __construct(string $route, ?array $methods = null, ?iOnRoute $handler = null)
     {
         $this->methods = $methods ?? [];
-        $this->route   = $route;
+        $this->route = $route;
         $this->handler = $handler;
     }
 
     public static function fromArray(array $route): iRoute
     {
-        return new Route($route[1], $route[0], HandlerHelper::fromArray($route[2]));
+        return new self($route[1], $route[0], HandlerHelper::fromArray($route[2]));
     }
 
     public function getMethods(): array

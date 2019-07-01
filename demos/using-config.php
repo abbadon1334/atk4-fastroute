@@ -1,7 +1,7 @@
 <?php
 
-include __DIR__ . '/bootstrap.php';
+include __DIR__.'/bootstrap.php';
 
 $router = new \Abbadon1334\ATKFastRoute\Router(new \atk4\ui\App(['always_run' => false]));
-$router->loadRoutes(__DIR__ . '/config/routes.php', 'php-inline');
+$router->loadRoutes(__DIR__.'/config/routes.php', 'php-inline');
 $router->run();

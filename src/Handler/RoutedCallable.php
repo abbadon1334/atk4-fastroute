@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\Handler;
 
@@ -12,7 +14,7 @@ class RoutedCallable implements iOnRoute
     /** @var array */
     protected $extra_arguments;
 
-    public function __construct(callable $func,...$extra_arguments)
+    public function __construct(callable $func, ...$extra_arguments)
     {
         $this->func = $func;
         $this->extra_arguments = $extra_arguments;
@@ -20,7 +22,7 @@ class RoutedCallable implements iOnRoute
 
     public function onRoute(...$parameters)
     {
-        $arguments = array_merge($this->extra_arguments,$parameters);
+        $arguments = array_merge($this->extra_arguments, $parameters);
 
         return ($this->func)(...$arguments);
     }
