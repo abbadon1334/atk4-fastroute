@@ -6,6 +6,10 @@ namespace Abbadon1334\ATKFastRoute\Route;
 
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Abbadon1334\ATKFastRoute\Handler\HandlerHelper;
+use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
+use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
+use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
+use atk4\ui\jsExpressionable;
 
 class Route implements iRoute
 {
@@ -22,7 +26,31 @@ class Route implements iRoute
 
     public static function fromArray(array $route): iRoute
     {
-        return new static($route[0], $route[1], HandlerHelper::fromArray($route[2]));
+        return new static($route[0], $route[1], self::getHandlerFromArray($route[2]));
+    }
+
+    /**
+     * @param array $array
+     *
+     * @throws \ReflectionException
+     *
+     * @return iOnRoute
+     */
+    private static function getHandlerFromArray(array $array): iOnRoute
+    {
+
+        $firstArg = $array[0];
+
+        if (function_exists($firstArg)) {
+            return new RoutedCallable(...$array);
+        }
+
+        $checkClass = new \ReflectionClass($firstArg);
+        if ($checkClass->isSubclassOf(jsExpressionable::class)) {
+            return RoutedUI::fromArray($array);
+        }
+
+        return RoutedMethod::fromArray($array);
     }
 
     public function getMethods(): array
