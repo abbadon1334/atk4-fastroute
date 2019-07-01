@@ -6,7 +6,7 @@ include __DIR__.'/../vendor/autoload.php';
 
 use atk4\ui\View;
 
-if (!class_exists(ATKView::class)) {
+if (! class_exists(ATKView::class)) {
     class StandardClass
     {
         public function handleRequest(...$parameters)

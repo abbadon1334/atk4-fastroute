@@ -147,7 +147,7 @@ class Router
 
     protected function onRouteFail(ServerRequestInterface $request, $status, array $allowed_methods = []): bool
     {
-        if (!isset($this->app->html)) {
+        if (! isset($this->app->html)) {
             $this->app->initLayout('Generic');
         }
 
