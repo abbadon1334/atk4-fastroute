@@ -1,10 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\Handler;
 
-use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iArrayable;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 
 class RoutedMethod implements iOnRoute, iArrayable
 {
@@ -29,10 +30,9 @@ class RoutedMethod implements iOnRoute, iArrayable
      */
     protected $onRouteResult;
 
-
     public function __construct(string $ClassName, string $ClassMethod)
     {
-        $this->ClassName   = $ClassName;
+        $this->ClassName = $ClassName;
         $this->ClassMethod = $ClassMethod;
     }
 
@@ -41,11 +41,11 @@ class RoutedMethod implements iOnRoute, iArrayable
         $class = $this->ClassName;
         $method = $this->ClassMethod;
 
-        $MethodChecker = new \ReflectionMethod($class,$method);
+        $MethodChecker = new \ReflectionMethod($class, $method);
 
-        if($MethodChecker->isStatic())
-        {
+        if ($MethodChecker->isStatic()) {
             $this->onRouteResult = $class::{$method}(...$parameters);
+
             return;
         }
 

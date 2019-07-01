@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\Route;
 
@@ -14,5 +16,5 @@ interface iRoute
 
     public function toArray(): array;
 
-    public static function fromArray(array $array): iRoute;
+    public static function fromArray(array $array): self;
 }

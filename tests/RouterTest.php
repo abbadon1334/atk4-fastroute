@@ -3,29 +3,28 @@
 namespace Abbadon1334\ATKFastRoute\Test;
 
 use Abbadon1334\ATKFastRoute\Router;
-use atk4\ui\App;
 use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
 {
     public function setUp() : void
     {
-        ini_set('detect_unicode','Off');
+        ini_set('detect_unicode', 'Off');
     }
 
     public function tearDown(): void
     {
-        @unlink(__DIR__ .'/../demos/routes.cache');
+        @unlink(__DIR__.'/../demos/routes.cache');
     }
 
     public function inc(string $file, $METHOD, $URI)
     {
         $_SERVER['REQUEST_METHOD'] = $METHOD;
-        $_SERVER['REQUEST_URI']    = $URI;
+        $_SERVER['REQUEST_URI'] = $URI;
 
-        include __DIR__ .'/../demos/' . $file;
+        include __DIR__.'/../demos/'.$file;
 
-        /** @var Router $router */
+        /* @var Router $router */
         return $router;
     }
 
@@ -36,7 +35,7 @@ class RouterTest extends TestCase
     public function testDemos($file, $METHOD, $URI, $status)
     {
         try {
-            $this->inc($file,$METHOD,$URI);
+            $this->inc($file, $METHOD, $URI);
         } catch (\atk4\core\Exception $e) {
             $e->addMoreInfo('path', $file);
             $e->addMoreInfo('method', $METHOD);
@@ -66,9 +65,9 @@ class RouterTest extends TestCase
         ];
 
         $result = [];
-        foreach($files as $f) {
-            foreach($cases as $c) {
-                $result[] = array_merge([$f],$c);
+        foreach ($files as $f) {
+            foreach ($cases as $c) {
+                $result[] = array_merge([$f], $c);
             }
         }
 

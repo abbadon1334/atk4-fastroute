@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\Handler\Contracts;
 
@@ -16,7 +18,7 @@ trait AfterRoutableTrait
 
     public function OnAfterRoute(App $app, ...$parameters): void
     {
-        if (!is_null($this->func_after_route)) {
+        if (! is_null($this->func_after_route)) {
             ($this->func_after_route)($app, ...$parameters);
         }
     }
