@@ -60,9 +60,9 @@ class Route implements iRoute
     public function toArray(): array
     {
         return [
-            $this->methods,
-            $this->route,
-            $this->handler /*->toArray()*/,
+            $this->getMethods(),
+            $this->getRoute(),
+            $this->getHandler() /*->toArray()*/,
         ];
     }
 }

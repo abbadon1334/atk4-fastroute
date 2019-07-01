@@ -18,7 +18,7 @@ trait BeforeRoutableTrait
 
     public function OnBeforeRoute(App $app, ...$parameters): void
     {
-        if (! is_null($this->func_before_route)) {
+        if (null !== $this->func_before_route) {
             ($this->func_before_route)($app, ...$parameters);
         }
     }

@@ -7,11 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
 {
-    public function setUp() : void
-    {
-        ini_set('detect_unicode', 'Off');
-    }
-
     public function tearDown(): void
     {
         @unlink(__DIR__.'/../demos/routes.cache');

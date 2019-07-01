@@ -19,8 +19,6 @@ class HandlerHelper
     {
         $firstArg = $array[0];
 
-        var_dump($firstArg);
-
         if (function_exists($firstArg)) {
             return new RoutedCallable(...$array);
         }
