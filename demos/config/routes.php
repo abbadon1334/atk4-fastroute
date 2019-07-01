@@ -2,18 +2,18 @@
 
 return [
     [
-        ['GET','POST'],
+        ['GET', 'POST'],
         '/test',
-        ['StandardClass', 'handleRequest']
+        ['StandardClass', 'handleRequest'],
     ],
     [
-        ['GET','POST'],
+        ['GET', 'POST'],
         '/test2',
-        ['ATKView', ['text' => 'it works']]
+        ['ATKView', ['text' => 'it works']],
     ],
     [
-        ['GET','POST'],
+        ['GET', 'POST'],
         '/callable',
-        ['handleWithFunction']
-    ]
+        ['handleWithFunction'],
+    ],
 ];

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\Handler\Contracts;
 
@@ -16,7 +18,7 @@ trait BeforeRoutableTrait
 
     public function OnBeforeRoute(App $app, ...$parameters): void
     {
-        if (!is_null($this->func_before_route)) {
+        if (! is_null($this->func_before_route)) {
             ($this->func_before_route)($app, ...$parameters);
         }
     }

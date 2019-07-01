@@ -1,12 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute;
 
-use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iNeedAppRun;
-use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Abbadon1334\ATKFastRoute\Route\iRoute;
 use Abbadon1334\ATKFastRoute\Route\Route;
 use Abbadon1334\ATKFastRoute\View\MethodNotAllowed;
@@ -15,12 +16,12 @@ use atk4\core\ConfigTrait;
 use atk4\ui\App;
 use atk4\ui\Exception;
 use Closure;
+use function FastRoute\cachedDispatcher;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
+use function FastRoute\simpleDispatcher;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\ServerRequestFactory;
-use function FastRoute\cachedDispatcher;
-use function FastRoute\simpleDispatcher;
 
 class Router
 {
@@ -32,7 +33,7 @@ class Router
         ConfigTrait::readConfig as protected;
     }
 
-    protected $use_cache      = false;
+    protected $use_cache = false;
     protected $cache_file;
 
     /** @var iRoute[] */
@@ -62,7 +63,7 @@ class Router
 
     public function enableCacheRoutes($cache_path): void
     {
-        $this->use_cache  = true;
+        $this->use_cache = true;
         $this->cache_file = $cache_path;
     }
 
@@ -96,7 +97,7 @@ class Router
 
         $request = $request ?? ServerRequestFactory::fromGlobals();
 
-        $route  = $dispatcher->dispatch($request->getMethod(), $request->getUri()->getPath());
+        $route = $dispatcher->dispatch($request->getMethod(), $request->getUri()->getPath());
         $status = $route[0];
 
         if (Dispatcher::FOUND !== $status) {
@@ -109,7 +110,7 @@ class Router
         http_response_code(200);
 
         /** @var iOnRoute $handler */
-        $handler    = $route[1];
+        $handler = $route[1];
         $parameters = $route[2];
 
         if ($handler instanceof iBeforeRoutable) {
@@ -145,7 +146,7 @@ class Router
 
     protected function onRouteFail(ServerRequestInterface $request, $status, array $allowed_methods = []): bool
     {
-        if (!isset($this->app->html)) {
+        if (! isset($this->app->html)) {
             $this->app->initLayout('Generic');
         }
 
@@ -179,12 +180,12 @@ class Router
      */
     public function setBaseDir(string $base_dir): void
     {
-        $this->base_dir = "/".trim($base_dir, '/').'/';
+        $this->base_dir = '/'.trim($base_dir, '/').'/';
     }
 
     public function addRoute(array $methods, string $routePattern, iOnRoute $handler): void
     {
-        $pattern                  = $this->buildPattern($routePattern);
+        $pattern = $this->buildPattern($routePattern);
         $this->_addRoute(new Route($pattern, $methods, $handler));
     }
 
@@ -217,9 +218,8 @@ class Router
     {
         $this->_readConfig([$file], $format_type);
 
-        foreach($this->config as $route_array)
-        {
-            $this->_addRoute( Route::fromArray($route_array));
+        foreach ($this->config as $route_array) {
+            $this->_addRoute(Route::fromArray($route_array));
         }
     }
 }
