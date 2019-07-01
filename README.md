@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/abbadon1334/atk4-fastroute.svg?branch=develop)](https://travis-ci.com/abbadon1334/atk4-fastroute)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/79611f7a4f924e96bb86633cf60b5ecb)](https://app.codacy.com/app/abbadon1334/atk4-fastroute?utm_source=github.com&utm_medium=referral&utm_content=abbadon1334/atk4-fastroute&utm_campaign=Badge_Grade_Dashboard)
-
+[![Coverage Status](https://coveralls.io/repos/github/abbadon1334/atk4-fastroute/badge.svg?branch=develop)](https://coveralls.io/github/abbadon1334/atk4-fastroute?branch=develop)
 
 WIP integration with FastRoute
 
