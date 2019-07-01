@@ -40,8 +40,6 @@ class RouterTest extends TestCase
             $e->addMoreInfo('method', $METHOD);
             $e->addMoreInfo('uri', $URI);
 
-            echo $e->getColorfulText() . PHP_EOL;
-
             throw $e;
         }
 
