@@ -12,40 +12,40 @@ $router = new Router(new App(['always_run' => false]));
 $router->enableCacheRoutes(__DIR__.'/routes.cache');
 //$router->setBaseDir('/nemesi/atk4-fastroute/demos');
 $router->addRoute(
-    ['GET', 'POST'],
     '/test',
+    ['GET', 'POST'],
     new RoutedMethod(StandardClass::class, 'handleRequest')
 );
 
 $router->addRoute(
-    ['GET', 'POST'],
     '/testStatic',
+    ['GET', 'POST'],
     new RoutedMethod(StandardClass::class, 'staticHandleRequest')
 );
 
 $router->addRoute(
-    ['GET', 'POST'],
     '/test2',
+    ['GET', 'POST'],
     new RoutedUI(ATKView::class, ['text' => 'it works'])
 );
 
 $router->addRoute(
-    ['GET', 'POST'],
     '/callable',
+    ['GET', 'POST'],
     new RoutedCallable(function (...$parameters) {
         echo 'test callable';
     })
 );
 
 $router->addRoute(
-    ['GET', 'POST'],
     '/test-parameters/{id:\d+}/{title}',
+    ['GET', 'POST'],
     new RoutedMethod(StandardClass::class, 'handleRequest')
 );
 
 $router->addRoute(
-    ['GET', 'POST'],
     '/test-parameters-static/{id:\d+}/{title}',
+    ['GET', 'POST'],
     new RoutedMethod(StandardClass::class, 'staticHandleRequest')
 );
 
