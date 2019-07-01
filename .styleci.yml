@@ -8,8 +8,6 @@ disabled:
 
 finder:
   exclude:
-    - "tests"
-    - "node_modules"
     - "storage"
     - "vendor"
   not-name:
