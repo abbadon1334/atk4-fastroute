@@ -13,7 +13,7 @@ class NotFound extends View
         parent::init();
 
         $this->add('Header')->set('REQUESTED ROUTE NOT FOUND');
-        $this->add('View')->set('METHOD : '.$_SERVER['REQUEST_METHOD']);
-        $this->add('View')->set('REQUEST : '.$_SERVER['REQUEST_URI']);
+        $this->add('View')->set('METHOD : '.getenv('REQUEST_METHOD'));
+        $this->add('View')->set('REQUEST : '.getenv('REQUEST_URI'));
     }
 }
