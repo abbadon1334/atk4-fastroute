@@ -191,11 +191,11 @@ class Router
         return $this->_addRoute(new Route($pattern, $methods ?? [], $handler));
     }
 
-    protected function _addRoute(iRoute $r) : iRoute
+    protected function _addRoute(iRoute $route) : iRoute
     {
-        $this->route_collection[] = $r;
+        $this->route_collection[] = $route;
 
-        return $r;
+        return $route;
     }
 
     protected function buildPattern($routePattern)
