@@ -19,6 +19,12 @@ $router->addRoute(
 
 $router->addRoute(
     ['GET', 'POST'],
+    '/testStatic',
+    new RoutedMethod(StandardClass::class, 'staticHandleRequest')
+);
+
+$router->addRoute(
+    ['GET', 'POST'],
     '/test2',
     new RoutedUI(ATKView::class, ['text' => 'it works'])
 );
@@ -30,4 +36,17 @@ $router->addRoute(
         echo 'test callable';
     })
 );
+
+$router->addRoute(
+    ['GET', 'POST'],
+    '/test-parameters/{id:\d+}/{title}',
+    new RoutedMethod(StandardClass::class, 'handleRequest')
+);
+
+$router->addRoute(
+    ['GET', 'POST'],
+    '/test-parameters-static/{id:\d+}/{title}',
+    new RoutedMethod(StandardClass::class, 'staticHandleRequest')
+);
+
 $router->run();
