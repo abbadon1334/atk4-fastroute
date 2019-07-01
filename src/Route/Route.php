@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Abbadon1334\ATKFastRoute\Route;
 
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
-use Abbadon1334\ATKFastRoute\Handler\HandlerHelper;
 use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
 use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
@@ -38,7 +37,6 @@ class Route implements iRoute
      */
     private static function getHandlerFromArray(array $array): iOnRoute
     {
-
         $firstArg = $array[0];
 
         if (function_exists($firstArg)) {
