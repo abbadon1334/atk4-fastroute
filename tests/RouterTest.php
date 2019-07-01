@@ -76,7 +76,7 @@ class RouterTest extends TestCase
             }
         }
 
-        $result[] = ['index.php','GET', '/test3', 200, null];
+        $result[] = ['index.php', 'GET', '/test3', 200, null];
 
         return $result;
     }

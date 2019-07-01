@@ -8,9 +8,7 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 
 interface iRoute
 {
-
     public function toArray(): array;
-
 
     public function getMethods(): array;
 
@@ -18,8 +16,7 @@ interface iRoute
 
     public function getHandler(): iOnRoute;
 
-
-    public function addMethod(string $method): iRoute;
+    public function addMethod(string $method): self;
 
     public function setHandler(iOnRoute $routeHandler) : void;
 

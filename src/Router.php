@@ -184,15 +184,17 @@ class Router
         $this->base_dir = '/'.trim($base_dir, '/').'/';
     }
 
-    public function addRoute(string $routePattern,?array $methods = null, ?iOnRoute $handler = null): iRoute
+    public function addRoute(string $routePattern, ?array $methods = null, ?iOnRoute $handler = null): iRoute
     {
         $pattern = $this->buildPattern($routePattern);
+
         return $this->_addRoute(new Route($pattern, $methods ?? [], $handler));
     }
 
     protected function _addRoute(iRoute $r) : iRoute
     {
         $this->route_collection[] = $r;
+
         return $r;
     }
 

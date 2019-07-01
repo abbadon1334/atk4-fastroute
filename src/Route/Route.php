@@ -6,8 +6,6 @@ namespace Abbadon1334\ATKFastRoute\Route;
 
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Abbadon1334\ATKFastRoute\Handler\HandlerHelper;
-use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
-use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 
 class Route implements iRoute
 {
@@ -45,6 +43,7 @@ class Route implements iRoute
     public function addMethod(string $method): iRoute
     {
         $this->methods[] = $method;
+
         return $this;
     }
 
