@@ -18,9 +18,6 @@ class RouterTest extends TestCase
         $_SERVER['REQUEST_URI'] = $URI;
 
         include __DIR__.'/../demos/'.$file;
-
-        /* @var Router $router */
-        return $router;
     }
 
     /**

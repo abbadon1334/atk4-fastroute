@@ -24,7 +24,7 @@ class Route implements iRoute
 
     public static function fromArray(array $route): iRoute
     {
-        return new self($route[1], $route[0], HandlerHelper::fromArray($route[2]));
+        return new static($route[1], $route[0], HandlerHelper::fromArray($route[2]));
     }
 
     public function getMethods(): array
