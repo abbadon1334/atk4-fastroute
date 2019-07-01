@@ -2,7 +2,6 @@
 
 namespace Abbadon1334\ATKFastRoute\Test;
 
-use Abbadon1334\ATKFastRoute\Router;
 use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
