@@ -12,8 +12,9 @@ class HandlerHelper
     /**
      * @param array $array
      *
-     * @return iOnRoute
      * @throws \ReflectionException
+     *
+     * @return iOnRoute
      */
     public static function fromArray(array $array): iOnRoute
     {

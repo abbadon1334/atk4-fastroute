@@ -89,6 +89,7 @@ class Router
      * @param ServerRequestInterface|null $request
      *
      * @throws Exception
+     *
      * @return bool
      */
     protected function handleRouteRequest(?ServerRequestInterface $request = null)
