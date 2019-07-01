@@ -24,7 +24,7 @@ class Route implements iRoute
 
     public static function fromArray(array $route): iRoute
     {
-        return new static($route[1], $route[0], HandlerHelper::fromArray($route[2]));
+        return new static($route[0], $route[1], HandlerHelper::fromArray($route[2]));
     }
 
     public function getMethods(): array
@@ -42,19 +42,15 @@ class Route implements iRoute
         return $this->handler;
     }
 
-    public function addMethod(string $method): void
+    public function addMethod(string $method): iRoute
     {
         $this->methods[] = $method;
+        return $this;
     }
 
-    public function handleWithUI(string $class, array $defaults = []): void
+    public function setHandler(iOnRoute $routeHandler) : void
     {
-        $this->handler = new RoutedUI($class, $defaults);
-    }
-
-    public function handleWithMethod(string $ControllerClass, string $ControllerMethod): void
-    {
-        $this->handler = new RoutedMethod($ControllerClass, $ControllerMethod);
+        $this->handler = $routeHandler;
     }
 
     public function toArray(): array

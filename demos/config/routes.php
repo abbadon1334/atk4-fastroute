@@ -2,33 +2,33 @@
 
 return [
     [
-        ['GET', 'POST'],
         '/test',
+        ['GET', 'POST'],
         ['StandardClass', 'handleRequest'],
     ],
     [
-        ['GET', 'POST'],
         '/testStatic',
+        ['GET', 'POST'],
         ['StandardClass', 'staticHandleRequest'],
     ],
     [
-        ['GET', 'POST'],
         '/test2',
+        ['GET', 'POST'],
         ['ATKView', ['text' => 'it works']],
     ],
     [
-        ['GET', 'POST'],
         '/callable',
+        ['GET', 'POST'],
         ['handleWithFunction'],
     ],
     [
-        ['GET'],
         '/test-parameters/{id:\d+}/{title}',
+        ['GET'],
         ['StandardClass', 'HandleRequest'],
     ],
     [
-        ['GET'],
         '/test-parameters-static/{id:\d+}/{title}',
+        ['GET'],
         ['StandardClass', 'staticHandleRequest'],
     ],
 ];
