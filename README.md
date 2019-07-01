@@ -4,12 +4,12 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/79611f7a4f924e96bb86633cf60b5ecb)](https://app.codacy.com/app/abbadon1334/atk4-fastroute?utm_source=github.com&utm_medium=referral&utm_content=abbadon1334/atk4-fastroute&utm_campaign=Badge_Grade_Dashboard)
 [![Coverage Status](https://coveralls.io/repos/github/abbadon1334/atk4-fastroute/badge.svg?branch=develop)](https://coveralls.io/github/abbadon1334/atk4-fastroute?branch=develop)
 
-WIP integration with FastRoute
+ATK4 integration with FastRoute
 
 Still needs :
 
-- [ ] more test for patterns route
-    - [ ] test for calls with extraparameters
+- [x] more test for patterns route
+- [x] test for calls with extraparameters
 - [ ] check if can be simplified
 - [ ] add Translation as option
     - [ ] add slugging of routes
