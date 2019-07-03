@@ -12,10 +12,26 @@ use atk4\ui\jsExpressionable;
 
 class Route implements iRoute
 {
+    /**
+     * @var array|null
+     */
     protected $methods;
+    /**
+     * @var string
+     */
     protected $route;
+    /**
+     * @var iOnRoute|null
+     */
     protected $handler;
 
+    /**
+     * Route constructor.
+     *
+     * @param string        $route
+     * @param array|null    $methods
+     * @param iOnRoute|null $handler
+     */
     public function __construct(string $route, ?array $methods = null, ?iOnRoute $handler = null)
     {
         $this->methods = $methods ?? [];
@@ -23,6 +39,12 @@ class Route implements iRoute
         $this->handler = $handler;
     }
 
+    /**
+     * @param array $route
+     *
+     * @return iRoute
+     * @throws \ReflectionException
+     */
     public static function fromArray(array $route): iRoute
     {
         return new static($route[0], $route[1], self::getHandlerFromArray($route[2]));
@@ -51,21 +73,35 @@ class Route implements iRoute
         return RoutedMethod::fromArray($array);
     }
 
+    /**
+     * @return array
+     */
     public function getMethods(): array
     {
         return $this->methods;
     }
 
+    /**
+     * @return string
+     */
     public function getRoute(): string
     {
         return $this->route;
     }
 
+    /**
+     * @return iOnRoute
+     */
     public function getHandler(): iOnRoute
     {
         return $this->handler;
     }
 
+    /**
+     * @param string $method
+     *
+     * @return iRoute
+     */
     public function addMethod(string $method): iRoute
     {
         $this->methods[] = $method;
@@ -73,11 +109,17 @@ class Route implements iRoute
         return $this;
     }
 
+    /**
+     * @param iOnRoute $routeHandler
+     */
     public function setHandler(iOnRoute $routeHandler) : void
     {
         $this->handler = $routeHandler;
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         return [

@@ -3,6 +3,7 @@
         "php"
     ],
     "exclude": [
+        "demos",
         "infra",
         "tests",
         "composer",

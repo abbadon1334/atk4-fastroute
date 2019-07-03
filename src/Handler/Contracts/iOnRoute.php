@@ -6,5 +6,10 @@ namespace Abbadon1334\ATKFastRoute\Handler\Contracts;
 
 interface iOnRoute
 {
+    /**
+     * @param mixed ...$parameters
+     *
+     * @return mixed
+     */
     public function onRoute(...$parameters);
 }
