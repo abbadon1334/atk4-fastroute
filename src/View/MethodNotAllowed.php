@@ -8,8 +8,14 @@ use atk4\ui\View;
 
 class MethodNotAllowed extends View
 {
-    public $_allowed_methods = [];
+    /**
+     * @var array
+     */
+    protected $_allowed_methods = [];
 
+    /**
+     * @throws \atk4\ui\Exception
+     */
     public function init(): void
     {
         parent::init();

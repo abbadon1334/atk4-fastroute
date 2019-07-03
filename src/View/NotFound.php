@@ -8,6 +8,9 @@ use atk4\ui\View;
 
 class NotFound extends View
 {
+    /**
+     * @throws \atk4\ui\Exception
+     */
     public function init(): void
     {
         parent::init();

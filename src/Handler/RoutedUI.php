@@ -33,24 +33,44 @@ class RoutedUI implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable,
      */
     protected $default;
 
+    /**
+     * @var
+     */
     protected $onRouteResult;
 
+    /**
+     * RoutedUI constructor.
+     *
+     * @param string $ClassName
+     * @param array  $default
+     */
     public function __construct(string $ClassName, array $default = [])
     {
         $this->ClassName = $ClassName;
         $this->default = $default;
     }
 
+    /**
+     * @param array $array
+     *
+     * @return iOnRoute
+     */
     public static function fromArray(array $array): iOnRoute
     {
         return new static(...$array);
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         return [$this->ClassName, $this->default];
     }
 
+    /**
+     * @param mixed ...$parameters
+     */
     public function onRoute(...$parameters): void
     {
         $class = $this->ClassName;
@@ -58,6 +78,12 @@ class RoutedUI implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable,
         $this->onRouteResult = new $class($this->default);
     }
 
+    /**
+     * @param App   $app
+     * @param mixed ...$parameters
+     *
+     * @throws \atk4\ui\Exception
+     */
     public function OnAfterRoute(App $app, ...$parameters): void
     {
         if ($this->func_before_route === null) {
@@ -67,6 +93,10 @@ class RoutedUI implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable,
         $this->_OnAfterRoute($app, ...$parameters);
     }
 
+    /**
+     * @param App   $app
+     * @param mixed ...$parameters
+     */
     public function OnBeforeRoute(App $app, ...$parameters): void
     {
         if (! isset($app->html) && null === $this->func_before_route) {
