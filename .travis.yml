@@ -9,6 +9,9 @@ before_script:
   - php composer.phar install -n
   - composer require satooshi/php-coveralls:~1.0@stable # Require phpCoveralls
   - mkdir -p coverage/xml # Create a folder to store clover files
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 
 script:
   - php vendor/bin/phpunit --coverage-clover coverage/xml/clover.xml
@@ -16,3 +19,4 @@ script:
 after_script:
   - php vendor/bin/codacycoverage clover coverage/xml/clover.xml
   - sh -c 'if( [ "$TRAVIS_PHP_VERSION" != "hhvm" ] ); then php vendor/bin/coveralls -v; fi;'
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
