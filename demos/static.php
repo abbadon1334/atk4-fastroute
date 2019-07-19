@@ -2,10 +2,7 @@
 
 include __DIR__.'/bootstrap.php';
 
-use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
-use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
 use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
-use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use Abbadon1334\ATKFastRoute\Router;
 use atk4\ui\App;
 
@@ -15,7 +12,7 @@ $router->addRoute(
     '/assets/{path:.+}',
     ['GET'],
     new RoutedServeStatic(
-        __DIR__ . '/static_assets',
+        __DIR__.'/static_assets',
         [
             'css',
         ]
