@@ -16,6 +16,7 @@
         "atk4/core": "dev-develop@dev",
         "nikic/fast-route": "1.3.0",
         "zendframework/zend-diactoros": "1.8.6"
+        "ralouphie/mimey": "2.1.*"
     },
     "require-dev": {
         "atk4/ui": "dev-develop@dev",
