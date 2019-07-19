@@ -6,10 +6,11 @@ namespace Abbadon1334\ATKFastRoute\Handler;
 
 use Abbadon1334\ATKFastRoute\Exception\StaticFileExtensionNotAllowed;
 use Abbadon1334\ATKFastRoute\Exception\StaticFileNotExists;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iArrayable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Mimey\MimeTypes;
 
-class RoutedServeStatic implements iOnRoute
+class RoutedServeStatic implements iOnRoute, iArrayable
 {
     /** @var string */
     protected $path;
@@ -114,5 +115,23 @@ class RoutedServeStatic implements iOnRoute
         header('Content-Disposition: inline; filename="'.$filename.'"');
 
         readfile($file_path);
+    }
+
+    /**
+     * @param array $array
+     *
+     * @return iOnRoute
+     */
+    public static function fromArray(array $array): iOnRoute
+    {
+        return new static(...$array);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [$this->path, $this->extensions];
     }
 }

@@ -3,6 +3,7 @@
 namespace Abbadon1334\ATKFastRoute\Test;
 
 use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
+use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use Abbadon1334\ATKFastRoute\Router;
 use atk4\core\Exception;
@@ -116,5 +117,16 @@ class RouterTest extends TestCase
             static::class,
             ['test' => 'value'],
         ], $route->toArray());
+
+        $route = new RoutedServeStatic(static::class, ['test' => 'value']);
+        $this->assertEquals([
+            static::class,
+            ['test' => 'value'],
+        ], $route->toArray());
+
+        $route = RoutedServeStatic::fromArray([static::class, ['test' => 'value']]);
+        $this->assertEquals(
+            (new RoutedServeStatic(static::class, ['test' => 'value']))->toArray(), $route->toArray()
+        );
     }
 }
