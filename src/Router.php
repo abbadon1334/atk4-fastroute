@@ -94,7 +94,7 @@ class Router
         // prepare ui\App for pretty urls
         $this->app->setDefaults([
             'always_run' => false,
-            'url_building_ext' => ''
+            'url_building_ext' => '',
         ]);
 
         /*
