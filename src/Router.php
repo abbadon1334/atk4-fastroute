@@ -92,7 +92,10 @@ class Router
     protected function setUpApp(): void
     {
         // prepare ui\App for pretty urls
-        $this->app->setDefaults(['url_building_ext' => '']);
+        $this->app->setDefaults([
+            'always_run' => false,
+            'url_building_ext' => '',
+        ]);
 
         /*
          * Removed
@@ -181,34 +184,36 @@ class Router
         }
 
         if (Dispatcher::METHOD_NOT_ALLOWED === $status) {
-            return $this->routeMethodNotAllowed($allowed_methods);
+            return $this->routeMethodNotAllowed($request, $allowed_methods);
         }
 
-        return $this->routeNotFound();
+        return $this->routeNotFound($request);
     }
 
     /**
+     * @param ServerRequestInterface $request
      * @return bool
      * @throws Exception
      */
-    protected function routeNotFound(): bool
+    protected function routeNotFound(ServerRequestInterface $request): bool
     {
         http_response_code(404);
-        $this->app->add(new $this->_default_not_found());
+        $this->app->add(new $this->_default_not_found($request));
 
         return false;
     }
 
     /**
+     * @param ServerRequestInterface $request
      * @param array $allowed_methods
      *
      * @return bool
      * @throws Exception
      */
-    private function routeMethodNotAllowed(array $allowed_methods = []): bool
+    private function routeMethodNotAllowed(ServerRequestInterface $request, array $allowed_methods = []): bool
     {
         http_response_code(405);
-        $this->app->add(new $this->_default_method_not_allowed([
+        $this->app->add(new $this->_default_method_not_allowed($request, [
             '_allowed_methods' => $allowed_methods,
         ]));
 
