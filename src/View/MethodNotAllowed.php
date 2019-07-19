@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\View;
 
@@ -19,9 +21,9 @@ class MethodNotAllowed extends AbstractView
         parent::init();
 
         $this->add('Header')->set('Method not Allowed');
-        $this->add('View')->set('METHOD : ' . $this->request->getMethod());
-        $this->add('View')->set('REQUEST : ' . $this->request->getUri());
+        $this->add('View')->set('METHOD : '.$this->request->getMethod());
+        $this->add('View')->set('REQUEST : '.$this->request->getUri());
 
-        $this->add('View')->set('ALLOWED METHDOS :' . implode(', ', $this->_allowed_methods));
+        $this->add('View')->set('ALLOWED METHDOS :'.implode(', ', $this->_allowed_methods));
     }
 }
