@@ -40,7 +40,7 @@ class RoutedServeStatic implements iOnRoute, iArrayable
         $request_path = array_shift($parameters);
 
         // remove query part;
-        $request_path = strtok($request_path,'?');
+        $request_path = strtok($request_path, '?');
 
         // get path parts
         $path = pathinfo($request_path, PATHINFO_DIRNAME);
@@ -51,13 +51,11 @@ class RoutedServeStatic implements iOnRoute, iArrayable
         try {
             $this->isDirAllowed($folder_path);
 
-            $file_path = $folder_path . DIRECTORY_SEPARATOR . $file;
+            $file_path = $folder_path.DIRECTORY_SEPARATOR.$file;
             $this->isFileAllowed($file_path);
 
             $this->serveFile($file_path);
-
-        } catch(\Throwable $e)
-        {
+        } catch (\Throwable $e) {
             http_response_code(403);
         }
     }
@@ -66,57 +64,55 @@ class RoutedServeStatic implements iOnRoute, iArrayable
     {
         return $path === null || $path === '.'
                ? $this->path
-               : implode(DIRECTORY_SEPARATOR, [$this->path,$path]);
+               : implode(DIRECTORY_SEPARATOR, [$this->path, $path]);
     }
 
     private function isDirAllowed($path)
     {
-        if($path!==realpath($path) || !is_dir($path))
-        {
+        if ($path !== realpath($path) || ! is_dir($path)) {
             throw new StaticFileExtensionNotAllowed([
                 'Requested file folder is not allowed',
                 'path' => $path,
-                'fullpath' => realpath($path)
+                'fullpath' => realpath($path),
             ]);
         }
     }
 
-    private function isFileAllowed($filepath) {
+    private function isFileAllowed($filepath)
+    {
+        $ext = pathinfo($filepath, PATHINFO_EXTENSION);
 
-        $ext  = pathinfo($filepath, PATHINFO_EXTENSION);
-
-        if(!$this->isExtensionAllowed($ext))
-        {
+        if (! $this->isExtensionAllowed($ext)) {
             throw new StaticFileExtensionNotAllowed([
                 'Extension is not allowed',
-                'ext' => $ext
+                'ext' => $ext,
             ]);
         }
 
-        if(!file_exists($filepath)) {
+        if (! file_exists($filepath)) {
             throw new StaticFileNotExists([
-                'Requested File extension not exists'
+                'Requested File extension not exists',
             ]);
         }
     }
 
-    private function isExtensionAllowed($ext) {
-
-        return in_array($ext,$this->extensions);
+    private function isExtensionAllowed($ext)
+    {
+        return in_array($ext, $this->extensions);
     }
 
     private function serveFile(string $file_path)
     {
         http_response_code(200);
 
-        $filename  = pathinfo($file_path, PATHINFO_BASENAME);
-        $ext       = pathinfo($file_path, PATHINFO_EXTENSION);
+        $filename = pathinfo($file_path, PATHINFO_BASENAME);
+        $ext = pathinfo($file_path, PATHINFO_EXTENSION);
 
-        $mimeType  = (new MimeTypes())->getMimeType($ext);
+        $mimeType = (new MimeTypes())->getMimeType($ext);
 
-        header("Content-Type: " . $mimeType . "");
-        header("Content-Length: " . filesize($file_path));
-        header('Content-Disposition: inline; filename="' . $filename . '"');
+        header('Content-Type: '.$mimeType.'');
+        header('Content-Length: '.filesize($file_path));
+        header('Content-Disposition: inline; filename="'.$filename.'"');
 
         readfile($file_path);
     }

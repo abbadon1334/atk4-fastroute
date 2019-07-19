@@ -13,7 +13,7 @@ class RouterTest extends TestCase
 {
     public function tearDown(): void
     {
-        @unlink(__DIR__ . '/../demos/routes.cache');
+        @unlink(__DIR__.'/../demos/routes.cache');
     }
 
     public function testSetBasePath()
@@ -29,7 +29,7 @@ class RouterTest extends TestCase
         $_SERVER['REQUEST_METHOD'] = $METHOD;
         $_SERVER['REQUEST_URI'] = $URI;
 
-        include __DIR__ . '/../demos/' . $file;
+        include __DIR__.'/../demos/'.$file;
     }
 
     /**
@@ -91,8 +91,7 @@ class RouterTest extends TestCase
         $result[] = ['index.php', 'GET', '/test3', 200, false];
 
         /** Static file serve TESTS */
-
-        $css_content = ".test_style { display:none; }";
+        $css_content = '.test_style { display:none; }';
 
         $result[] = ['static.php', 'GET', '/assets/test.css', 200, $css_content];
         $result[] = ['static.php', 'GET', '/assets/test.css?test=get_var', 200, $css_content]; // test correct parsing
@@ -105,17 +104,17 @@ class RouterTest extends TestCase
 
     public function testToArray()
     {
-        $route = new RoutedMethod(static::class,'testToArray');
+        $route = new RoutedMethod(static::class, 'testToArray');
 
         $this->assertEquals([
             static::class,
-            'testToArray'
-        ],$route->toArray());
+            'testToArray',
+        ], $route->toArray());
 
-        $route = new RoutedUI(static::class,['test' => 'value']);
+        $route = new RoutedUI(static::class, ['test' => 'value']);
         $this->assertEquals([
             static::class,
-            ['test' => 'value']
-        ],$route->toArray());
+            ['test' => 'value'],
+        ], $route->toArray());
     }
 }
