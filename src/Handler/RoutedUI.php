@@ -79,6 +79,8 @@ class RoutedUI implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable,
     }
 
     /**
+     * @internal
+     *
      * @param App   $app
      * @param mixed ...$parameters
      *
@@ -94,6 +96,8 @@ class RoutedUI implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable,
     }
 
     /**
+     * @internal
+     *
      * @param App   $app
      * @param mixed ...$parameters
      */

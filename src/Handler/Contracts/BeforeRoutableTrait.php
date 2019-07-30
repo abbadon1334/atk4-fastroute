@@ -22,6 +22,7 @@ trait BeforeRoutableTrait
     /**
      * @param App   $app
      * @param mixed ...$parameters
+     * @internal
      */
     public function OnBeforeRoute(App $app, ...$parameters): void
     {
