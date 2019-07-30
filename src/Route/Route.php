@@ -8,7 +8,9 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
 use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
+use atk4\core\Exception;
 use atk4\ui\jsExpressionable;
+use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 
 class Route implements iRoute
 {
@@ -54,23 +56,36 @@ class Route implements iRoute
      * @param array $array
      *
      * @throws \ReflectionException
+     * @throws Exception
      *
      * @return iOnRoute
      */
     private static function getHandlerFromArray(array $array): iOnRoute
     {
-        $firstArg = $array[0];
+        $first_element = $array[0];
+        $second_element = $array[1] ?? null;
 
-        if (function_exists($firstArg)) {
+        if (null === $second_element) {
             return new RoutedCallable(...$array);
         }
 
-        $checkClass = new \ReflectionClass($firstArg);
-        if ($checkClass->isSubclassOf(jsExpressionable::class)) {
-            return RoutedUI::fromArray($array);
+        if (is_string($second_element)) {
+            return RoutedMethod::fromArray($array);
         }
 
-        return RoutedMethod::fromArray($array);
+        switch(true) {
+
+            case is_a($first_element,RoutedServeStatic::class, true) :
+                return RoutedServeStatic::fromArray($array);
+
+            case is_a($first_element, jsExpressionable::class, true) :
+                return RoutedUI::fromArray($array);
+        }
+
+        throw new Exception([
+            'Error Transforming Route to Array',
+            'array' => $array
+        ]);
     }
 
     /**
