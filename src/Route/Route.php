@@ -65,18 +65,16 @@ class Route implements iRoute
         $first_element = $array[0];
         $second_element = $array[1] ?? null;
 
-        if (null === $second_element) {
-            return new RoutedCallable(...$array);
-        }
-
-        if (is_string($second_element)) {
-            return RoutedMethod::fromArray($array);
-        }
-
         switch (true) {
 
+            case is_callable($first_element):
+                return new RoutedCallable($first_element);
+
+            case is_string($first_element) && is_string($second_element):
+                return RoutedMethod::fromArray($array);
+
             case is_a($first_element, RoutedServeStatic::class, true):
-                return RoutedServeStatic::fromArray($array);
+                return RoutedServeStatic::fromArray($second_element);
 
             case is_a($first_element, jsExpressionable::class, true):
                 return RoutedUI::fromArray($array);

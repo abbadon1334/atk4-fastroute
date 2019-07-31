@@ -74,6 +74,7 @@ class RouterTest extends TestCase
 
         $cases = [
             ['GET', '/callable', 200, false],
+            ['GET', '/callable', 200, false],
             ['GET', '/test', 200, false],
             ['GET', '/testStatic', 200, false],
             ['GET', '/test2', 200, false],
