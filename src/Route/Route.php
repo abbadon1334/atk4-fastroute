@@ -70,6 +70,7 @@ class Route implements iRoute
             case is_callable($first_element):
                 return new RoutedCallable($first_element);
 
+
             case is_string($first_element) && is_string($second_element):
                 return RoutedMethod::fromArray($array);
 
