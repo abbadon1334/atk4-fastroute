@@ -1,4 +1,5 @@
 <?php
+
 // DO NOT USE THIS
 // is used only to trigger exception in PHUNIT Test
 

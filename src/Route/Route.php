@@ -52,7 +52,7 @@ class Route implements iRoute
         return new static(
             $route[0],
             $route[1],
-            self::getHandlerFromArray($route[2],$route[3] ?? null,$route[4] ?? null)
+            self::getHandlerFromArray($route[2], $route[3] ?? null, $route[4] ?? null)
         );
     }
 

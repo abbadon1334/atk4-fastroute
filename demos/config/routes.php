@@ -22,12 +22,10 @@ return [
         '/callable',
         ['GET', 'POST'],
         ['handleWithFunction'],
-        function($app,...$parameters)
-        {
+        function ($app, ...$parameters) {
             echo 'BEFORE';
         },
-        function($app,...$parameters)
-        {
+        function ($app, ...$parameters) {
             echo 'AFTER';
         },
     ],
@@ -47,12 +45,12 @@ return [
         [
             RoutedServeStatic::class,
             [
-                getcwd() . '/demo/static_assets',
+                getcwd().'/demo/static_assets',
                 [
                     'css',
                     'js',
-                ]
-            ]
-        ]
+                ],
+            ],
+        ],
     ],
 ];

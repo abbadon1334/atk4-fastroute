@@ -102,7 +102,6 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
      * @throws \atk4\core\Exception
      * @throws \atk4\ui\Exception
      * @internal
-     *
      */
     public function OnBeforeRoute(App $app, ...$parameters): void
     {
