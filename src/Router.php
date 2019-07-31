@@ -16,12 +16,12 @@ use atk4\core\ConfigTrait;
 use atk4\ui\App;
 use atk4\ui\Exception;
 use Closure;
-use ReflectionException;
 use function FastRoute\cachedDispatcher;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 use Psr\Http\Message\ServerRequestInterface;
+use ReflectionException;
 use Zend\Diactoros\ServerRequestFactory;
 
 class Router
@@ -135,6 +135,7 @@ class Router
             $this->onRouteFail($request, $status, $allowed_methods);
 
             $this->app->run();
+
             return false;
         }
 

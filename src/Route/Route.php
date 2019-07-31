@@ -7,10 +7,10 @@ namespace Abbadon1334\ATKFastRoute\Route;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
 use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
+use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use atk4\core\Exception;
 use atk4\ui\jsExpressionable;
-use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 
 class Route implements iRoute
 {
@@ -73,18 +73,18 @@ class Route implements iRoute
             return RoutedMethod::fromArray($array);
         }
 
-        switch(true) {
+        switch (true) {
 
-            case is_a($first_element,RoutedServeStatic::class, true) :
+            case is_a($first_element, RoutedServeStatic::class, true):
                 return RoutedServeStatic::fromArray($array);
 
-            case is_a($first_element, jsExpressionable::class, true) :
+            case is_a($first_element, jsExpressionable::class, true):
                 return RoutedUI::fromArray($array);
         }
 
         throw new Exception([
             'Error Transforming Route to Array',
-            'array' => $array
+            'array' => $array,
         ]);
     }
 
