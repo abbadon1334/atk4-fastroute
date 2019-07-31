@@ -21,6 +21,7 @@ use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 use Psr\Http\Message\ServerRequestInterface;
+use ReflectionException;
 use Zend\Diactoros\ServerRequestFactory;
 
 class Router
@@ -63,6 +64,11 @@ class Router
      * @var string
      */
     protected $_default_method_not_allowed = MethodNotAllowed::class;
+
+    /**
+     * @var App
+     */
+    protected $app;
 
     /**
      * Router constructor.
@@ -111,6 +117,7 @@ class Router
      * @param ServerRequestInterface|null $request
      *
      * @throws Exception
+     * @throws \atk4\core\Exception
      *
      * @return bool
      */
@@ -127,7 +134,9 @@ class Router
             $allowed_methods = $route[1] ?? [];
             $this->onRouteFail($request, $status, $allowed_methods);
 
-            return $this->app->run();
+            $this->app->run();
+
+            return false;
         }
 
         http_response_code(200);
@@ -174,6 +183,9 @@ class Router
      * @param ServerRequestInterface $request
      * @param                        $status
      * @param array                  $allowed_methods
+     *
+     * @throws Exception
+     * @throws \atk4\core\Exception
      *
      * @return bool
      */
@@ -275,11 +287,14 @@ class Router
     }
 
     /**
+     * @param ServerRequestInterface|null $request
+     *
      * @throws Exception
+     * @throws \atk4\core\Exception
      */
-    public function run(): void
+    public function run(?ServerRequestInterface $request = null): void
     {
-        $this->handleRouteRequest();
+        $this->handleRouteRequest($request);
     }
 
     /**
@@ -287,6 +302,7 @@ class Router
      * @param $format_type
      *
      * @throws \atk4\core\Exception
+     * @throws ReflectionException
      */
     public function loadRoutes($file, $format_type)
     {
