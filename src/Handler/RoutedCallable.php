@@ -4,10 +4,22 @@ declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\Handler;
 
+use Abbadon1334\ATKFastRoute\Handler\Contracts\AfterRoutableTrait;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\BeforeRoutableTrait;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRoutable;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 
-class RoutedCallable implements iOnRoute
+class RoutedCallable implements iOnRoute, iAfterRoutable, iBeforeRoutable
 {
+    use AfterRoutableTrait {
+        OnAfterRoute as _OnAfterRoute;
+    }
+
+    use BeforeRoutableTrait {
+        OnBeforeRoute as _OnBeforeRoute;
+    }
+
     /** @var callable */
     protected $func;
 

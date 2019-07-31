@@ -132,4 +132,10 @@ class RouterTest extends TestCase
             (new RoutedServeStatic(static::class, ['test' => 'value']))->toArray(), $route->toArray()
         );
     }
+
+    public function testExceptionConfig()
+    {
+        $this->expectException(Exception::class);
+        include __DIR__.'/../demos/using-config-unit-test-exception.php';
+    }
 }

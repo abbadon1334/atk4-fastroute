@@ -6,12 +6,23 @@ namespace Abbadon1334\ATKFastRoute\Handler;
 
 use Abbadon1334\ATKFastRoute\Exception\StaticFileExtensionNotAllowed;
 use Abbadon1334\ATKFastRoute\Exception\StaticFileNotExists;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\AfterRoutableTrait;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\BeforeRoutableTrait;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iArrayable;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Mimey\MimeTypes;
 
-class RoutedServeStatic implements iOnRoute, iArrayable
+class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable
 {
+    use AfterRoutableTrait {
+        OnAfterRoute as _OnAfterRoute;
+    }
+
+    use BeforeRoutableTrait {
+        OnBeforeRoute as _OnBeforeRoute;
+    }
     /** @var string */
     protected $path;
 

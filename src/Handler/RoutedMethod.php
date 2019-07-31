@@ -4,11 +4,22 @@ declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\Handler;
 
+use Abbadon1334\ATKFastRoute\Handler\Contracts\AfterRoutableTrait;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\BeforeRoutableTrait;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iArrayable;
+use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 
-class RoutedMethod implements iOnRoute, iArrayable
+class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable
 {
+    use AfterRoutableTrait {
+        OnAfterRoute as _OnAfterRoute;
+    }
+
+    use BeforeRoutableTrait {
+        OnBeforeRoute as _OnBeforeRoute;
+    }
     /**
      * Class Name to be called.
      *

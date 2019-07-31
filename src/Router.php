@@ -92,14 +92,11 @@ class Router
         $this->cache_file = $cache_path;
     }
 
-    /**
-     * @throws \atk4\core\Exception
-     */
     protected function setUpApp(): void
     {
         // prepare ui\App for pretty urls
         $this->app->setDefaults([
-            'always_run' => false,
+            //'always_run' => false, cannot be changed after _construct
             'url_building_ext' => '',
         ]);
 
