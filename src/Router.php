@@ -66,6 +66,11 @@ class Router
     protected $_default_method_not_allowed = MethodNotAllowed::class;
 
     /**
+     * @var App
+     */
+    protected $app;
+
+    /**
      * Router constructor.
      *
      * @param App $app
