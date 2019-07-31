@@ -275,11 +275,13 @@ class Router
     }
 
     /**
+     * @param ServerRequestInterface|null $request
+     *
      * @throws Exception
      */
-    public function run(): void
+    public function run(?ServerRequestInterface $request = null): void
     {
-        $this->handleRouteRequest();
+        $this->handleRouteRequest($request);
     }
 
     /**
