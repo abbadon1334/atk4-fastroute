@@ -15,7 +15,7 @@ class RouterTest extends TestCase
     public function tearDown(): void
     {
         if (file_exists(__DIR__.'/../demos/routes.cache')) {
-            unlink(__DIR__ . '/../demos/routes.cache');
+            unlink(__DIR__.'/../demos/routes.cache');
         }
     }
 
