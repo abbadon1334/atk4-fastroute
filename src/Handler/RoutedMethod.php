@@ -56,7 +56,6 @@ class RoutedMethod implements iOnRoute, iArrayable
 
         if ($MethodChecker->isStatic()) {
             $this->onRouteResult = $class::{$method}(...$parameters);
-
             return;
         }
 
