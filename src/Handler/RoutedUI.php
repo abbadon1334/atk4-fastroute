@@ -13,7 +13,7 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iNeedAppRun;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use atk4\ui\App;
 
-class RoutedUI implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable, iNeedAppRun
+class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBeforeRoutable
 {
     use AfterRoutableTrait {
         OnAfterRoute as _OnAfterRoute;
@@ -88,7 +88,7 @@ class RoutedUI implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable,
      */
     public function OnAfterRoute(App $app, ...$parameters): void
     {
-        if ($this->func_before_route === null) {
+        if ($this->onRouteResult !== null) {
             $app->add($this->onRouteResult);
         }
 
@@ -96,10 +96,12 @@ class RoutedUI implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable,
     }
 
     /**
-     * @internal
-     *
      * @param App   $app
      * @param mixed ...$parameters
+     *
+     * @throws \atk4\core\Exception
+     * @throws \atk4\ui\Exception
+     * @internal
      */
     public function OnBeforeRoute(App $app, ...$parameters): void
     {

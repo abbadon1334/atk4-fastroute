@@ -1,5 +1,7 @@
 <?php
 
+use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
+
 return [
     [
         '/test',
@@ -20,6 +22,12 @@ return [
         '/callable',
         ['GET', 'POST'],
         ['handleWithFunction'],
+        function ($app, ...$parameters) {
+            echo 'BEFORE';
+        },
+        function ($app, ...$parameters) {
+            echo 'AFTER';
+        },
     ],
     [
         '/test-parameters/{id:\d+}/{title}',
@@ -30,5 +38,19 @@ return [
         '/test-parameters-static/{id:\d+}/{title}',
         ['GET'],
         ['StandardClass', 'staticHandleRequest'],
+    ],
+    [
+        '/resource/{path:.+}',
+        ['GET'],
+        [
+            RoutedServeStatic::class,
+            [
+                getcwd().'/demo/static_assets',
+                [
+                    'css',
+                    'js',
+                ],
+            ],
+        ],
     ],
 ];
