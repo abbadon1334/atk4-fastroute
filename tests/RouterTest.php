@@ -93,6 +93,7 @@ class RouterTest extends TestCase
         }
 
         $result[] = ['index.php', 'GET', '/test3', 200, false];
+        $result[] = ['using-config.php', 'GET', '/test_before_after', 200, 'BEFOREcontentAFTER'];
 
         /** Static file serve TESTS */
         $css_content = '.test_style { display:none; }';

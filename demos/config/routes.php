@@ -53,4 +53,19 @@ return [
             ],
         ],
     ],
+    [
+        '/test_before_after',
+        ['GET'],
+        [function() {
+            echo 'content';
+        }],
+        function($app,...$parameters)
+        {
+            echo 'BEFORE';
+        },
+        function($app,...$parameters)
+        {
+            echo 'AFTER';
+        },
+    ]
 ];
