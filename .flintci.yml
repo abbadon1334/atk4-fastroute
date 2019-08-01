@@ -1,5 +1,11 @@
 services:
-  eslint: true
+  composernormalize:
+    version:        latest
+  phpcs:
+    version:        latest
+    config_path:    ~
+    paths:          ['src']
+    composer:       false
   phpcsfixer:
-    version: 1
-    config_path: ./.php_cs.dist
+    version:        latest
+    config_path:    ~
