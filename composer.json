@@ -1,7 +1,7 @@
 {
     "name": "abbadon1334/atk4-fastroute",
-    "description": "description",
     "type": "project",
+    "description": "description",
     "license": "MIT",
     "authors": [
         {
@@ -9,14 +9,12 @@
             "email": "fdanti@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "php": ">=7.2",
         "atk4/core": "dev-develop@dev",
         "nikic/fast-route": "1.3.0",
-        "zendframework/zend-diactoros": "2.1.3",
-        "ralouphie/mimey": "2.1.0"
+        "ralouphie/mimey": "2.1.0",
+        "zendframework/zend-diactoros": "2.1.3"
     },
     "require-dev": {
         "atk4/ui": "dev-develop@dev",
@@ -27,7 +25,7 @@
         "phpstan/phpstan": "0.11.12",
         "phpunit/phpunit": "*",
         "squizlabs/php_codesniffer": "3.4.2",
-        "symfony/yaml": "~2.1|~3.0|~4.0"
+        "symfony/yaml": "~2.1 || ~3.0 || ~4.0"
     },
     "config": {
         "sort-packages": true
@@ -42,16 +40,10 @@
             "Abbadon1334\\ATKFastRoute\\Tests\\": "tests/"
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "scripts": {
         "fix": "php-cs-fixer fix --config=.php_cs.dist src demos",
-        "stan": "phpstan analyse src",
-        "stan1": "phpstan analyse --level 1 src",
-        "stan2": "phpstan analyse --level 2 src",
-        "stan3": "phpstan analyse --level 3 src",
-        "stan4": "phpstan analyse --level 4 src",
-        "stan5": "phpstan analyse --level 5 src",
-        "stan6": "phpstan analyse --level 6 src",
-        "stan7": "phpstan analyse --level 7 src",
         "metrics": [
             "mkdir -p ./build/report",
             "mv ./build/report ./build/report_$(date +\"%Y.%m.%d_%H%M%S\")",
@@ -62,20 +54,28 @@
             "rm -rf ./build/report_*",
             "rm -rf ./build/report"
         ],
+        "stan": "phpstan analyse src",
+        "stan1": "phpstan analyse --level 1 src",
+        "stan2": "phpstan analyse --level 2 src",
+        "stan3": "phpstan analyse --level 3 src",
+        "stan4": "phpstan analyse --level 4 src",
+        "stan5": "phpstan analyse --level 5 src",
+        "stan6": "phpstan analyse --level 6 src",
+        "stan7": "phpstan analyse --level 7 src",
         "unit": [
             "mkdir -p ./build/coverage",
             "mv ./build/coverage ./build/coverage_$(date +\"%Y.%m.%d_%H%M%S\")",
             "phpunit --configuration phpunit.xml"
+        ],
+        "unit-clear": [
+            "rm -rf ./build/coverage_*",
+            "rm -rf ./build/coverage"
         ],
         "unit-html": [
             "mkdir -p ./build/coverage",
             "mv ./build/coverage ./build/coverage_$(date +\"%Y.%m.%d_%H%M%S\")",
             "phpunit --configuration phpunit.xml --coverage-html ./build/coverage",
             "firefox ./build/coverage/index.html"
-        ],
-        "unit-clear": [
-            "rm -rf ./build/coverage_*",
-            "rm -rf ./build/coverage"
         ]
     }
 }
