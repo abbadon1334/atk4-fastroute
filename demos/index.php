@@ -34,8 +34,7 @@ $router
     ->addRoute('/test3')
     ->addMethod('GET')
     ->addMethod('POST')
-    ->setHandler(new RoutedUI(ATKView::class, ['text' => 'it works']))
-;
+    ->setHandler(new RoutedUI(ATKView::class, ['text' => 'it works']));
 
 $router->addRoute(
     '/callable',
