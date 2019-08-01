@@ -14,7 +14,8 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Mimey\MimeTypes;
 
-class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable {
+class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable
+{
     use AfterRoutableTrait {
         OnAfterRoute as _OnAfterRoute;
     }
@@ -34,7 +35,8 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
      * @param string $path       Base path for serving static files
      * @param array  $extensions
      */
-    public function __construct(string $path, array $extensions) {
+    public function __construct(string $path, array $extensions)
+    {
         $this->path       = $path;
         $this->extensions = $extensions;
     }
@@ -44,7 +46,8 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
      *
      * @return mixed
      */
-    public function onRoute(...$parameters) {
+    public function onRoute(...$parameters)
+    {
         $request_path = array_shift($parameters);
 
         // remove query part;
@@ -73,24 +76,28 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
      *
      * @return iOnRoute
      */
-    public static function fromArray(array $array): iOnRoute {
+    public static function fromArray(array $array): iOnRoute
+    {
         return new static(...$array);
     }
 
     /**
      * @return array
      */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [$this->path, $this->extensions];
     }
 
-    private function getFolderPath(string $path = null) {
+    private function getFolderPath(string $path = null)
+    {
         return null === $path || '.' === $path
                ? $this->path
                : implode(DIRECTORY_SEPARATOR, [$this->path, $path]);
     }
 
-    private function isDirAllowed($path): void {
+    private function isDirAllowed($path): void
+    {
         if ($path !== realpath($path) || !is_dir($path)) {
             throw new StaticFileExtensionNotAllowed([
                 'Requested file folder is not allowed',
@@ -100,7 +107,8 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         }
     }
 
-    private function isFileAllowed($filepath): void {
+    private function isFileAllowed($filepath): void
+    {
         $ext = pathinfo($filepath, PATHINFO_EXTENSION);
 
         if (!$this->isExtensionAllowed($ext)) {
@@ -117,11 +125,13 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         }
     }
 
-    private function isExtensionAllowed($ext) {
+    private function isExtensionAllowed($ext)
+    {
         return in_array($ext, $this->extensions);
     }
 
-    private function serveFile(string $file_path): void {
+    private function serveFile(string $file_path): void
+    {
         http_response_code(200);
 
         $filename = pathinfo($file_path, PATHINFO_BASENAME);

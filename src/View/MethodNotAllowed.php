@@ -6,7 +6,8 @@ namespace Abbadon1334\ATKFastRoute\View;
 
 use atk4\ui\Exception;
 
-class MethodNotAllowed extends AbstractView {
+class MethodNotAllowed extends AbstractView
+{
     /**
      * @var array
      */
@@ -15,7 +16,8 @@ class MethodNotAllowed extends AbstractView {
     /**
      * @throws Exception
      */
-    public function init(): void {
+    public function init(): void
+    {
         parent::init();
 
         $this->add('Header')->set('Method not Allowed');

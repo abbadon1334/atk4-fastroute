@@ -6,7 +6,8 @@ namespace Abbadon1334\ATKFastRoute\Route;
 
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 
-interface iRoute {
+interface iRoute
+{
     /**
      * @return array
      */

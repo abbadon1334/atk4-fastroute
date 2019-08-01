@@ -2,27 +2,30 @@
 
 declare(strict_types=1);
 
-ini_set('display_errors', 1);
-
 include __DIR__.'/../vendor/autoload.php';
 
 use atk4\ui\View;
 
 if (!class_exists(ATKView::class)) {
-    class StandardClass {
-        public function handleRequest(...$parameters): void {
+    class StandardClass
+    {
+        public function handleRequest(...$parameters): void
+        {
             echo json_encode($parameters);
         }
 
-        public static function staticHandleRequest(...$parameters): void {
+        public static function staticHandleRequest(...$parameters): void
+        {
             echo json_encode($parameters);
         }
     }
 
-    class ATKView extends View {
+    class ATKView extends View
+    {
         public $text;
 
-        public function init(): void {
+        public function init(): void
+        {
             parent::init();
 
             $this->set($this->text);
@@ -42,7 +45,8 @@ if (!class_exists(ATKView::class)) {
         }
     }
 
-    function handleWithFunction(...$parameters) {
+    function handleWithFunction(...$parameters)
+    {
         return 'handled with global function';
     }
 }
