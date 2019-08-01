@@ -119,9 +119,14 @@ class Router
      *
      * @throws Exception
      * @throws \atk4\core\Exception
+     * @throws ReflectionException
      */
     public function run(?ServerRequestInterface $request = null): void
     {
+        foreach ($this->config as $route_array) {
+            $this->_addRoute(Route::fromArray($route_array));
+        }
+
         $this->handleRouteRequest($request);
     }
 
@@ -130,15 +135,10 @@ class Router
      * @param $format_type
      *
      * @throws \atk4\core\Exception
-     * @throws ReflectionException
      */
     public function loadRoutes($file, $format_type): void
     {
         $this->_readConfig([$file], $format_type);
-
-        foreach ($this->config as $route_array) {
-            $this->_addRoute(Route::fromArray($route_array));
-        }
     }
 
     protected function setUpApp(): void
