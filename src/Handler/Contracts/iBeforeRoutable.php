@@ -6,8 +6,7 @@ namespace Abbadon1334\ATKFastRoute\Handler\Contracts;
 
 use atk4\ui\App;
 
-interface iBeforeRoutable
-{
+interface iBeforeRoutable {
     /**
      * @param callable $callable
      *

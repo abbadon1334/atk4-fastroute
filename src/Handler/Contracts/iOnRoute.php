@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\Handler\Contracts;
 
-interface iOnRoute
-{
+interface iOnRoute {
     /**
      * @param mixed ...$parameters
      *

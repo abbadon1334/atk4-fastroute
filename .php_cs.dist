@@ -98,7 +98,14 @@ return PhpCsFixer\Config::create()
         // Requires PHP >= 7.1.
         'void_return' => true,
         // Write conditions in Yoda style (`true`), non-Yoda style (`false`) or ignore those conditions (`null`) based on configuration.
-        'yoda_style' => true
+        'yoda_style' => true,
+        'function_declaration' => [
+            'closure_function_spacing' => 'one'
+        ],
+        'no_alternative_syntax' => true,
+        'braces' => [
+            'position_after_functions_and_oop_constructs' => 'same'
+        ]
     ])
     ->setFinder(PhpCsFixer\Finder::create()
         ->exclude('vendor')

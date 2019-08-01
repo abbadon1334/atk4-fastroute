@@ -11,8 +11,7 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iArrayable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 
-class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable
-{
+class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable {
     use AfterRoutableTrait {
         OnAfterRoute as _OnAfterRoute;
     }
@@ -47,8 +46,7 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
      * @param string $ClassName
      * @param string $ClassMethod
      */
-    public function __construct(string $ClassName, string $ClassMethod)
-    {
+    public function __construct(string $ClassName, string $ClassMethod) {
         $this->ClassName   = $ClassName;
         $this->ClassMethod = $ClassMethod;
     }
@@ -58,8 +56,7 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
      *
      * @throws \ReflectionException
      */
-    public function onRoute(...$parameters): void
-    {
+    public function onRoute(...$parameters): void {
         $class  = $this->ClassName;
         $method = $this->ClassMethod;
 
@@ -80,16 +77,14 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
      *
      * @return iOnRoute
      */
-    public static function fromArray(array $array): iOnRoute
-    {
+    public static function fromArray(array $array): iOnRoute {
         return new static(...$array);
     }
 
     /**
      * @return array
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [$this->ClassName, $this->ClassMethod];
     }
 }

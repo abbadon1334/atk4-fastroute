@@ -6,16 +6,14 @@ namespace Abbadon1334\ATKFastRoute\Handler\Contracts;
 
 use atk4\ui\App;
 
-trait BeforeRoutableTrait
-{
+trait BeforeRoutableTrait {
     /** @var callable Store the OnBefore function if defined manually */
     protected $func_before_route;
 
     /**
      * @param callable $callable
      */
-    public function setBeforeRoute(callable $callable): void
-    {
+    public function setBeforeRoute(callable $callable): void {
         $this->func_before_route = $callable;
     }
 
@@ -25,8 +23,7 @@ trait BeforeRoutableTrait
      *
      * @internal
      */
-    public function OnBeforeRoute(App $app, ...$parameters): void
-    {
+    public function OnBeforeRoute(App $app, ...$parameters): void {
         if (null !== $this->func_before_route) {
             ($this->func_before_route)($app, ...$parameters);
         }

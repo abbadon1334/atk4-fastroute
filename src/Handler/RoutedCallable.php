@@ -10,8 +10,7 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 
-class RoutedCallable implements iOnRoute, iAfterRoutable, iBeforeRoutable
-{
+class RoutedCallable implements iOnRoute, iAfterRoutable, iBeforeRoutable {
     use AfterRoutableTrait {
         OnAfterRoute as _OnAfterRoute;
     }
@@ -32,8 +31,7 @@ class RoutedCallable implements iOnRoute, iAfterRoutable, iBeforeRoutable
      * @param callable $func
      * @param mixed    ...$extra_arguments
      */
-    public function __construct(callable $func, ...$extra_arguments)
-    {
+    public function __construct(callable $func, ...$extra_arguments) {
         $this->func            = $func;
         $this->extra_arguments = $extra_arguments;
     }
@@ -43,8 +41,7 @@ class RoutedCallable implements iOnRoute, iAfterRoutable, iBeforeRoutable
      *
      * @return mixed
      */
-    public function onRoute(...$parameters)
-    {
+    public function onRoute(...$parameters) {
         $arguments = array_merge($this->extra_arguments, $parameters);
 
         return ($this->func)(...$arguments);

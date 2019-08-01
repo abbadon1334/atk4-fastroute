@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 include __DIR__.'/bootstrap.php';
 
 use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
@@ -32,7 +34,7 @@ $router->addRoute(
 $router->addRoute(
     '/callable',
     ['GET', 'POST'],
-    new RoutedCallable(function (...$parameters) {
+    new RoutedCallable(function (...$parameters): void {
         echo 'test callable';
     })
 );

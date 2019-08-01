@@ -13,8 +13,7 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iNeedAppRun;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use atk4\ui\App;
 
-class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBeforeRoutable
-{
+class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBeforeRoutable {
     use AfterRoutableTrait {
         OnAfterRoute as _OnAfterRoute;
     }
@@ -44,8 +43,7 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
      * @param string $ClassName
      * @param array  $default
      */
-    public function __construct(string $ClassName, array $default = [])
-    {
+    public function __construct(string $ClassName, array $default = []) {
         $this->ClassName = $ClassName;
         $this->default   = $default;
     }
@@ -55,24 +53,21 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
      *
      * @return iOnRoute
      */
-    public static function fromArray(array $array): iOnRoute
-    {
+    public static function fromArray(array $array): iOnRoute {
         return new static(...$array);
     }
 
     /**
      * @return array
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [$this->ClassName, $this->default];
     }
 
     /**
      * @param mixed ...$parameters
      */
-    public function onRoute(...$parameters): void
-    {
+    public function onRoute(...$parameters): void {
         $class = $this->ClassName;
 
         $this->onRouteResult = new $class($this->default);
@@ -86,8 +81,7 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
      *
      * @throws \atk4\ui\Exception
      */
-    public function OnAfterRoute(App $app, ...$parameters): void
-    {
+    public function OnAfterRoute(App $app, ...$parameters): void {
         if (null !== $this->onRouteResult) {
             $app->add($this->onRouteResult);
         }
@@ -104,8 +98,7 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
      *
      * @internal
      */
-    public function OnBeforeRoute(App $app, ...$parameters): void
-    {
+    public function OnBeforeRoute(App $app, ...$parameters): void {
         if (!isset($app->html) && null === $this->func_before_route) {
             $app->initLayout('Generic');
         }

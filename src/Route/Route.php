@@ -12,8 +12,7 @@ use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use atk4\core\Exception;
 use atk4\ui\jsExpressionable;
 
-class Route implements iRoute
-{
+class Route implements iRoute {
     /**
      * @var array|null
      */
@@ -34,8 +33,7 @@ class Route implements iRoute
      * @param array|null    $methods
      * @param iOnRoute|null $handler
      */
-    public function __construct(string $route, ?array $methods = null, ?iOnRoute $handler = null)
-    {
+    public function __construct(string $route, ?array $methods = null, ?iOnRoute $handler = null) {
         $this->methods = $methods ?? [];
         $this->route   = $route;
         $this->handler = $handler;
@@ -48,8 +46,7 @@ class Route implements iRoute
      *
      * @return iRoute
      */
-    public static function fromArray(array $route): iRoute
-    {
+    public static function fromArray(array $route): iRoute {
         return new static(
             $route[0],
             $route[1],
@@ -60,24 +57,21 @@ class Route implements iRoute
     /**
      * @return array
      */
-    public function getMethods(): array
-    {
+    public function getMethods(): array {
         return $this->methods;
     }
 
     /**
      * @return string
      */
-    public function getRoute(): string
-    {
+    public function getRoute(): string {
         return $this->route;
     }
 
     /**
      * @return iOnRoute
      */
-    public function getHandler(): iOnRoute
-    {
+    public function getHandler(): iOnRoute {
         return $this->handler;
     }
 
@@ -86,8 +80,7 @@ class Route implements iRoute
      *
      * @return iRoute
      */
-    public function addMethod(string $method): iRoute
-    {
+    public function addMethod(string $method): iRoute {
         $this->methods[] = $method;
 
         return $this;
@@ -96,16 +89,14 @@ class Route implements iRoute
     /**
      * @param iOnRoute $routeHandler
      */
-    public function setHandler(iOnRoute $routeHandler): void
-    {
+    public function setHandler(iOnRoute $routeHandler): void {
         $this->handler = $routeHandler;
     }
 
     /**
      * @return array
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             $this->getMethods(),
             $this->getRoute(),
@@ -122,8 +113,7 @@ class Route implements iRoute
      *
      * @return iOnRoute
      */
-    private static function getHandlerFromArray(array $handler_array, ?callable $callbackOnBefore, ?callable $callbackOnAfter): iOnRoute
-    {
+    private static function getHandlerFromArray(array $handler_array, ?callable $callbackOnBefore, ?callable $callbackOnAfter): iOnRoute {
         $handler = null;
 
         $first_element  = $handler_array[0];

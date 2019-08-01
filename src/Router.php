@@ -24,8 +24,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use ReflectionException;
 use Zend\Diactoros\ServerRequestFactory;
 
-class Router
-{
+class Router {
     use ConfigTrait {
         ConfigTrait::setConfig as protected;
         ConfigTrait::getConfig as protected;
@@ -77,8 +76,7 @@ class Router
      *
      * @throws \atk4\core\Exception
      */
-    public function __construct(App $app)
-    {
+    public function __construct(App $app) {
         $this->app = $app;
         $this->setUpApp();
     }
@@ -86,8 +84,7 @@ class Router
     /**
      * @param $cache_path
      */
-    public function enableCacheRoutes($cache_path): void
-    {
+    public function enableCacheRoutes($cache_path): void {
         $this->use_cache  = true;
         $this->cache_file = $cache_path;
     }
@@ -95,8 +92,7 @@ class Router
     /**
      * @param string $base_dir
      */
-    public function setBaseDir(string $base_dir): void
-    {
+    public function setBaseDir(string $base_dir): void {
         $this->base_dir = '/'.trim($base_dir, '/').'/';
     }
 
@@ -107,8 +103,7 @@ class Router
      *
      * @return iRoute
      */
-    public function addRoute(string $routePattern, ?array $methods = null, ?iOnRoute $handler = null): iRoute
-    {
+    public function addRoute(string $routePattern, ?array $methods = null, ?iOnRoute $handler = null): iRoute {
         $pattern = $this->buildPattern($routePattern);
 
         return $this->_addRoute(new Route($pattern, $methods ?? [], $handler));
@@ -120,8 +115,7 @@ class Router
      * @throws Exception
      * @throws \atk4\core\Exception
      */
-    public function run(?ServerRequestInterface $request = null): void
-    {
+    public function run(?ServerRequestInterface $request = null): void {
         $this->handleRouteRequest($request);
     }
 
@@ -132,8 +126,7 @@ class Router
      * @throws \atk4\core\Exception
      * @throws ReflectionException
      */
-    public function loadRoutes($file, $format_type): void
-    {
+    public function loadRoutes($file, $format_type): void {
         $this->_readConfig([$file], $format_type);
 
         foreach ($this->config as $route_array) {
@@ -141,8 +134,7 @@ class Router
         }
     }
 
-    protected function setUpApp(): void
-    {
+    protected function setUpApp(): void {
         // prepare ui\App for pretty urls
         $this->app->setDefaults([
             //'always_run' => false, cannot be changed after _construct
@@ -167,8 +159,7 @@ class Router
      *
      * @return bool
      */
-    protected function handleRouteRequest(?ServerRequestInterface $request = null)
-    {
+    protected function handleRouteRequest(?ServerRequestInterface $request = null) {
         $dispatcher = $this->getDispatcher();
 
         $request = $request ?? ServerRequestFactory::fromGlobals();
@@ -211,8 +202,7 @@ class Router
     /**
      * @return Dispatcher
      */
-    protected function getDispatcher()
-    {
+    protected function getDispatcher() {
         $closure = Closure::fromCallable([$this, 'routeCollect']);
 
         if (false === $this->use_cache) {
@@ -235,8 +225,7 @@ class Router
      *
      * @return bool
      */
-    protected function onRouteFail(ServerRequestInterface $request, $status, array $allowed_methods = []): bool
-    {
+    protected function onRouteFail(ServerRequestInterface $request, $status, array $allowed_methods = []): bool {
         if (!isset($this->app->html)) {
             $this->app->initLayout('Generic');
         }
@@ -255,8 +244,7 @@ class Router
      *
      * @return bool
      */
-    protected function routeNotFound(ServerRequestInterface $request): bool
-    {
+    protected function routeNotFound(ServerRequestInterface $request): bool {
         http_response_code(404);
         $this->app->add(new $this->_default_not_found($request));
 
@@ -268,8 +256,7 @@ class Router
      *
      * @return iRoute
      */
-    protected function _addRoute(iRoute $route): iRoute
-    {
+    protected function _addRoute(iRoute $route): iRoute {
         $this->route_collection[] = $route;
 
         return $route;
@@ -280,16 +267,14 @@ class Router
      *
      * @return string
      */
-    protected function buildPattern($routePattern)
-    {
+    protected function buildPattern($routePattern) {
         return $this->base_dir.trim($routePattern, '/');
     }
 
     /**
      * @param RouteCollector $routeCollector
      */
-    protected function routeCollect(RouteCollector $routeCollector): void
-    {
+    protected function routeCollect(RouteCollector $routeCollector): void {
         foreach ($this->route_collection as $route) {
             $routeCollector->addRoute(...$route->toArray());
         }
@@ -303,8 +288,7 @@ class Router
      *
      * @return bool
      */
-    private function routeMethodNotAllowed(ServerRequestInterface $request, array $allowed_methods = []): bool
-    {
+    private function routeMethodNotAllowed(ServerRequestInterface $request, array $allowed_methods = []): bool {
         http_response_code(405);
         $this->app->add(new $this->_default_method_not_allowed($request, [
             '_allowed_methods' => $allowed_methods,
