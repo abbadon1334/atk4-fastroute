@@ -1,20 +1,20 @@
 <?php
 
-ini_set('display_errors', 1);
+declare(strict_types=1);
 
 include __DIR__.'/../vendor/autoload.php';
 
 use atk4\ui\View;
 
-if (! class_exists(ATKView::class)) {
+if (!class_exists(ATKView::class)) {
     class StandardClass
     {
-        public function handleRequest(...$parameters)
+        public function handleRequest(...$parameters): void
         {
             echo json_encode($parameters);
         }
 
-        public static function staticHandleRequest(...$parameters)
+        public static function staticHandleRequest(...$parameters): void
         {
             echo json_encode($parameters);
         }
@@ -24,7 +24,7 @@ if (! class_exists(ATKView::class)) {
     {
         public $text;
 
-        public function init()
+        public function init(): void
         {
             parent::init();
 
@@ -32,7 +32,7 @@ if (! class_exists(ATKView::class)) {
 
             /** @var Loader $loader */
             $loader = $this->app->add('Loader');
-            $loader->set(function ($l) use ($loader) {
+            $loader->set(function ($l) use ($loader): void {
                 $number = rand(1, 100);
                 $l->add(['Text', 'random :'.$number]);
             });

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 
 return [
@@ -22,10 +24,10 @@ return [
         '/callable',
         ['GET', 'POST'],
         ['handleWithFunction'],
-        function ($app, ...$parameters) {
+        function ($app, ...$parameters): void {
             echo 'BEFORE';
         },
-        function ($app, ...$parameters) {
+        function ($app, ...$parameters): void {
             echo 'AFTER';
         },
     ],
@@ -52,5 +54,18 @@ return [
                 ],
             ],
         ],
+    ],
+    [
+        '/test_before_after',
+        ['GET'],
+        [function (): void {
+            echo 'content';
+        }],
+        function ($app, ...$parameters): void {
+            echo 'BEFORE';
+        },
+        function ($app, ...$parameters): void {
+            echo 'AFTER';
+        },
     ],
 ];

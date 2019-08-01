@@ -1,7 +1,6 @@
-preset: laravel
-
+preset: recommended
+risky: false
 enabled:
-  - alpha_ordered_imports
-
+  - align_equals
 disabled:
-  - length_ordered_imports
+  - unalign_equals

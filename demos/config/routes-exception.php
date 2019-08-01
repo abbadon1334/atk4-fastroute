@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // DO NOT USE THIS
 // is used only to trigger exception in PHUNIT Test
 

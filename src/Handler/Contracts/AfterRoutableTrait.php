@@ -22,6 +22,7 @@ trait AfterRoutableTrait
     /**
      * @param App   $app
      * @param mixed ...$parameters
+     *
      * @internal
      */
     public function OnAfterRoute(App $app, ...$parameters): void
