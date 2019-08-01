@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Abbadon1334\ATKFastRoute\Test;
 
 use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
@@ -10,6 +12,10 @@ use atk4\core\Exception;
 use atk4\ui\App;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class RouterTest extends TestCase
 {
     public function tearDown(): void
@@ -19,7 +25,7 @@ class RouterTest extends TestCase
         }
     }
 
-    public function testSetBasePath()
+    public function testSetBasePath(): void
     {
         $router = new Router(new App(['always_run' => false]));
         $router->setBaseDir('basedir');
@@ -27,10 +33,10 @@ class RouterTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function inc(string $file, $METHOD, $URI)
+    public function inc(string $file, $METHOD, $URI): void
     {
         $_SERVER['REQUEST_METHOD'] = $METHOD;
-        $_SERVER['REQUEST_URI'] = $URI;
+        $_SERVER['REQUEST_URI']    = $URI;
 
         include __DIR__.'/../demos/'.$file;
     }
@@ -38,8 +44,14 @@ class RouterTest extends TestCase
     /**
      * @dataProvider dataProviderTestDemos
      * @runInSeparateProcess
+     *
+     * @param mixed $file
+     * @param mixed $METHOD
+     * @param mixed $URI
+     * @param mixed $status
+     * @param mixed $excepted
      */
-    public function testDemos($file, $METHOD, $URI, $status, $excepted)
+    public function testDemos($file, $METHOD, $URI, $status, $excepted): void
     {
         try {
             ob_start();
@@ -59,7 +71,7 @@ class RouterTest extends TestCase
 
         $this->assertEquals($status, http_response_code());
 
-        if ($excepted !== false) {
+        if (false !== $excepted) {
             $this->assertEquals($excepted, $content);
         }
     }
@@ -107,7 +119,7 @@ class RouterTest extends TestCase
         return $result;
     }
 
-    public function testToArray()
+    public function testToArray(): void
     {
         $route = new RoutedMethod(static::class, 'testToArray');
 
@@ -134,7 +146,7 @@ class RouterTest extends TestCase
         );
     }
 
-    public function testExceptionConfig()
+    public function testExceptionConfig(): void
     {
         $this->expectException(Exception::class);
         include __DIR__.'/../demos/using-config-unit-test-exception.php';
