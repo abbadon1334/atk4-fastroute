@@ -50,6 +50,8 @@ class RouterTest extends TestCase
      * @param mixed $URI
      * @param mixed $status
      * @param mixed $excepted
+     *
+     * @throws Exception
      */
     public function testDemos($file, $METHOD, $URI, $status, $excepted): void
     {
