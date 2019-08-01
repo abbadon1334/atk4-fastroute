@@ -88,7 +88,7 @@ class Router
      */
     public function enableCacheRoutes($cache_path): void
     {
-        $this->use_cache = true;
+        $this->use_cache  = true;
         $this->cache_file = $cache_path;
     }
 
@@ -124,7 +124,7 @@ class Router
 
         $request = $request ?? ServerRequestFactory::fromGlobals();
 
-        $route = $dispatcher->dispatch($request->getMethod(), $request->getUri()->getPath());
+        $route  = $dispatcher->dispatch($request->getMethod(), $request->getUri()->getPath());
         $status = $route[0];
 
         if (Dispatcher::FOUND !== $status) {
@@ -139,7 +139,7 @@ class Router
         http_response_code(200);
 
         /** @var iOnRoute $handler */
-        $handler = $route[1];
+        $handler    = $route[1];
         $parameters = array_values($route[2]);
 
         if ($handler instanceof iBeforeRoutable) {
@@ -200,9 +200,9 @@ class Router
     }
 
     /**
-     * @param ServerRequestInterface $request
-     * @return bool
+     * @param  ServerRequestInterface $request
      * @throws Exception
+     * @return bool
      */
     protected function routeNotFound(ServerRequestInterface $request): bool
     {
@@ -214,10 +214,10 @@ class Router
 
     /**
      * @param ServerRequestInterface $request
-     * @param array $allowed_methods
+     * @param array                  $allowed_methods
      *
-     * @return bool
      * @throws Exception
+     * @return bool
      */
     private function routeMethodNotAllowed(ServerRequestInterface $request, array $allowed_methods = []): bool
     {
@@ -256,7 +256,7 @@ class Router
      *
      * @return iRoute
      */
-    protected function _addRoute(iRoute $route) : iRoute
+    protected function _addRoute(iRoute $route): iRoute
     {
         $this->route_collection[] = $route;
 
@@ -301,7 +301,7 @@ class Router
      * @throws \atk4\core\Exception
      * @throws ReflectionException
      */
-    public function loadRoutes($file, $format_type)
+    public function loadRoutes($file, $format_type): void
     {
         $this->_readConfig([$file], $format_type);
 

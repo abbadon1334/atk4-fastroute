@@ -37,15 +37,15 @@ class Route implements iRoute
     public function __construct(string $route, ?array $methods = null, ?iOnRoute $handler = null)
     {
         $this->methods = $methods ?? [];
-        $this->route = $route;
+        $this->route   = $route;
         $this->handler = $handler;
     }
 
     /**
      * @param array $route
      *
-     * @return iRoute
      * @throws \ReflectionException
+     * @return iRoute
      */
     public static function fromArray(array $route): iRoute
     {
@@ -68,7 +68,7 @@ class Route implements iRoute
     {
         $handler = null;
 
-        $first_element = $handler_array[0];
+        $first_element  = $handler_array[0];
         $second_element = $handler_array[1] ?? null;
 
         switch (true) {
@@ -90,7 +90,7 @@ class Route implements iRoute
                 break;
         }
 
-        if ($handler === null) {
+        if (null === $handler) {
             throw new Exception([
                 'Error Transforming Route to Array',
                 'array' => $handler_array,
@@ -147,7 +147,7 @@ class Route implements iRoute
     /**
      * @param iOnRoute $routeHandler
      */
-    public function setHandler(iOnRoute $routeHandler) : void
+    public function setHandler(iOnRoute $routeHandler): void
     {
         $this->handler = $routeHandler;
     }

@@ -38,7 +38,7 @@ interface iRoute
     /**
      * @param iOnRoute $routeHandler
      */
-    public function setHandler(iOnRoute $routeHandler) : void;
+    public function setHandler(iOnRoute $routeHandler): void;
 
     /**
      * @param array $array
