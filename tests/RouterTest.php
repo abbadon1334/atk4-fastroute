@@ -14,7 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class RouterTest extends TestCase
 {
