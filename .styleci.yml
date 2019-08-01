@@ -2,5 +2,5 @@ preset: recommended
 risky: false
 enabled:
   - align_equals
-disable:
+disabled:
   - unalign_equals
