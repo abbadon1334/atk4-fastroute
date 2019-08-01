@@ -9,6 +9,8 @@ return PhpCsFixer\Config::create()
     ->setRules([
         '@PSR1' => true,
         '@PSR2' => true,
+        '@PhpCsFixer' => true,
+        '@Symfony' => true,
         // Each line of multi-line DocComments must have an asterisk [PSR-5] and must be aligned with the first one.
         'align_multiline_comment' => ['comment_type' => 'phpdocs_like'],
         // PHP arrays should be declared using the configured syntax.
@@ -56,7 +58,7 @@ return PhpCsFixer\Config::create()
         // All items of the given phpdoc tags must be either left-aligned or (by default) aligned vertically.
         'phpdoc_align' => true,
         // PHPDoc annotation descriptions should not be a sentence.
-        'phpdoc_annotation_without_dot' => true,
+        'phpdoc_annotation_without_dot' => false,
         // Docblocks should have the same indentation as the documented subject.
         'phpdoc_indent' => true,
         // Fix PHPDoc inline tags, make `@inheritdoc` always inline.
@@ -96,7 +98,7 @@ return PhpCsFixer\Config::create()
         // Requires PHP >= 7.1.
         'void_return' => true,
         // Write conditions in Yoda style (`true`), non-Yoda style (`false`) or ignore those conditions (`null`) based on configuration.
-        'yoda_style' => true,
+        'yoda_style' => true
     ])
     ->setFinder(PhpCsFixer\Finder::create()
         ->exclude('vendor')

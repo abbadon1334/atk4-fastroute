@@ -71,6 +71,24 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         }
     }
 
+    /**
+     * @param array $array
+     *
+     * @return iOnRoute
+     */
+    public static function fromArray(array $array): iOnRoute
+    {
+        return new static(...$array);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [$this->path, $this->extensions];
+    }
+
     private function getFolderPath(string $path = null)
     {
         return null === $path || '.' === $path
@@ -80,7 +98,7 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
 
     private function isDirAllowed($path): void
     {
-        if ($path !== realpath($path) || ! is_dir($path)) {
+        if ($path !== realpath($path) || !is_dir($path)) {
             throw new StaticFileExtensionNotAllowed([
                 'Requested file folder is not allowed',
                 'path'     => $path,
@@ -93,14 +111,14 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
     {
         $ext = pathinfo($filepath, PATHINFO_EXTENSION);
 
-        if (! $this->isExtensionAllowed($ext)) {
+        if (!$this->isExtensionAllowed($ext)) {
             throw new StaticFileExtensionNotAllowed([
                 'Extension is not allowed',
                 'ext' => $ext,
             ]);
         }
 
-        if (! file_exists($filepath)) {
+        if (!file_exists($filepath)) {
             throw new StaticFileNotExists([
                 'Requested File extension not exists',
             ]);
@@ -126,23 +144,5 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         header('Content-Disposition: inline; filename="'.$filename.'"');
 
         readfile($file_path);
-    }
-
-    /**
-     * @param array $array
-     *
-     * @return iOnRoute
-     */
-    public static function fromArray(array $array): iOnRoute
-    {
-        return new static(...$array);
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        return [$this->path, $this->extensions];
     }
 }

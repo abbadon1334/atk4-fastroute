@@ -101,11 +101,12 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
      *
      * @throws \atk4\core\Exception
      * @throws \atk4\ui\Exception
+     *
      * @internal
      */
     public function OnBeforeRoute(App $app, ...$parameters): void
     {
-        if (! isset($app->html) && null === $this->func_before_route) {
+        if (!isset($app->html) && null === $this->func_before_route) {
             $app->initLayout('Generic');
         }
 

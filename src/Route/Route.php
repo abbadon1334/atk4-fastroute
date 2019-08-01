@@ -45,6 +45,7 @@ class Route implements iRoute
      * @param array $route
      *
      * @throws \ReflectionException
+     *
      * @return iRoute
      */
     public static function fromArray(array $route): iRoute
@@ -54,58 +55,6 @@ class Route implements iRoute
             $route[1],
             self::getHandlerFromArray($route[2], $route[3] ?? null, $route[4] ?? null)
         );
-    }
-
-    /**
-     * @param array         $handler_array
-     * @param callable|null $callbackOnBefore
-     * @param callable|null $callbackOnAfter
-     *
-     * @throws Exception
-     * @return iOnRoute
-     */
-    private static function getHandlerFromArray(array $handler_array, ?callable $callbackOnBefore, ?callable $callbackOnAfter): iOnRoute
-    {
-        $handler = null;
-
-        $first_element  = $handler_array[0];
-        $second_element = $handler_array[1] ?? null;
-
-        switch (true) {
-
-            case is_callable($first_element):
-                $handler = new RoutedCallable($first_element);
-            break;
-
-            case is_string($first_element) && is_string($second_element):
-                $handler = RoutedMethod::fromArray($handler_array);
-                break;
-
-            case is_a($first_element, RoutedServeStatic::class, true):
-                $handler = RoutedServeStatic::fromArray($second_element);
-                break;
-
-            case is_a($first_element, jsExpressionable::class, true):
-                $handler = RoutedUI::fromArray($handler_array);
-                break;
-        }
-
-        if (null === $handler) {
-            throw new Exception([
-                'Error Transforming Route to Array',
-                'array' => $handler_array,
-            ]);
-        }
-
-        if (null !== $callbackOnBefore) {
-            $handler->setBeforeRoute($callbackOnBefore);
-        }
-
-        if (null !== $callbackOnAfter) {
-            $handler->setAfterRoute($callbackOnAfter);
-        }
-
-        return $handler;
     }
 
     /**
@@ -162,5 +111,57 @@ class Route implements iRoute
             $this->getRoute(),
             $this->getHandler() /*->toArray()*/,
         ];
+    }
+
+    /**
+     * @param array         $handler_array
+     * @param callable|null $callbackOnBefore
+     * @param callable|null $callbackOnAfter
+     *
+     * @throws Exception
+     *
+     * @return iOnRoute
+     */
+    private static function getHandlerFromArray(array $handler_array, ?callable $callbackOnBefore, ?callable $callbackOnAfter): iOnRoute
+    {
+        $handler = null;
+
+        $first_element  = $handler_array[0];
+        $second_element = $handler_array[1] ?? null;
+
+        switch (true) {
+            case is_callable($first_element):
+                $handler = new RoutedCallable($first_element);
+            break;
+
+            case is_string($first_element) && is_string($second_element):
+                $handler = RoutedMethod::fromArray($handler_array);
+                break;
+
+            case is_a($first_element, RoutedServeStatic::class, true):
+                $handler = RoutedServeStatic::fromArray($second_element);
+                break;
+
+            case is_a($first_element, jsExpressionable::class, true):
+                $handler = RoutedUI::fromArray($handler_array);
+                break;
+        }
+
+        if (null === $handler) {
+            throw new Exception([
+                'Error Transforming Route to Array',
+                'array' => $handler_array,
+            ]);
+        }
+
+        if (null !== $callbackOnBefore) {
+            $handler->setBeforeRoute($callbackOnBefore);
+        }
+
+        if (null !== $callbackOnAfter) {
+            $handler->setAfterRoute($callbackOnAfter);
+        }
+
+        return $handler;
     }
 }
