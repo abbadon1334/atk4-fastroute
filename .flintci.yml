@@ -2,4 +2,4 @@ services:
   eslint: true
   phpcsfixer:
     version: 1
-    config_path: .php_cs.dist
+    config_path: ./.php_cs.dist
