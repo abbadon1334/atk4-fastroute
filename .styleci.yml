@@ -1,1 +1,6 @@
 preset: recommended
+risky: false
+enabled:
+  - align_equals
+disable:
+  - unalign_equals
