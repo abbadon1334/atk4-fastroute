@@ -11,6 +11,11 @@ return [
         ['StandardClass', 'handleRequest'],
     ],
     [
+        '/',
+        ['GET', 'POST'],
+        ['StandardClass', 'handleRequest'],
+    ],
+    [
         '/testStatic',
         ['GET', 'POST'],
         ['StandardClass', 'staticHandleRequest'],

@@ -14,6 +14,11 @@ $router = new Router(new App(['always_run' => false]));
 $router->enableCacheRoutes(__DIR__.'/routes.cache');
 //$router->setBaseDir('/nemesi/atk4-fastroute/demos');
 $router->addRoute(
+    '/',
+    ['GET', 'POST'],
+    new RoutedMethod(StandardClass::class, 'handleRequest')
+);
+$router->addRoute(
     '/test',
     ['GET', 'POST'],
     new RoutedMethod(StandardClass::class, 'handleRequest')
