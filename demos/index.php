@@ -13,6 +13,11 @@ use atk4\ui\App;
 $router = new Router(new App(['always_run' => false]));
 //$router->setBaseDir('/nemesi/atk4-fastroute/demos');
 $router->addRoute(
+    '/',
+    ['GET', 'POST'],
+    new RoutedMethod(StandardClass::class, 'handleRequest')
+);
+$router->addRoute(
     '/test',
     ['GET', 'POST'],
     new RoutedMethod(StandardClass::class, 'handleRequest')

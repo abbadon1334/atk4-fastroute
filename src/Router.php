@@ -172,8 +172,15 @@ class Router
         $dispatcher = $this->getDispatcher();
 
         $request = $request ?? ServerRequestFactory::fromGlobals();
+        $uri_path = $request->getUri()->getPath();
 
-        $route  = $dispatcher->dispatch($request->getMethod(), $request->getUri()->getPath());
+        // for atk4 / and /index are the same
+        // for fastroute obviously not.
+        if (substr($uri_path, -5) === 'index') {
+            $uri_path = substr($uri_path, 0, -5);
+        }
+
+        $route  = $dispatcher->dispatch($request->getMethod(), $uri_path);
         $status = $route[0];
 
         if (Dispatcher::FOUND !== $status) {

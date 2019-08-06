@@ -70,7 +70,7 @@ class RouterTest extends TestCase
             throw $e;
         }
 
-        $this->assertEquals($status, http_response_code());
+        $this->assertEquals($status, http_response_code(), $URI);
 
         if (false !== $excepted) {
             $this->assertEquals($excepted, $content);
@@ -86,6 +86,8 @@ class RouterTest extends TestCase
         ];
 
         $cases = [
+            ['GET', '/', 200, false],
+            ['GET', '/index', 200, false],
             ['GET', '/callable', 200, false],
             ['GET', '/callable', 200, false],
             ['GET', '/test', 200, false],
