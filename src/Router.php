@@ -171,7 +171,7 @@ class Router
     {
         $dispatcher = $this->getDispatcher();
 
-        $request = $request ?? ServerRequestFactory::fromGlobals();
+        $request  = $request ?? ServerRequestFactory::fromGlobals();
         $uri_path = $request->getUri()->getPath();
 
         // for atk4 / and /index are the same
