@@ -92,8 +92,7 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
             
             $app->add($this->onRouteResult);
 
-            if (method_exists($this->onRouteResult, 'onRoute'))
-            {
+            if (method_exists($this->onRouteResult, 'onRoute')) {
                 $this->onRouteResult->onRoute(...$parameters);
             }
         }
