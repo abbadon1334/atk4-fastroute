@@ -43,6 +43,11 @@ if (!class_exists(ATKView::class)) {
                 return $loader->jsReload();
             });
         }
+
+        public function onRoute(...$parameters)
+        {
+            $this->set('pass_on_route');
+        }
     }
 
     function handleWithFunction(...$parameters)
