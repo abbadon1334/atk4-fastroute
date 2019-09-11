@@ -66,8 +66,9 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
             $this->isFileAllowed($file_path);
 
             $this->serveFile($file_path);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $t) {
             http_response_code(403);
+            echo $t->getMessage();
         }
     }
 
@@ -98,7 +99,10 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
 
     private function isDirAllowed($path): void
     {
-        if ($path !== realpath($path) || !is_dir($path)) {
+        $path  = realpath($path);
+        $vroot = getcwd();
+
+        if (substr(realpath($path), 0, strlen($vroot)) != $vroot || !is_dir($path)) {
             throw new StaticFileExtensionNotAllowed([
                 'Requested file folder is not allowed',
                 'path'     => $path,

@@ -149,6 +149,9 @@ class Router
             'url_building_ext' => '',
         ]);
 
+        $this->app->addMethod('getRouter', function () {
+            return $this;
+        });
         /*
          * Removed
          * Some handler don't need to run the application
