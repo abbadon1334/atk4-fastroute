@@ -149,7 +149,7 @@ class Router
             'url_building_ext' => '',
         ]);
 
-        $this->app->addMethod('getRouter', function() {
+        $this->app->addMethod('getRouter', function () {
             return $this;
         });
         /*
