@@ -19,7 +19,7 @@
         "ralouphie/mimey": "2.1.0"
     },
     "require-dev": {
-        "atk4/ui": "2.0.1",
+        "atk4/ui": "2.0.4",
         "codacy/coverage": "dev-master",
         "friendsofphp/php-cs-fixer": "dev-master@dev",
         "phpmd/phpmd": "2.7.0",
