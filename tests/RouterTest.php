@@ -145,7 +145,8 @@ class RouterTest extends TestCase
 
         $route = RoutedServeStatic::fromArray([static::class, ['test' => 'value']]);
         $this->assertEquals(
-            (new RoutedServeStatic(static::class, ['test' => 'value']))->toArray(), $route->toArray()
+            (new RoutedServeStatic(static::class, ['test' => 'value']))->toArray(),
+            $route->toArray()
         );
     }
 
