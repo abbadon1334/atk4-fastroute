@@ -9,6 +9,13 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 interface iRoute
 {
     /**
+     * @param array $array
+     *
+     * @return iRoute
+     */
+    public static function fromArray(array $array): self;
+
+    /**
      * @return array
      */
     public function toArray(): array;
@@ -39,11 +46,4 @@ interface iRoute
      * @param iOnRoute $routeHandler
      */
     public function setHandler(iOnRoute $routeHandler): void;
-
-    /**
-     * @param array $array
-     *
-     * @return iRoute
-     */
-    public static function fromArray(array $array): self;
 }

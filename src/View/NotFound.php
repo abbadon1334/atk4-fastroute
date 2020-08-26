@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Abbadon1334\ATKFastRoute\View;
 
 use atk4\ui\Exception;
+use atk4\ui\Header;
+use atk4\ui\View;
 
 class NotFound extends AbstractView
 {
@@ -15,8 +17,8 @@ class NotFound extends AbstractView
     {
         parent::init();
 
-        $this->add('Header')->set('REQUESTED ROUTE NOT FOUND');
-        $this->add('View')->set('METHOD : '.$this->request->getMethod());
-        $this->add('View')->set('REQUEST : '.$this->request->getUri());
+        Header::addTo($this)->set('REQUESTED ROUTE NOT FOUND');
+        View::addTo($this)->set('METHOD : '.$this->request->getMethod());
+        View::addTo($this)->set('REQUEST : '.$this->request->getUri());
     }
 }

@@ -15,6 +15,7 @@ use Abbadon1334\ATKFastRoute\View\NotFound;
 use atk4\core\ConfigTrait;
 use atk4\ui\App;
 use atk4\ui\Exception;
+use atk4\ui\Layout\Generic;
 use Closure;
 use function FastRoute\cachedDispatcher;
 use FastRoute\Dispatcher;
@@ -83,6 +84,27 @@ class Router
         $this->setUpApp();
     }
 
+    protected function setUpApp(): void
+    {
+        // prepare ui\App for pretty urls
+        $this->app->setDefaults([
+            //'always_run' => false, cannot be changed after _construct
+            'url_building_ext' => '',
+        ]);
+
+        $this->app->addMethod('getRouter', function () {
+            return $this;
+        });
+        /*
+         * Removed
+         * Some handler don't need to run the application
+         * moved to router run
+         * $this->app->addHook('beforeRender', function (): void {
+         * $this->handleRouteRequest();
+         * });
+         */
+    }
+
     /**
      * @param $cache_path
      */
@@ -115,6 +137,28 @@ class Router
     }
 
     /**
+     * @param $routePattern
+     *
+     * @return string
+     */
+    protected function buildPattern($routePattern)
+    {
+        return $this->base_dir.trim($routePattern, '/');
+    }
+
+    /**
+     * @param iRoute $route
+     *
+     * @return iRoute
+     */
+    protected function _addRoute(iRoute $route): iRoute
+    {
+        $this->route_collection[] = $route;
+
+        return $route;
+    }
+
+    /**
      * @param ServerRequestInterface|null $request
      *
      * @throws Exception
@@ -128,38 +172,6 @@ class Router
         }
 
         $this->handleRouteRequest($request);
-    }
-
-    /**
-     * @param $file
-     * @param $format_type
-     *
-     * @throws \atk4\core\Exception
-     */
-    public function loadRoutes($file, $format_type): void
-    {
-        $this->_readConfig([$file], $format_type);
-    }
-
-    protected function setUpApp(): void
-    {
-        // prepare ui\App for pretty urls
-        $this->app->setDefaults([
-            //'always_run' => false, cannot be changed after _construct
-            'url_building_ext' => '',
-        ]);
-
-        $this->app->addMethod('getRouter', function () {
-            return $this;
-        });
-        /*
-         * Removed
-         * Some handler don't need to run the application
-         * moved to router run
-         * $this->app->addHook('beforeRender', function (): void {
-         * $this->handleRouteRequest();
-         * });
-         */
     }
 
     /**
@@ -248,7 +260,7 @@ class Router
     protected function onRouteFail(ServerRequestInterface $request, $status, array $allowed_methods = []): bool
     {
         if (!isset($this->app->html)) {
-            $this->app->initLayout('Generic');
+            $this->app->initLayout([Generic::class]);
         }
 
         if (Dispatcher::METHOD_NOT_ALLOWED === $status) {
@@ -256,53 +268,6 @@ class Router
         }
 
         return $this->routeNotFound($request);
-    }
-
-    /**
-     * @param ServerRequestInterface $request
-     *
-     * @throws Exception
-     *
-     * @return bool
-     */
-    protected function routeNotFound(ServerRequestInterface $request): bool
-    {
-        http_response_code(404);
-        $this->app->add(new $this->_default_not_found($request));
-
-        return false;
-    }
-
-    /**
-     * @param iRoute $route
-     *
-     * @return iRoute
-     */
-    protected function _addRoute(iRoute $route): iRoute
-    {
-        $this->route_collection[] = $route;
-
-        return $route;
-    }
-
-    /**
-     * @param $routePattern
-     *
-     * @return string
-     */
-    protected function buildPattern($routePattern)
-    {
-        return $this->base_dir.trim($routePattern, '/');
-    }
-
-    /**
-     * @param RouteCollector $routeCollector
-     */
-    protected function routeCollect(RouteCollector $routeCollector): void
-    {
-        foreach ($this->route_collection as $route) {
-            $routeCollector->addRoute(...$route->toArray());
-        }
     }
 
     /**
@@ -321,5 +286,41 @@ class Router
         ]));
 
         return false;
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @throws Exception
+     *
+     * @return bool
+     */
+    protected function routeNotFound(ServerRequestInterface $request): bool
+    {
+        http_response_code(404);
+        $this->app->add(new $this->_default_not_found($request));
+
+        return false;
+    }
+
+    /**
+     * @param $file
+     * @param $format_type
+     *
+     * @throws \atk4\core\Exception
+     */
+    public function loadRoutes($file, $format_type): void
+    {
+        $this->_readConfig([$file], $format_type);
+    }
+
+    /**
+     * @param RouteCollector $routeCollector
+     */
+    protected function routeCollect(RouteCollector $routeCollector): void
+    {
+        foreach ($this->route_collection as $route) {
+            $routeCollector->addRoute(...$route->toArray());
+        }
     }
 }

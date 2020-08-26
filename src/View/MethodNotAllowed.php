@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Abbadon1334\ATKFastRoute\View;
 
 use atk4\ui\Exception;
+use atk4\ui\Header;
+use atk4\ui\View;
 
 class MethodNotAllowed extends AbstractView
 {
@@ -20,10 +22,9 @@ class MethodNotAllowed extends AbstractView
     {
         parent::init();
 
-        $this->add('Header')->set('Method not Allowed');
-        $this->add('View')->set('METHOD : '.$this->request->getMethod());
-        $this->add('View')->set('REQUEST : '.$this->request->getUri());
-
-        $this->add('View')->set('ALLOWED METHDOS :'.implode(', ', $this->_allowed_methods));
+        Header::addTo($this)->set('Method not Allowed');
+        View::addTo($this)->set('METHOD : '.$this->request->getMethod());
+        View::addTo($this)->set('REQUEST : '.$this->request->getUri());
+        View::addTo($this)->set('ALLOWED METHDOS :'.implode(', ', $this->_allowed_methods));
     }
 }
