@@ -17,13 +17,13 @@ use atk4\ui\App;
 use atk4\ui\Exception;
 use atk4\ui\Layout\Generic;
 use Closure;
+use function FastRoute\cachedDispatcher;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
+use function FastRoute\simpleDispatcher;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionException;
 use Zend\Diactoros\ServerRequestFactory;
-use function FastRoute\cachedDispatcher;
-use function FastRoute\simpleDispatcher;
 
 class Router
 {
@@ -110,7 +110,7 @@ class Router
      */
     public function enableCacheRoutes($cache_path): void
     {
-        $this->use_cache = true;
+        $this->use_cache  = true;
         $this->cache_file = $cache_path;
     }
 
@@ -119,7 +119,7 @@ class Router
      */
     public function setBaseDir(string $base_dir): void
     {
-        $this->base_dir = '/' . trim($base_dir, '/') . '/';
+        $this->base_dir = '/'.trim($base_dir, '/').'/';
     }
 
     /**
@@ -143,7 +143,7 @@ class Router
      */
     protected function buildPattern($routePattern)
     {
-        return $this->base_dir . trim($routePattern, '/');
+        return $this->base_dir.trim($routePattern, '/');
     }
 
     /**
@@ -186,7 +186,7 @@ class Router
     {
         $dispatcher = $this->getDispatcher();
 
-        $request = $request ?? ServerRequestFactory::fromGlobals();
+        $request  = $request ?? ServerRequestFactory::fromGlobals();
         $uri_path = $request->getUri()->getPath();
 
         // for atk4 / and /index are the same
@@ -195,7 +195,7 @@ class Router
             $uri_path = substr($uri_path, 0, -5);
         }
 
-        $route = $dispatcher->dispatch($request->getMethod(), $uri_path);
+        $route  = $dispatcher->dispatch($request->getMethod(), $uri_path);
         $status = $route[0];
 
         if (Dispatcher::FOUND !== $status) {
@@ -210,7 +210,7 @@ class Router
         http_response_code(200);
 
         /** @var iOnRoute $handler */
-        $handler = $route[1];
+        $handler    = $route[1];
         $parameters = array_values($route[2]);
 
         if ($handler instanceof iBeforeRoutable) {

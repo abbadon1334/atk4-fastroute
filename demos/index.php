@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-include __DIR__ . '/bootstrap.php';
+include __DIR__.'/bootstrap.php';
 
 use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
 use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;

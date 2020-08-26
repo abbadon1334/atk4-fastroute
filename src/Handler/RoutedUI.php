@@ -49,7 +49,7 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
     public function __construct(string $ClassName, array $default = [])
     {
         $this->ClassName = $ClassName;
-        $this->default = $default;
+        $this->default   = $default;
     }
 
     /**
@@ -85,8 +85,8 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
      * @param mixed ...$parameters
      *
      * @throws Exception
-     * @internal
      *
+     * @internal
      */
     public function OnAfterRoute(App $app, ...$parameters): void
     {

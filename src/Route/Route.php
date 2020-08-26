@@ -38,7 +38,7 @@ class Route implements iRoute
     public function __construct(string $route, ?array $methods = null, ?iOnRoute $handler = null)
     {
         $this->methods = $methods ?? [];
-        $this->route = $route;
+        $this->route   = $route;
         $this->handler = $handler;
     }
 
@@ -71,7 +71,7 @@ class Route implements iRoute
     {
         $handler = null;
 
-        $first_element = $handler_array[0];
+        $first_element  = $handler_array[0];
         $second_element = $handler_array[1] ?? null;
 
         switch (true) {
@@ -106,7 +106,9 @@ class Route implements iRoute
         }
 
         return $handler;
-    }    /**
+    }
+
+    /**
      * @return array
      */
     public function getMethods(): array
@@ -161,6 +163,4 @@ class Route implements iRoute
             $this->getHandler() /*->toArray()*/,
         ];
     }
-
-
 }

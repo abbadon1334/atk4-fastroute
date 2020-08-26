@@ -34,12 +34,12 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
     /**
      * RoutedCallable constructor.
      *
-     * @param string $path Base path for serving static files
+     * @param string $path       Base path for serving static files
      * @param array  $extensions
      */
     public function __construct(string $path, array $extensions)
     {
-        $this->path = $path;
+        $this->path       = $path;
         $this->extensions = $extensions;
     }
 
@@ -82,7 +82,7 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         try {
             $this->isDirAllowed($folder_path);
 
-            $file_path = $folder_path . DIRECTORY_SEPARATOR . $file;
+            $file_path = $folder_path.DIRECTORY_SEPARATOR.$file;
             $this->isFileAllowed($file_path);
 
             $this->serveFile($file_path);
@@ -101,7 +101,7 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
 
     private function isDirAllowed($path): void
     {
-        $path = realpath($path);
+        $path  = realpath($path);
         $vroot = getcwd();
 
         if (substr(realpath($path), 0, strlen($vroot)) != $vroot || !is_dir($path)) {
@@ -135,15 +135,15 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         http_response_code(200);
 
         $filename = pathinfo($file_path, PATHINFO_BASENAME);
-        $ext = pathinfo($file_path, PATHINFO_EXTENSION);
+        $ext      = pathinfo($file_path, PATHINFO_EXTENSION);
 
         $mimeType = (new MimeTypes())->getMimeType($ext);
 
         header('Cache-Control: max-age=86400');
-        header('X-Sendfile: ' . $file_path);
+        header('X-Sendfile: '.$file_path);
         //header("Content-Type: application/octet-stream");
-        header('Content-Type: ' . $mimeType . '');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Type: '.$mimeType.'');
+        header('Content-Disposition: attachment; filename="'.$filename.'"');
 
         readfile($file_path);
     }
