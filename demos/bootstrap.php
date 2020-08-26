@@ -32,7 +32,7 @@ if (!class_exists(ATKView::class)) {
 
             /** @var Loader $loader */
             $loader = $this->app->add('Loader');
-            $loader->set(function ($l) use ($loader): void {
+            $loader->set(function ($l): void {
                 $number = rand(1, 100);
                 $l->add(['Text', 'random :'.$number]);
             });
