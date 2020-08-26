@@ -12,6 +12,8 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iNeedAppRun;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use atk4\ui\App;
+use atk4\ui\Exception;
+use atk4\ui\Layout\Generic;
 
 class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBeforeRoutable
 {
@@ -47,7 +49,7 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
     public function __construct(string $ClassName, array $default = [])
     {
         $this->ClassName = $ClassName;
-        $this->default   = $default;
+        $this->default = $default;
     }
 
     /**
@@ -79,12 +81,12 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
     }
 
     /**
-     * @internal
-     *
      * @param App   $app
      * @param mixed ...$parameters
      *
-     * @throws \atk4\ui\Exception
+     * @throws Exception
+     * @internal
+     *
      */
     public function OnAfterRoute(App $app, ...$parameters): void
     {
@@ -104,14 +106,14 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
      * @param mixed ...$parameters
      *
      * @throws \atk4\core\Exception
-     * @throws \atk4\ui\Exception
+     * @throws Exception
      *
      * @internal
      */
     public function OnBeforeRoute(App $app, ...$parameters): void
     {
         if (!isset($app->html) && null === $this->func_before_route) {
-            $app->initLayout('Generic');
+            $app->initLayout([Generic::class]);
         }
 
         $this->_OnBeforeRoute($app, ...$parameters);

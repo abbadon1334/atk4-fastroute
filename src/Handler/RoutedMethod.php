@@ -10,6 +10,8 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iArrayable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
+use ReflectionException;
+use ReflectionMethod;
 
 class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable
 {
@@ -20,6 +22,7 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
     use BeforeRoutableTrait {
         OnBeforeRoute as _OnBeforeRoute;
     }
+
     /**
      * Class Name to be called.
      *
@@ -49,30 +52,8 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
      */
     public function __construct(string $ClassName, string $ClassMethod)
     {
-        $this->ClassName   = $ClassName;
+        $this->ClassName = $ClassName;
         $this->ClassMethod = $ClassMethod;
-    }
-
-    /**
-     * @param mixed ...$parameters
-     *
-     * @throws \ReflectionException
-     */
-    public function onRoute(...$parameters): void
-    {
-        $class  = $this->ClassName;
-        $method = $this->ClassMethod;
-
-        $MethodChecker = new \ReflectionMethod($class, $method);
-
-        if ($MethodChecker->isStatic()) {
-            $this->onRouteResult = $class::{$method}(...$parameters);
-
-            return;
-        }
-
-        $class               = new $class();
-        $this->onRouteResult = $class->{$method}(...$parameters);
     }
 
     /**
@@ -91,5 +72,27 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
     public function toArray(): array
     {
         return [$this->ClassName, $this->ClassMethod];
+    }
+
+    /**
+     * @param mixed ...$parameters
+     *
+     * @throws ReflectionException
+     */
+    public function onRoute(...$parameters): void
+    {
+        $class = $this->ClassName;
+        $method = $this->ClassMethod;
+
+        $MethodChecker = new ReflectionMethod($class, $method);
+
+        if ($MethodChecker->isStatic()) {
+            $this->onRouteResult = $class::{$method}(...$parameters);
+
+            return;
+        }
+
+        $class = new $class();
+        $this->onRouteResult = $class->{$method}(...$parameters);
     }
 }

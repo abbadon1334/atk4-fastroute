@@ -13,6 +13,7 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iArrayable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Mimey\MimeTypes;
+use Throwable;
 
 class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable
 {
@@ -23,6 +24,7 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
     use BeforeRoutableTrait {
         OnBeforeRoute as _OnBeforeRoute;
     }
+
     /** @var string */
     protected $path;
 
@@ -32,13 +34,31 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
     /**
      * RoutedCallable constructor.
      *
-     * @param string $path       Base path for serving static files
+     * @param string $path Base path for serving static files
      * @param array  $extensions
      */
     public function __construct(string $path, array $extensions)
     {
-        $this->path       = $path;
+        $this->path = $path;
         $this->extensions = $extensions;
+    }
+
+    /**
+     * @param array $array
+     *
+     * @return iOnRoute
+     */
+    public static function fromArray(array $array): iOnRoute
+    {
+        return new static(...$array);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [$this->path, $this->extensions];
     }
 
     /**
@@ -62,52 +82,32 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         try {
             $this->isDirAllowed($folder_path);
 
-            $file_path = $folder_path.DIRECTORY_SEPARATOR.$file;
+            $file_path = $folder_path . DIRECTORY_SEPARATOR . $file;
             $this->isFileAllowed($file_path);
 
             $this->serveFile($file_path);
-        } catch (\Throwable $t) {
+        } catch (Throwable $t) {
             http_response_code(403);
             echo $t->getMessage();
         }
     }
 
-    /**
-     * @param array $array
-     *
-     * @return iOnRoute
-     */
-    public static function fromArray(array $array): iOnRoute
-    {
-        return new static(...$array);
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        return [$this->path, $this->extensions];
-    }
-
     private function getFolderPath(string $path = null)
     {
         return null === $path || '.' === $path
-               ? $this->path
-               : implode(DIRECTORY_SEPARATOR, [$this->path, $path]);
+            ? $this->path
+            : implode(DIRECTORY_SEPARATOR, [$this->path, $path]);
     }
 
     private function isDirAllowed($path): void
     {
-        $path  = realpath($path);
+        $path = realpath($path);
         $vroot = getcwd();
 
         if (substr(realpath($path), 0, strlen($vroot)) != $vroot || !is_dir($path)) {
-            throw new StaticFileExtensionNotAllowed([
-                'Requested file folder is not allowed',
-                'path'     => $path,
-                'fullpath' => realpath($path),
-            ]);
+            throw (new StaticFileExtensionNotAllowed('Requested file folder is not allowed'))
+                ->addMoreInfo('path', $path)
+                ->addMoreInfo('fullpath', realpath($path));
         }
     }
 
@@ -116,16 +116,12 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         $ext = pathinfo($filepath, PATHINFO_EXTENSION);
 
         if (!$this->isExtensionAllowed($ext)) {
-            throw new StaticFileExtensionNotAllowed([
-                'Extension is not allowed',
-                'ext' => $ext,
-            ]);
+            throw (new StaticFileExtensionNotAllowed('Extension is not allowed'))
+                ->addMoreInfo('ext', $ext);
         }
 
         if (!file_exists($filepath)) {
-            throw new StaticFileNotExists([
-                'Requested File extension not exists',
-            ]);
+            throw new StaticFileNotExists('Requested File extension not exists');
         }
     }
 
@@ -139,15 +135,15 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         http_response_code(200);
 
         $filename = pathinfo($file_path, PATHINFO_BASENAME);
-        $ext      = pathinfo($file_path, PATHINFO_EXTENSION);
+        $ext = pathinfo($file_path, PATHINFO_EXTENSION);
 
         $mimeType = (new MimeTypes())->getMimeType($ext);
 
         header('Cache-Control: max-age=86400');
-        header('X-Sendfile: '.$file_path);
+        header('X-Sendfile: ' . $file_path);
         //header("Content-Type: application/octet-stream");
-        header('Content-Type: '.$mimeType.'');
-        header('Content-Disposition: attachment; filename="'.$filename.'"');
+        header('Content-Type: ' . $mimeType . '');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
 
         readfile($file_path);
     }

@@ -52,7 +52,7 @@ return [
         [
             RoutedServeStatic::class,
             [
-                getcwd().'/demo/static_assets',
+                getcwd() . '/demo/static_assets',
                 [
                     'css',
                     'js',
@@ -63,9 +63,11 @@ return [
     [
         '/test_before_after',
         ['GET'],
-        [function (): void {
-            echo 'content';
-        }],
+        [
+            function (): void {
+                echo 'content';
+            },
+        ],
         function ($app, ...$parameters): void {
             echo 'BEFORE';
         },
