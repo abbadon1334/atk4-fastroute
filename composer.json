@@ -19,7 +19,7 @@
     "zendframework/zend-diactoros": "2.2.1"
   },
   "require-dev": {
-    "atk4/ui": "2.2.0",
+    "atk4/ui": "2.3.5",
     "codacy/coverage": "dev-master",
     "friendsofphp/php-cs-fixer": "dev-master@dev",
     "phpmd/phpmd": "2.8.2",
