@@ -11,7 +11,6 @@ use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use atk4\core\Exception;
 use atk4\ui\jsExpressionable;
-use ReflectionException;
 
 class Route implements iRoute
 {
@@ -32,6 +31,7 @@ class Route implements iRoute
      * @param array $route
      *
      * @throws Exception
+     *
      * @return iRoute
      */
     public static function fromArray(array $route): iRoute
