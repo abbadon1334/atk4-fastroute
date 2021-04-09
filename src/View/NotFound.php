@@ -13,12 +13,12 @@ class NotFound extends AbstractView
     /**
      * @throws Exception
      */
-    public function init(): void
+    protected function init(): void
     {
         parent::init();
 
         Header::addTo($this)->set('REQUESTED ROUTE NOT FOUND');
-        View::addTo($this)->set('METHOD : ' . $this->request->getMethod());
-        View::addTo($this)->set('REQUEST : ' . $this->request->getUri());
+        View::addTo($this)->set('METHOD : '.$this->request->getMethod());
+        View::addTo($this)->set('REQUEST : '.$this->request->getUri());
     }
 }

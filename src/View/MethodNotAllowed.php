@@ -18,13 +18,13 @@ class MethodNotAllowed extends AbstractView
     /**
      * @throws Exception
      */
-    public function init(): void
+    protected function init(): void
     {
         parent::init();
 
         Header::addTo($this)->set('Method not Allowed');
-        View::addTo($this)->set('METHOD : ' . $this->request->getMethod());
-        View::addTo($this)->set('REQUEST : ' . $this->request->getUri());
-        View::addTo($this)->set('ALLOWED METHDOS :' . implode(', ', $this->_allowed_methods));
+        View::addTo($this)->set('METHOD : '.$this->request->getMethod());
+        View::addTo($this)->set('REQUEST : '.$this->request->getUri());
+        View::addTo($this)->set('ALLOWED METHDOS :'.implode(', ', $this->_allowed_methods));
     }
 }

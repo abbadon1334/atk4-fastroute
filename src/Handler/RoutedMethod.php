@@ -46,29 +46,18 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
 
     /**
      * RoutedMethod constructor.
-     *
-     * @param string $ClassName
-     * @param string $ClassMethod
      */
     public function __construct(string $ClassName, string $ClassMethod)
     {
-        $this->ClassName = $ClassName;
+        $this->ClassName   = $ClassName;
         $this->ClassMethod = $ClassMethod;
     }
 
-    /**
-     * @param array $array
-     *
-     * @return iOnRoute
-     */
     public static function fromArray(array $array): iOnRoute
     {
         return new static(...$array);
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         return [$this->ClassName, $this->ClassMethod];
@@ -81,7 +70,7 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
      */
     public function onRoute(...$parameters): void
     {
-        $class = $this->ClassName;
+        $class  = $this->ClassName;
         $method = $this->ClassMethod;
 
         $MethodChecker = new ReflectionMethod($class, $method);
@@ -92,7 +81,7 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
             return;
         }
 
-        $class = new $class();
+        $class               = new $class();
         $this->onRouteResult = $class->{$method}(...$parameters);
     }
 }

@@ -15,38 +15,23 @@ use ReflectionException;
 
 class Route implements iRoute
 {
-    /**
-     * @var array|null
-     */
-    protected $methods;
-    /**
-     * @var string
-     */
-    protected $route;
-    /**
-     * @var iOnRoute|null
-     */
-    protected $handler;
+    protected array $methods;
 
-    /**
-     * Route constructor.
-     *
-     * @param string        $route
-     * @param array|null    $methods
-     * @param iOnRoute|null $handler
-     */
+    protected string $route;
+
+    protected ?iOnRoute $handler;
+
     public function __construct(string $route, ?array $methods = null, ?iOnRoute $handler = null)
     {
         $this->methods = $methods ?? [];
-        $this->route = $route;
+        $this->route   = $route;
         $this->handler = $handler;
     }
 
     /**
      * @param array $route
      *
-     * @throws ReflectionException
-     *
+     * @throws Exception
      * @return iRoute
      */
     public static function fromArray(array $route): iRoute
@@ -58,20 +43,50 @@ class Route implements iRoute
         );
     }
 
+    public function getMethods(): array
+    {
+        return $this->methods;
+    }
+
+    public function getRoute(): string
+    {
+        return $this->route;
+    }
+
+    public function getHandler(): iOnRoute
+    {
+        return $this->handler;
+    }
+
+    public function addMethod(string ...$method): iRoute
+    {
+        $this->methods = is_array($method) ? $method : [$method];
+
+        return $this;
+    }
+
+    public function setHandler(iOnRoute $routeHandler): void
+    {
+        $this->handler = $routeHandler;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            $this->getMethods(),
+            $this->getRoute(),
+            $this->getHandler() /*->toArray()*/,
+        ];
+    }
+
     /**
-     * @param array         $handler_array
-     * @param callable|null $callbackOnBefore
-     * @param callable|null $callbackOnAfter
-     *
      * @throws Exception
-     *
-     * @return iOnRoute
      */
     private static function getHandlerFromArray(array $handler_array, ?callable $callbackOnBefore, ?callable $callbackOnAfter): iOnRoute
     {
         $handler = null;
 
-        $first_element = $handler_array[0];
+        $first_element  = $handler_array[0];
         $second_element = $handler_array[1] ?? null;
 
         switch (true) {
@@ -93,8 +108,7 @@ class Route implements iRoute
         }
 
         if (null === $handler) {
-            throw (new Exception('Error Transforming Route to Array'))
-                ->addMoreInfo('array', $handler_array);
+            throw (new Exception('Error Transforming Route to Array'))->addMoreInfo('array', $handler_array);
         }
 
         if (null !== $callbackOnBefore) {
@@ -106,61 +120,5 @@ class Route implements iRoute
         }
 
         return $handler;
-    }    /**
-     * @return array
-     */
-    public function getMethods(): array
-    {
-        return $this->methods;
     }
-
-    /**
-     * @return string
-     */
-    public function getRoute(): string
-    {
-        return $this->route;
-    }
-
-    /**
-     * @return iOnRoute
-     */
-    public function getHandler(): iOnRoute
-    {
-        return $this->handler;
-    }
-
-    /**
-     * @param string $method
-     *
-     * @return iRoute
-     */
-    public function addMethod(string $method): iRoute
-    {
-        $this->methods[] = $method;
-
-        return $this;
-    }
-
-    /**
-     * @param iOnRoute $routeHandler
-     */
-    public function setHandler(iOnRoute $routeHandler): void
-    {
-        $this->handler = $routeHandler;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        return [
-            $this->getMethods(),
-            $this->getRoute(),
-            $this->getHandler() /*->toArray()*/,
-        ];
-    }
-
-
 }

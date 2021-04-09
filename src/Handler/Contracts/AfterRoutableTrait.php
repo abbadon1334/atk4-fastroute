@@ -11,16 +11,12 @@ trait AfterRoutableTrait
     /** @var callable Store the OnAfter function if defined manually */
     protected $func_after_route;
 
-    /**
-     * @param callable $callable
-     */
     public function setAfterRoute(callable $callable): void
     {
         $this->func_after_route = $callable;
     }
 
     /**
-     * @param App   $app
      * @param mixed ...$parameters
      *
      * @internal

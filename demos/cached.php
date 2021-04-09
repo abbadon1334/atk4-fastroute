@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-include __DIR__ . '/bootstrap.php';
+include __DIR__.'/bootstrap.php';
 
 use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
 use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
@@ -11,7 +11,7 @@ use Abbadon1334\ATKFastRoute\Router;
 use atk4\ui\App;
 
 $router = new Router(new App(['always_run' => false]));
-$router->enableCacheRoutes(__DIR__ . '/routes.cache');
+$router->enableCacheRoutes(__DIR__.'/routes.cache');
 //$router->setBaseDir('/nemesi/atk4-fastroute/demos');
 $router->addRoute(
     '/',

@@ -9,14 +9,11 @@ use atk4\ui\App;
 interface iAfterRoutable
 {
     /**
-     * @param callable $callable
-     *
      * @return mixed
      */
     public function setAfterRoute(callable $callable);
 
     /**
-     * @param App   $app
      * @param mixed ...$parameters
      *
      * @return mixed

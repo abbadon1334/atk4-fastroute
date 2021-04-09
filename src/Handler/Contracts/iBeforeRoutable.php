@@ -9,14 +9,11 @@ use atk4\ui\App;
 interface iBeforeRoutable
 {
     /**
-     * @param callable $callable
-     *
      * @return mixed
      */
     public function setBeforeRoute(callable $callable);
 
     /**
-     * @param App   $app
      * @param mixed ...$parameters
      *
      * @return mixed

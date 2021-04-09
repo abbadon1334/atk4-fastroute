@@ -1,26 +1,28 @@
-<phpunit bootstrap="vendor/autoload.php" stderr="true" colors="true">
-    <php>
-        <var name="DB_DSN" value="sqlite::memory:" />
-        <var name="DB_USER" value="travis" />
-        <var name="DB_PASSWD" value="" />
-        <var name="DB_DBNAME" value="dsql_test" />
-    </php>
-    <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-            <exclude>
-                <directory suffix=".php">./demos</directory>
-                <directory suffix=".php">./tests</directory>
-                <directory suffix=".php">./vendor</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-    <testsuites>
-        <testsuite name="Atk4 FastRoute">
-            <directory>./tests</directory>
-        </testsuite>
-    </testsuites>
-    <logging>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-    </logging>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="vendor/autoload.php" stderr="true" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage includeUncoveredFiles="true" processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">./demos</directory>
+      <directory suffix=".php">./tests</directory>
+      <directory suffix=".php">./vendor</directory>
+    </exclude>
+    <report>
+      <clover outputFile="build/logs/clover.xml"/>
+    </report>
+  </coverage>
+  <php>
+    <var name="DB_DSN" value="sqlite::memory:"/>
+    <var name="DB_USER" value="travis"/>
+    <var name="DB_PASSWD" value=""/>
+    <var name="DB_DBNAME" value="dsql_test"/>
+  </php>
+  <testsuites>
+    <testsuite name="Atk4 FastRoute">
+      <directory>./tests</directory>
+    </testsuite>
+  </testsuites>
+  <logging/>
 </phpunit>

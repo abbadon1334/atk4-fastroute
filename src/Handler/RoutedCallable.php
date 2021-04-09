@@ -29,12 +29,11 @@ class RoutedCallable implements iOnRoute, iAfterRoutable, iBeforeRoutable
     /**
      * RoutedCallable constructor.
      *
-     * @param callable $func
-     * @param mixed    ...$extra_arguments
+     * @param mixed ...$extra_arguments
      */
     public function __construct(callable $func, ...$extra_arguments)
     {
-        $this->func = $func;
+        $this->func            = $func;
         $this->extra_arguments = $extra_arguments;
     }
 

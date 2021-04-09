@@ -111,7 +111,9 @@ class RouterTest extends TestCase
         $result[] = ['using-config.php', 'GET', '/test_before_after', 200, 'BEFOREcontentAFTER'];
 
         /** Static file serve TESTS */
-        $css_content = '.test_style { display:none; }';
+        $css_content = '.test_style {
+    display: none;
+}';
 
         $result[] = ['static.php', 'GET', '/assets/test.css', 200, $css_content];
         $result[] = ['static.php', 'GET', '/assets/test.css?test=get_var', 200, $css_content]; // test correct parsing
