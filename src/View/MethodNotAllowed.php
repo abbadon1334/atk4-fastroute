@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\View;
 
-use atk4\ui\Exception;
-use atk4\ui\Header;
-use atk4\ui\View;
+use Atk4\Ui\Exception;
+use Atk4\Ui\Header;
+use Atk4\Ui\View;
 
 class MethodNotAllowed extends AbstractView
 {
-    /**
-     * @var array
-     */
-    protected $_allowed_methods = [];
+    protected array $_allowed_methods = [];
 
     /**
      * @throws Exception

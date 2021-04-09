@@ -6,7 +6,7 @@ include __DIR__.'/bootstrap.php';
 
 use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 use Abbadon1334\ATKFastRoute\Router;
-use atk4\ui\App;
+use Atk4\Ui\App;
 
 $router = new Router(new App(['always_run' => false]));
 //$router->setBaseDir('/'); // added only for coverage in unit test

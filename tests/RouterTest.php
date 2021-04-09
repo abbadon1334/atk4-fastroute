@@ -9,7 +9,7 @@ use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use Abbadon1334\ATKFastRoute\Router;
 use atk4\core\Exception;
-use atk4\ui\App;
+use Atk4\Ui\App;
 use PHPUnit\Framework\TestCase;
 
 /**

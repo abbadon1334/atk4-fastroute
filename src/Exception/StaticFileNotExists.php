@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\Exception;
 
-use atk4\core\Exception;
+use Atk4\Core\Exception;
 
 class StaticFileNotExists extends Exception
 {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\View;
 
-use atk4\ui\Exception;
-use atk4\ui\Header;
-use atk4\ui\View;
+use Atk4\Ui\Exception;
+use Atk4\Ui\Header;
+use Atk4\Ui\View;
 
 class NotFound extends AbstractView
 {

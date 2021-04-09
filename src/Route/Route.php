@@ -9,8 +9,8 @@ use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
 use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
 use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
-use atk4\core\Exception;
-use atk4\ui\jsExpressionable;
+use Atk4\Core\Exception;
+use Atk4\Ui\jsExpressionable;
 use ReflectionException;
 
 class Route implements iRoute
@@ -137,9 +137,9 @@ class Route implements iRoute
      *
      * @return iRoute
      */
-    public function addMethod(string $method): iRoute
+    public function addMethod(string ...$method): iRoute
     {
-        $this->methods[] = $method;
+        $this->methods = $method;
 
         return $this;
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Abbadon1334\ATKFastRoute\View;
 
-use atk4\ui\View;
+use Atk4\Ui\View;
 use Psr\Http\Message\ServerRequestInterface;
 
 abstract class AbstractView extends View

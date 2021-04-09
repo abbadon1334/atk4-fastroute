@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 include __DIR__.'/../vendor/autoload.php';
 
-use atk4\ui\Button;
-use atk4\ui\Loader;
-use atk4\ui\View;
+use Atk4\Ui\Button;
+use Atk4\Ui\Loader;
+use Atk4\Ui\View;
 
 if (!class_exists(ATKView::class)) {
     class StandardClass

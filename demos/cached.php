@@ -8,7 +8,7 @@ use Abbadon1334\ATKFastRoute\Handler\RoutedCallable;
 use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use Abbadon1334\ATKFastRoute\Router;
-use atk4\ui\App;
+use Atk4\Ui\App;
 
 $router = new Router(new App(['always_run' => false]));
 $router->enableCacheRoutes(__DIR__.'/routes.cache');

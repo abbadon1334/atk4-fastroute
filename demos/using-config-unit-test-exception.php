@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Abbadon1334\ATKFastRoute\Router;
-use atk4\ui\App;
+use Atk4\Ui\App;
 
 include __DIR__.'/bootstrap.php';
 
