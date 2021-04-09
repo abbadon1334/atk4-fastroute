@@ -34,7 +34,8 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
     /**
      * RoutedCallable constructor.
      *
-     * @param string $path Base path for serving static files
+     * @param string $path       Base path for serving static files
+     * @param array  $extensions
      */
     public function __construct(string $path, array $extensions)
     {
