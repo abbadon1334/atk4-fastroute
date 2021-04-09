@@ -34,7 +34,8 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
     /**
      * RoutedCallable constructor.
      *
-     * @param string $path Base path for serving static files
+     * @param string $path       Base path for serving static files
+     * @param array  $extensions
      */
     public function __construct(string $path, array $extensions)
     {
@@ -42,11 +43,19 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         $this->extensions = $extensions;
     }
 
+    /**
+     * @param array $array
+     *
+     * @return iOnRoute
+     */
     public static function fromArray(array $array): iOnRoute
     {
         return new static(...$array);
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         return [$this->path, $this->extensions];
@@ -95,8 +104,10 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         $path  = realpath($path);
         $vroot = getcwd();
 
-        if (substr(realpath($path), 0, strlen($vroot)) !== $vroot || !is_dir($path)) {
-            throw (new StaticFileExtensionNotAllowed('Requested file folder is not allowed'))->addMoreInfo('path', $path)->addMoreInfo('fullpath', realpath($path));
+        if (substr(realpath($path), 0, strlen($vroot)) != $vroot || !is_dir($path)) {
+            throw (new StaticFileExtensionNotAllowed('Requested file folder is not allowed'))
+                ->addMoreInfo('path', $path)
+                ->addMoreInfo('fullpath', realpath($path));
         }
     }
 
@@ -105,7 +116,8 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         $ext = pathinfo($filepath, PATHINFO_EXTENSION);
 
         if (!$this->isExtensionAllowed($ext)) {
-            throw (new StaticFileExtensionNotAllowed('Extension is not allowed'))->addMoreInfo('ext', $ext);
+            throw (new StaticFileExtensionNotAllowed('Extension is not allowed'))
+                ->addMoreInfo('ext', $ext);
         }
 
         if (!file_exists($filepath)) {

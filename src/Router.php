@@ -74,58 +74,14 @@ class Router
     /**
      * Router constructor.
      *
+     * @param App $app
+     *
      * @throws \atk4\core\Exception
      */
     public function __construct(App $app)
     {
         $this->app = $app;
         $this->setUpApp();
-    }
-
-    /**
-     * @param $cache_path
-     */
-    public function enableCacheRoutes($cache_path): void
-    {
-        $this->use_cache  = true;
-        $this->cache_file = $cache_path;
-    }
-
-    public function setBaseDir(string $base_dir): void
-    {
-        $this->base_dir = '/'.trim($base_dir, '/').'/';
-    }
-
-    public function addRoute(string $routePattern, ?array $methods = null, ?iOnRoute $handler = null): iRoute
-    {
-        $pattern = $this->buildPattern($routePattern);
-
-        return $this->_addRoute(new Route($pattern, $methods ?? [], $handler));
-    }
-
-    /**
-     * @throws Exception
-     * @throws \atk4\core\Exception
-     * @throws ReflectionException
-     */
-    public function run(?ServerRequestInterface $request = null): void
-    {
-        foreach ($this->config as $route_array) {
-            $this->_addRoute(Route::fromArray($route_array));
-        }
-
-        $this->handleRouteRequest($request);
-    }
-
-    /**
-     * @param $file
-     * @param $format_type
-     *
-     * @throws \atk4\core\Exception
-     */
-    public function loadRoutes($file, $format_type): void
-    {
-        $this->_readConfig([$file], $format_type);
     }
 
     protected function setUpApp(): void
@@ -150,6 +106,37 @@ class Router
     }
 
     /**
+     * @param $cache_path
+     */
+    public function enableCacheRoutes($cache_path): void
+    {
+        $this->use_cache  = true;
+        $this->cache_file = $cache_path;
+    }
+
+    /**
+     * @param string $base_dir
+     */
+    public function setBaseDir(string $base_dir): void
+    {
+        $this->base_dir = '/'.trim($base_dir, '/').'/';
+    }
+
+    /**
+     * @param string        $routePattern
+     * @param array|null    $methods
+     * @param iOnRoute|null $handler
+     *
+     * @return iRoute
+     */
+    public function addRoute(string $routePattern, ?array $methods = null, ?iOnRoute $handler = null): iRoute
+    {
+        $pattern = $this->buildPattern($routePattern);
+
+        return $this->_addRoute(new Route($pattern, $methods ?? [], $handler));
+    }
+
+    /**
      * @param $routePattern
      *
      * @return string
@@ -159,6 +146,11 @@ class Router
         return $this->base_dir.trim($routePattern, '/');
     }
 
+    /**
+     * @param iRoute $route
+     *
+     * @return iRoute
+     */
     protected function _addRoute(iRoute $route): iRoute
     {
         $this->route_collection[] = $route;
@@ -167,6 +159,24 @@ class Router
     }
 
     /**
+     * @param ServerRequestInterface|null $request
+     *
+     * @throws Exception
+     * @throws \atk4\core\Exception
+     * @throws ReflectionException
+     */
+    public function run(?ServerRequestInterface $request = null): void
+    {
+        foreach ($this->config as $route_array) {
+            $this->_addRoute(Route::fromArray($route_array));
+        }
+
+        $this->handleRouteRequest($request);
+    }
+
+    /**
+     * @param ServerRequestInterface|null $request
+     *
      * @throws Exception
      * @throws \atk4\core\Exception
      *
@@ -181,7 +191,7 @@ class Router
 
         // for atk4 / and /index are the same
         // for fastroute obviously not.
-        if ('index' === substr($uri_path, -5)) {
+        if (substr($uri_path, -5) === 'index') {
             $uri_path = substr($uri_path, 0, -5);
         }
 
@@ -238,10 +248,14 @@ class Router
     }
 
     /**
-     * @param $status
+     * @param ServerRequestInterface $request
+     * @param                        $status
+     * @param array                  $allowed_methods
      *
      * @throws Exception
      * @throws \atk4\core\Exception
+     *
+     * @return bool
      */
     protected function onRouteFail(ServerRequestInterface $request, $status, array $allowed_methods = []): bool
     {
@@ -257,25 +271,12 @@ class Router
     }
 
     /**
+     * @param ServerRequestInterface $request
+     * @param array                  $allowed_methods
+     *
      * @throws Exception
-     */
-    protected function routeNotFound(ServerRequestInterface $request): bool
-    {
-        http_response_code(404);
-        $this->app->add(new $this->_default_not_found($request));
-
-        return false;
-    }
-
-    protected function routeCollect(RouteCollector $routeCollector): void
-    {
-        foreach ($this->route_collection as $route) {
-            $routeCollector->addRoute(...$route->toArray());
-        }
-    }
-
-    /**
-     * @throws Exception
+     *
+     * @return bool
      */
     private function routeMethodNotAllowed(ServerRequestInterface $request, array $allowed_methods = []): bool
     {
@@ -285,5 +286,41 @@ class Router
         ]));
 
         return false;
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @throws Exception
+     *
+     * @return bool
+     */
+    protected function routeNotFound(ServerRequestInterface $request): bool
+    {
+        http_response_code(404);
+        $this->app->add(new $this->_default_not_found($request));
+
+        return false;
+    }
+
+    /**
+     * @param $file
+     * @param $format_type
+     *
+     * @throws \atk4\core\Exception
+     */
+    public function loadRoutes($file, $format_type): void
+    {
+        $this->_readConfig([$file], $format_type);
+    }
+
+    /**
+     * @param RouteCollector $routeCollector
+     */
+    protected function routeCollect(RouteCollector $routeCollector): void
+    {
+        foreach ($this->route_collection as $route) {
+            $routeCollector->addRoute(...$route->toArray());
+        }
     }
 }
