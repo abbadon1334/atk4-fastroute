@@ -8,7 +8,7 @@ use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
 use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use Abbadon1334\ATKFastRoute\Router;
-use atk4\core\Exception;
+use Atk4\Core\Exception;
 use Atk4\Ui\App;
 use PHPUnit\Framework\TestCase;
 
