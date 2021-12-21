@@ -22,7 +22,7 @@
     "atk4/ui": "2.4.0",
     "codacy/coverage": "dev-master",
     "friendsofphp/php-cs-fixer": "dev-master@dev",
-    "phpmd/phpmd": "2.9.1",
+    "phpmd/phpmd": "2.11.1",
     "phpmetrics/phpmetrics": "dev-master@dev",
     "phpstan/phpstan": "0.12.83",
     "phpunit/phpunit": "*",
