@@ -18,12 +18,11 @@ use Atk4\Ui\App;
 use Atk4\Ui\Exception;
 use Atk4\Ui\Layout;
 use Closure;
-use Psr\Http\Message\RequestInterface;
 use function FastRoute\cachedDispatcher;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\RequestInterface;
 use ReflectionException;
 use Zend\Diactoros\ServerRequestFactory;
 
@@ -253,7 +252,6 @@ class Router
     /**
      * @param $file
      * @param $format_type
-     *
      */
     public function loadRoutes($file, $format_type): void
     {
