@@ -12,6 +12,7 @@ use Abbadon1334\ATKFastRoute\Route\iRoute;
 use Abbadon1334\ATKFastRoute\Route\Route;
 use Abbadon1334\ATKFastRoute\View\MethodNotAllowed;
 use Abbadon1334\ATKFastRoute\View\NotFound;
+use Atk4\Core\AppScopeTrait;
 use Atk4\Core\ConfigTrait;
 use Atk4\Ui\App;
 use Atk4\Ui\Exception;
@@ -32,6 +33,9 @@ class Router
         ConfigTrait::getConfig as protected;
         ConfigTrait::_lookupConfigElement as protected;
         ConfigTrait::readConfig as protected _readConfig;
+    }
+    use AppScopeTrait {
+        setApp as _parentSetApp;
     }
 
     /**
@@ -77,19 +81,20 @@ class Router
      */
     public function __construct(App $app)
     {
-        $this->app = $app;
-        $this->setUpApp();
+        $this->setApp($app);
     }
 
-    protected function setUpApp(): void
+    public function setApp(object $app)
     {
+        $this->_parentSetApp($app);
+
         // prepare ui\App for pretty urls
-        $this->app->setDefaults([
+        $this->getApp()->setDefaults([
             //'always_run' => false, cannot be changed after _construct
             'url_building_ext' => '',
         ]);
 
-        $this->app->addMethod('getRouter', function () {
+        $this->getApp()->addMethod('getRouter', function () {
             return $this;
         });
         /*
@@ -180,7 +185,7 @@ class Router
             $allowed_methods = $route[1] ?? [];
             $this->onRouteFail($request, $status, $allowed_methods);
 
-            $this->app->run();
+            $this->getApp()->run();
 
             return false;
         }
@@ -192,17 +197,17 @@ class Router
         $parameters = array_values($route[2]);
 
         if ($handler instanceof iBeforeRoutable) {
-            $handler->OnBeforeRoute($this->app, ...$parameters);
+            $handler->OnBeforeRoute($this->getApp(), ...$parameters);
         }
 
         $handler->onRoute(...$parameters);
 
         if ($handler instanceof iAfterRoutable) {
-            $handler->OnAfterRoute($this->app, ...$parameters);
+            $handler->OnAfterRoute($this->getApp(), ...$parameters);
         }
 
         if ($handler instanceof iNeedAppRun) {
-            $this->app->run();
+            $this->getApp()->run();
         }
 
         return true;
@@ -233,8 +238,8 @@ class Router
      */
     protected function onRouteFail(ServerRequestInterface $request, $status, array $allowed_methods = []): bool
     {
-        if (!isset($this->app->html)) {
-            $this->app->initLayout([Layout::class]);
+        if (!isset($this->getApp()->html)) {
+            $this->getApp()->initLayout([Layout::class]);
         }
 
         if (Dispatcher::METHOD_NOT_ALLOWED === $status) {
@@ -250,7 +255,7 @@ class Router
     private function routeMethodNotAllowed(ServerRequestInterface $request, array $allowed_methods = []): bool
     {
         http_response_code(405);
-        $this->app->add(new $this->_default_method_not_allowed($request, [
+        $this->getApp()->add(new $this->_default_method_not_allowed($request, [
             '_allowed_methods' => $allowed_methods,
         ]));
 
@@ -263,7 +268,7 @@ class Router
     protected function routeNotFound(ServerRequestInterface $request): bool
     {
         http_response_code(404);
-        $this->app->add(new $this->_default_not_found($request));
+        $this->getApp()->add(new $this->_default_not_found($request));
 
         return false;
     }
