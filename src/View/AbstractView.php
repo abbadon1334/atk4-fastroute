@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Abbadon1334\ATKFastRoute\View;
 
 use Atk4\Ui\View;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 abstract class AbstractView extends View
 {
-    /** @var ServerRequestInterface */
+    /** @var RequestInterface */
     protected $request;
 
-    public function __construct(ServerRequestInterface $request, array $defaults = null)
+    public function __construct(RequestInterface $request, array $defaults = null)
     {
         $this->request = $request;
         parent::__construct($defaults ?? []);
