@@ -96,7 +96,7 @@ class Router
 
     public function setBaseDir(string $base_dir): void
     {
-        $this->base_dir = '/' . trim($base_dir, '/') . '/';
+        $this->base_dir = '/'.trim($base_dir, '/').'/';
     }
 
     public function addRoute(string $routePattern, array $methods = null, iOnRoute $handler = null): iRoute
@@ -111,7 +111,7 @@ class Router
      */
     protected function buildPattern($routePattern): string
     {
-        return $this->base_dir . trim($routePattern, '/');
+        return $this->base_dir.trim($routePattern, '/');
     }
 
     protected function _addRoute(iRoute $route): iRoute
