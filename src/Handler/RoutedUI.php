@@ -12,7 +12,6 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iNeedAppRun;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
 use Atk4\Ui\App;
-use Atk4\Ui\Exception;
 use Atk4\Ui\Layout;
 
 class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBeforeRoutable
@@ -46,7 +45,7 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
     public function __construct(string $ClassName, array $default = [])
     {
         $this->ClassName = $ClassName;
-        $this->default   = $default;
+        $this->default = $default;
     }
 
     public static function fromArray(array $array): iOnRoute
@@ -71,8 +70,6 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
 
     /**
      * @param mixed ...$parameters
-     *
-     * @throws Exception
      *
      * @internal
      */

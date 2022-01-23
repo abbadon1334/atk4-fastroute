@@ -10,7 +10,6 @@ use Abbadon1334\ATKFastRoute\Handler\Contracts\iAfterRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iArrayable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iBeforeRoutable;
 use Abbadon1334\ATKFastRoute\Handler\Contracts\iOnRoute;
-use ReflectionException;
 use ReflectionMethod;
 
 class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRoutable
@@ -49,7 +48,7 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
      */
     public function __construct(string $ClassName, string $ClassMethod)
     {
-        $this->ClassName   = $ClassName;
+        $this->ClassName = $ClassName;
         $this->ClassMethod = $ClassMethod;
     }
 
@@ -65,12 +64,10 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
 
     /**
      * @param mixed ...$parameters
-     *
-     * @throws ReflectionException
      */
     public function onRoute(...$parameters): void
     {
-        $class  = $this->ClassName;
+        $class = $this->ClassName;
         $method = $this->ClassMethod;
 
         $MethodChecker = new ReflectionMethod($class, $method);
@@ -81,7 +78,7 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
             return;
         }
 
-        $class               = new $class();
+        $class = new $class();
         $this->onRouteResult = $class->{$method}(...$parameters);
     }
 }

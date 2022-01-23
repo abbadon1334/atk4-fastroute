@@ -15,7 +15,6 @@ use Abbadon1334\ATKFastRoute\View\NotFound;
 use Atk4\Core\AppScopeTrait;
 use Atk4\Core\ConfigTrait;
 use Atk4\Ui\App;
-use Atk4\Ui\Exception;
 use Atk4\Ui\Layout;
 use Closure;
 use function FastRoute\cachedDispatcher;
@@ -23,19 +22,18 @@ use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 use Psr\Http\Message\RequestInterface;
-use ReflectionException;
 use Zend\Diactoros\ServerRequestFactory;
 
 class Router
 {
+    use AppScopeTrait {
+        setApp as _parentSetApp;
+    }
     use ConfigTrait {
         ConfigTrait::setConfig as protected;
         ConfigTrait::getConfig as protected;
         ConfigTrait::_lookupConfigElement as protected;
         ConfigTrait::readConfig as protected _readConfig;
-    }
-    use AppScopeTrait {
-        setApp as _parentSetApp;
     }
 
     protected bool $use_cache = false;
@@ -92,16 +90,16 @@ class Router
      */
     public function enableCacheRoutes($cache_path): void
     {
-        $this->use_cache  = true;
+        $this->use_cache = true;
         $this->cache_file = $cache_path;
     }
 
     public function setBaseDir(string $base_dir): void
     {
-        $this->base_dir = '/'.trim($base_dir, '/').'/';
+        $this->base_dir = '/' . trim($base_dir, '/') . '/';
     }
 
-    public function addRoute(string $routePattern, ?array $methods = null, ?iOnRoute $handler = null): iRoute
+    public function addRoute(string $routePattern, array $methods = null, iOnRoute $handler = null): iRoute
     {
         $pattern = $this->buildPattern($routePattern);
 
@@ -110,12 +108,10 @@ class Router
 
     /**
      * @param $routePattern
-     *
-     * @return string
      */
     protected function buildPattern($routePattern): string
     {
-        return $this->base_dir.trim($routePattern, '/');
+        return $this->base_dir . trim($routePattern, '/');
     }
 
     protected function _addRoute(iRoute $route): iRoute
@@ -125,12 +121,7 @@ class Router
         return $route;
     }
 
-    /**
-     * @throws Exception
-     * @throws \Atk4\Core\Exception
-     * @throws ReflectionException
-     */
-    public function run(?RequestInterface $request = null): void
+    public function run(RequestInterface $request = null): void
     {
         foreach ($this->config as $route_array) {
             $this->_addRoute(Route::fromArray($route_array));
@@ -139,15 +130,11 @@ class Router
         $this->handleRouteRequest($request);
     }
 
-    /**
-     * @throws Exception
-     * @throws \Atk4\Core\Exception
-     */
-    protected function handleRouteRequest(?RequestInterface $request = null): bool
+    protected function handleRouteRequest(RequestInterface $request = null): bool
     {
         $dispatcher = $this->getDispatcher();
 
-        $request  = $request ?? ServerRequestFactory::fromGlobals();
+        $request = $request ?? ServerRequestFactory::fromGlobals();
         $uri_path = $request->getUri()->getPath();
 
         // for atk4 / and /index are the same
@@ -156,7 +143,7 @@ class Router
             $uri_path = substr($uri_path, 0, -5);
         }
 
-        $route  = $dispatcher->dispatch($request->getMethod(), $uri_path);
+        $route = $dispatcher->dispatch($request->getMethod(), $uri_path);
         $status = $route[0];
 
         if (Dispatcher::FOUND !== $status) {
@@ -171,7 +158,7 @@ class Router
         http_response_code(200);
 
         /** @var iOnRoute $handler */
-        $handler    = $route[1];
+        $handler = $route[1];
         $parameters = array_values($route[2]);
 
         if ($handler instanceof iBeforeRoutable) {
@@ -191,9 +178,6 @@ class Router
         return true;
     }
 
-    /**
-     * @return Dispatcher
-     */
     protected function getDispatcher(): Dispatcher
     {
         $closure = Closure::fromCallable([$this, 'routeCollect']);
@@ -208,10 +192,6 @@ class Router
         ]);
     }
 
-    /**
-     * @throws Exception
-     * @throws \Atk4\Core\Exception
-     */
     protected function onRouteFail(RequestInterface $request, $status, array $allowed_methods = []): bool
     {
         if (!isset($this->getApp()->html)) {
@@ -225,9 +205,6 @@ class Router
         return $this->routeNotFound($request);
     }
 
-    /**
-     * @throws Exception|\Atk4\Core\Exception
-     */
     private function routeMethodNotAllowed(RequestInterface $request, array $allowed_methods = []): bool
     {
         http_response_code(405);
@@ -238,9 +215,6 @@ class Router
         return false;
     }
 
-    /**
-     * @throws Exception|\Atk4\Core\Exception
-     */
     protected function routeNotFound(RequestInterface $request): bool
     {
         http_response_code(404);

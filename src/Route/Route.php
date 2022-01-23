@@ -11,7 +11,6 @@ use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use Atk4\Core\Exception;
 use Atk4\Ui\jsExpressionable;
-use ReflectionException;
 
 class Route implements iRoute
 {
@@ -30,25 +29,14 @@ class Route implements iRoute
 
     /**
      * Route constructor.
-     *
-     * @param string        $route
-     * @param array|null    $methods
-     * @param iOnRoute|null $handler
      */
-    public function __construct(string $route, ?array $methods = null, ?iOnRoute $handler = null)
+    public function __construct(string $route, array $methods = null, iOnRoute $handler = null)
     {
         $this->methods = $methods ?? [];
-        $this->route   = $route;
+        $this->route = $route;
         $this->handler = $handler;
     }
 
-    /**
-     * @param array $route
-     *
-     * @throws ReflectionException
-     *
-     * @return iRoute
-     */
     public static function fromArray(array $route): iRoute
     {
         return new static(
@@ -58,37 +46,29 @@ class Route implements iRoute
         );
     }
 
-    /**
-     * @param array         $handler_array
-     * @param callable|null $callbackOnBefore
-     * @param callable|null $callbackOnAfter
-     *
-     * @throws Exception
-     *
-     * @return iOnRoute
-     */
     private static function getHandlerFromArray(array $handler_array, ?callable $callbackOnBefore, ?callable $callbackOnAfter): iOnRoute
     {
         $handler = null;
 
-        $first_element  = $handler_array[0];
+        $first_element = $handler_array[0];
         $second_element = $handler_array[1] ?? null;
 
         switch (true) {
             case is_callable($first_element):
                 $handler = new RoutedCallable($first_element);
-                break;
 
+                break;
             case is_string($first_element) && is_string($second_element):
                 $handler = RoutedMethod::fromArray($handler_array);
-                break;
 
+                break;
             case is_a($first_element, RoutedServeStatic::class, true):
                 $handler = RoutedServeStatic::fromArray($second_element);
-                break;
 
+                break;
             case is_a($first_element, jsExpressionable::class, true):
                 $handler = RoutedUI::fromArray($handler_array);
+
                 break;
         }
 
@@ -108,35 +88,21 @@ class Route implements iRoute
         return $handler;
     }
 
-    /**
-     * @return array
-     */
     public function getMethods(): array
     {
         return $this->methods;
     }
 
-    /**
-     * @return string
-     */
     public function getRoute(): string
     {
         return $this->route;
     }
 
-    /**
-     * @return iOnRoute
-     */
     public function getHandler(): iOnRoute
     {
         return $this->handler;
     }
 
-    /**
-     * @param string $method
-     *
-     * @return iRoute
-     */
     public function addMethod(string ...$method): iRoute
     {
         $this->methods = $method;
@@ -144,17 +110,11 @@ class Route implements iRoute
         return $this;
     }
 
-    /**
-     * @param iOnRoute $routeHandler
-     */
     public function setHandler(iOnRoute $routeHandler): void
     {
         $this->handler = $routeHandler;
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         return [

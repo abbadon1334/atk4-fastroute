@@ -15,12 +15,12 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class RouterTest extends TestCase
+final class RouterTest extends TestCase
 {
-    public function tearDown(): void
+    protected function tearDown(): void
     {
-        if (file_exists(__DIR__.'/../demos/routes.cache')) {
-            unlink(__DIR__.'/../demos/routes.cache');
+        if (file_exists(__DIR__ . '/../demos/routes.cache')) {
+            unlink(__DIR__ . '/../demos/routes.cache');
         }
     }
 
@@ -35,9 +35,9 @@ class RouterTest extends TestCase
     public function inc(string $file, $METHOD, $URI): void
     {
         $_SERVER['REQUEST_METHOD'] = $METHOD;
-        $_SERVER['REQUEST_URI']    = $URI;
+        $_SERVER['REQUEST_URI'] = $URI;
 
-        include __DIR__.'/../demos/'.$file;
+        include __DIR__ . '/../demos/' . $file;
     }
 
     /**
@@ -49,8 +49,6 @@ class RouterTest extends TestCase
      * @param mixed $URI
      * @param mixed $status
      * @param mixed $excepted
-     *
-     * @throws Exception
      */
     public function testDemos($file, $METHOD, $URI, $status, $excepted): void
     {
@@ -70,10 +68,10 @@ class RouterTest extends TestCase
             throw $e;
         }
 
-        $this->assertEquals($status, http_response_code(), $URI);
+        $this->assertSame($status, http_response_code(), $URI);
 
         if (false !== $excepted) {
-            $this->assertEquals($excepted, $content);
+            $this->assertSame($excepted, $content);
         }
     }
 
@@ -128,25 +126,25 @@ class RouterTest extends TestCase
     {
         $route = new RoutedMethod(static::class, 'testToArray');
 
-        $this->assertEquals([
+        $this->assertSame([
             static::class,
             'testToArray',
         ], $route->toArray());
 
         $route = new RoutedUI(static::class, ['test' => 'value']);
-        $this->assertEquals([
+        $this->assertSame([
             static::class,
             ['test' => 'value'],
         ], $route->toArray());
 
         $route = new RoutedServeStatic(static::class, ['test' => 'value']);
-        $this->assertEquals([
+        $this->assertSame([
             static::class,
             ['test' => 'value'],
         ], $route->toArray());
 
         $route = RoutedServeStatic::fromArray([static::class, ['test' => 'value']]);
-        $this->assertEquals(
+        $this->assertSame(
             (new RoutedServeStatic(static::class, ['test' => 'value']))->toArray(),
             $route->toArray()
         );
@@ -155,6 +153,6 @@ class RouterTest extends TestCase
     public function testExceptionConfig(): void
     {
         $this->expectException(Exception::class);
-        include __DIR__.'/../demos/using-config-unit-test-exception.php';
+        include __DIR__ . '/../demos/using-config-unit-test-exception.php';
     }
 }
