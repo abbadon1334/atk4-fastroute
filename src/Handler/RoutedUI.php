@@ -45,7 +45,7 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
     public function __construct(string $ClassName, array $default = [])
     {
         $this->ClassName = $ClassName;
-        $this->default = $default;
+        $this->default   = $default;
     }
 
     public static function fromArray(array $array): iOnRoute

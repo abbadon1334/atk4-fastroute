@@ -19,8 +19,8 @@ final class RouterTest extends TestCase
 {
     protected function tearDown(): void
     {
-        if (file_exists(__DIR__ . '/../demos/routes.cache')) {
-            unlink(__DIR__ . '/../demos/routes.cache');
+        if (file_exists(__DIR__.'/../demos/routes.cache')) {
+            unlink(__DIR__.'/../demos/routes.cache');
         }
     }
 
@@ -35,9 +35,9 @@ final class RouterTest extends TestCase
     public function inc(string $file, $METHOD, $URI): void
     {
         $_SERVER['REQUEST_METHOD'] = $METHOD;
-        $_SERVER['REQUEST_URI'] = $URI;
+        $_SERVER['REQUEST_URI']    = $URI;
 
-        include __DIR__ . '/../demos/' . $file;
+        include __DIR__.'/../demos/'.$file;
     }
 
     /**
@@ -153,6 +153,6 @@ final class RouterTest extends TestCase
     public function testExceptionConfig(): void
     {
         $this->expectException(Exception::class);
-        include __DIR__ . '/../demos/using-config-unit-test-exception.php';
+        include __DIR__.'/../demos/using-config-unit-test-exception.php';
     }
 }
