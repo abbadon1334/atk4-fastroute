@@ -1,6 +1,0 @@
-preset: recommended
-risky: false
-enabled:
-  - align_equals
-disabled:
-  - unalign_equals
