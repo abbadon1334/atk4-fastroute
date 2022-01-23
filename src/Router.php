@@ -90,13 +90,13 @@ class Router
      */
     public function enableCacheRoutes($cache_path): void
     {
-        $this->use_cache = true;
+        $this->use_cache  = true;
         $this->cache_file = $cache_path;
     }
 
     public function setBaseDir(string $base_dir): void
     {
-        $this->base_dir = '/' . trim($base_dir, '/') . '/';
+        $this->base_dir = '/'.trim($base_dir, '/').'/';
     }
 
     public function addRoute(string $routePattern, array $methods = null, iOnRoute $handler = null): iRoute
@@ -111,7 +111,7 @@ class Router
      */
     protected function buildPattern($routePattern): string
     {
-        return $this->base_dir . trim($routePattern, '/');
+        return $this->base_dir.trim($routePattern, '/');
     }
 
     protected function _addRoute(iRoute $route): iRoute
@@ -134,7 +134,7 @@ class Router
     {
         $dispatcher = $this->getDispatcher();
 
-        $request = $request ?? ServerRequestFactory::fromGlobals();
+        $request  = $request ?? ServerRequestFactory::fromGlobals();
         $uri_path = $request->getUri()->getPath();
 
         // for atk4 / and /index are the same
@@ -143,7 +143,7 @@ class Router
             $uri_path = substr($uri_path, 0, -5);
         }
 
-        $route = $dispatcher->dispatch($request->getMethod(), $uri_path);
+        $route  = $dispatcher->dispatch($request->getMethod(), $uri_path);
         $status = $route[0];
 
         if (Dispatcher::FOUND !== $status) {
@@ -158,7 +158,7 @@ class Router
         http_response_code(200);
 
         /** @var iOnRoute $handler */
-        $handler = $route[1];
+        $handler    = $route[1];
         $parameters = array_values($route[2]);
 
         if ($handler instanceof iBeforeRoutable) {
