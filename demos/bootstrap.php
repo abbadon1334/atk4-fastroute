@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-include __DIR__.'/../vendor/autoload.php';
+include __DIR__ . '/../vendor/autoload.php';
 
 use Atk4\Ui\Button;
 use Atk4\Ui\Loader;
@@ -36,7 +36,7 @@ if (!class_exists(ATKView::class)) {
             $loader = Loader::addTo($this->getApp());
             $loader->set(function ($l): void {
                 $number = random_int(1, 100);
-                $l->add(['Text', 'random :'.$number]);
+                $l->add(['Text', 'random :' . $number]);
             });
 
             /** @var Button $button */
