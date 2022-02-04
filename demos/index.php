@@ -9,10 +9,10 @@ use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use Abbadon1334\ATKFastRoute\Router;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 /** @var \Atk4\Ui\App $app */
-require __DIR__ . '/init-app.php';
+require __DIR__.'/init-app.php';
 
 $router = new Router($app);
 
