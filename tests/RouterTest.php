@@ -10,9 +10,10 @@ use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use Abbadon1334\ATKFastRoute\Router;
 use Atk4\Core\Exception;
 use Atk4\Core\Factory;
+use Atk4\Core\Phpunit\TestCase;
 use Atk4\Ui\App;
 
-class RouterTest extends BaseTestCase
+class RouterTest extends TestCase
 {
     protected function tearDown(): void
     {
@@ -114,7 +115,7 @@ class RouterTest extends BaseTestCase
         $result[] = ['static.php', 'GET', '/assets/test.css?test=get_var', 200, $css_content]; // test correct parsing
         $result[] = ['static.php', 'GET', '/assets/test.js', 403, false];
         $result[] = ['static.php', 'GET', '/assets/not_exists.css', 403, false];
-        $result[] = ['static.php', 'GET', '/assets/../test.js', 403, false]; // folder not allowed
+        $result[] = ['static.php', 'GET', '/assets/..%2F..%2F/test.js', 403, false]; // folder not allowed
 
         return $result;
     }

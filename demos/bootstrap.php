@@ -6,6 +6,7 @@ namespace Abbadon1334\ATKFastRoute\Demos;
 
 use Atk4\Ui\Button;
 use Atk4\Ui\Loader;
+use Atk4\Ui\Text;
 use Atk4\Ui\View;
 
 class StandardClass
@@ -41,7 +42,7 @@ class ATKView extends View
         $loader = Loader::addTo($this->getApp());
         $loader->set(function ($l): void {
             $number = random_int(1, 100);
-            $l->add(['Text', 'random :' . $number]);
+            Text::addTo($l)->set('random :' . $number);
         });
 
         /** @var Button $button */

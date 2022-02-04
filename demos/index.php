@@ -16,7 +16,6 @@ require __DIR__ . '/init-app.php';
 
 $router = new Router($app);
 
-//$router->setBaseDir('/nemesi/atk4-fastroute/demos');
 $router->addRoute(
     '/',
     ['GET', 'POST'],

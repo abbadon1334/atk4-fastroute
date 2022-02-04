@@ -85,7 +85,7 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         $path = realpath($path);
         $vroot = getcwd();
 
-        if (substr(realpath($path), 0, strlen($vroot)) !== $vroot || !is_dir($path)) {
+        if ($path === false || substr($path, 0, strlen($vroot)) !== $vroot || !is_dir($path)) {
             throw (new StaticFileExtensionNotAllowed('Requested file folder is not allowed'))
                 ->addMoreInfo('path', $path)
                 ->addMoreInfo('fullpath', realpath($path));
