@@ -24,7 +24,7 @@ final class CoverageUtil
         }
 
         $filter = new Filter();
-        $filter->includeDirectory(__DIR__ . '/../src');
+        $filter->includeDirectory(__DIR__.'/../src');
         self::$coverage = new CodeCoverage((new DriverSelector())->forLineCoverage($filter), $filter);
         self::$coverage->start($_SERVER['SCRIPT_NAME']);
     }
@@ -33,6 +33,6 @@ final class CoverageUtil
     {
         self::$coverage->stop();
         $writer = new Report\PHP();
-        $writer->process(self::$coverage, dirname(__DIR__) . '/coverage/' . basename($_SERVER['SCRIPT_NAME'], '.php') . '-' . hash('sha256', microtime(true) . random_bytes(64)) . '.cov');
+        $writer->process(self::$coverage, dirname(__DIR__).'/coverage/'.basename($_SERVER['SCRIPT_NAME'], '.php').'-'.hash('sha256', microtime(true).random_bytes(64)).'.cov');
     }
 }

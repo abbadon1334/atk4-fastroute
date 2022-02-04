@@ -6,11 +6,11 @@ namespace Abbadon1334\ATKFastRoute\Demos;
 
 use Abbadon1334\ATKFastRoute\Router;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 /** @var \Atk4\Ui\App $app */
-require __DIR__ . '/init-app.php';
+require __DIR__.'/init-app.php';
 
 $router = new Router($app);
-$router->loadRoutes(__DIR__ . '/config/routes-exception.php', 'php');
+$router->loadRoutes(__DIR__.'/config/routes-exception.php', 'php');
 $router->run();
