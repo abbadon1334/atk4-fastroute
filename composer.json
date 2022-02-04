@@ -1,8 +1,8 @@
 {
   "name": "abbadon1334/atk4-fastroute",
   "description": "description",
-  "type": "project",
   "license": "MIT",
+  "type": "project",
   "authors": [
     {
       "name": "Francesco Danti",
@@ -50,9 +50,9 @@
     }
   },
   "config": {
-    "sort-packages": true,
     "allow-plugins": {
       "ergebnis/composer-normalize": true
-    }
+    },
+    "sort-packages": true
   }
 }
