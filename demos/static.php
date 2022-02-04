@@ -6,10 +6,10 @@ namespace Abbadon1334\ATKFastRoute\Demos;
 
 date_default_timezone_set('UTC');
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 /** @var \Atk4\Ui\App $app */
-require __DIR__.'/init-app.php';
+require __DIR__ . '/init-app.php';
 
 use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 use Abbadon1334\ATKFastRoute\Router;
@@ -20,7 +20,7 @@ $router->addRoute(
     '/assets/{path:.+}',
     ['GET'],
     new RoutedServeStatic(
-        __DIR__.'/static_assets',
+        __DIR__ . '/static_assets',
         [
             'css',
         ]

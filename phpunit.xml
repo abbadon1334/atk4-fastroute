@@ -1,28 +1,23 @@
-<?xml version="1.0"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="vendor/autoload.php" stderr="true" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage includeUncoveredFiles="true" processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">./src</directory>
-    </include>
-    <exclude>
-      <directory suffix=".php">./demos</directory>
-      <directory suffix=".php">./tests</directory>
-      <directory suffix=".php">./vendor</directory>
-    </exclude>
-    <report>
-      <clover outputFile="build/logs/clover.xml"/>
-    </report>
-  </coverage>
+<phpunit bootstrap="vendor/autoload.php" printerClass="Atk4\Core\Phpunit\ResultPrinter" colors="true">
   <php>
-    <var name="DB_DSN" value="sqlite::memory:"/>
-    <var name="DB_USER" value="travis"/>
-    <var name="DB_PASSWD" value=""/>
-    <var name="DB_DBNAME" value="dsql_test"/>
+    <env name="DB_DSN" value="sqlite::memory:" />
+    <env name="DB_USER" value="" />
+    <env name="DB_PASSWORD" value="" />
   </php>
   <testsuites>
-    <testsuite name="Atk4 FastRoute">
-      <directory>./tests</directory>
+    <testsuite name="tests">
+      <directory>tests</directory>
     </testsuite>
   </testsuites>
-  <logging/>
+  <listeners>
+    <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
+  </listeners>
+  <coverage>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+    <report>
+      <php outputFile="coverage/phpunit.cov" />
+    </report>
+  </coverage>
 </phpunit>
