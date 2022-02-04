@@ -11,9 +11,9 @@ use Symfony\Component\Process\Process;
 
 abstract class BaseTestCase extends TestCase
 {
-    protected const ROOT_DIR = __DIR__ . '/..';
+    protected const ROOT_DIR = __DIR__.'/..';
 
-    protected const DEMOS_DIR = self::ROOT_DIR . '/demos';
+    protected const DEMOS_DIR = self::ROOT_DIR.'/demos';
 
     private static ?Process $_process = null;
 
@@ -23,7 +23,7 @@ abstract class BaseTestCase extends TestCase
 
     protected int $port = 9687;
 
-    public static string $jar_file = self::DEMOS_DIR . '/_demo-data/cookie.jar';
+    public static string $jar_file = self::DEMOS_DIR.'/_demo-data/cookie.jar';
 
     public static FileCookieJar $jar;
 
@@ -66,14 +66,14 @@ abstract class BaseTestCase extends TestCase
         // spin up the test server
         $cmdArgs = [
             '-S',
-            $this->host . ':' . $this->port,
+            $this->host.':'.$this->port,
             '-t',
             static::DEMOS_DIR,
-            __DIR__ . '/router.php',
+            __DIR__.'/router.php',
         ];
         if (!empty(ini_get('open_basedir'))) {
             $cmdArgs[] = '-d';
-            $cmdArgs[] = 'open_basedir=' . ini_get('open_basedir');
+            $cmdArgs[] = 'open_basedir='.ini_get('open_basedir');
         }
 
         self::$_process = new Process(['php', ...$cmdArgs]);
@@ -85,8 +85,8 @@ abstract class BaseTestCase extends TestCase
     protected function getClient(): Client
     {
         return new Client([
-            'base_uri' => 'http://localhost:' . $this->port,
-            'cookies' => self::$jar,
+            'base_uri'    => 'http://localhost:'.$this->port,
+            'cookies'     => self::$jar,
             'http_errors' => false,
         ]);
     }

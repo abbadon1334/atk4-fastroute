@@ -86,7 +86,6 @@ class Route implements iRoute
         }
 
         if ($handler === null) {
-
             throw (new Exception('Error Transforming Route to Array'))
                 ->addMoreInfo('array', $handler_array);
         }
