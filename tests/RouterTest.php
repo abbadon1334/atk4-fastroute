@@ -2,25 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Abbadon1334\ATKFastRoute\Test;
+namespace Abbadon1334\ATKFastRoute\Tests;
 
 use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
 use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use Abbadon1334\ATKFastRoute\Router;
 use Atk4\Core\Exception;
+use Atk4\Core\Factory;
 use Atk4\Ui\App;
-use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- */
-final class RouterTest extends TestCase
+class RouterTest extends BaseTestCase
 {
     protected function tearDown(): void
     {
-        if (file_exists(__DIR__.'/../demos/routes.cache')) {
-            unlink(__DIR__.'/../demos/routes.cache');
+        if (file_exists(__DIR__ . '/../demos/routes.cache')) {
+            unlink(__DIR__ . '/../demos/routes.cache');
         }
     }
 
@@ -32,12 +29,12 @@ final class RouterTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    public function inc(string $file, $METHOD, $URI): void
+    public function inc(string $file, string $METHOD, string $URI): void
     {
         $_SERVER['REQUEST_METHOD'] = $METHOD;
         $_SERVER['REQUEST_URI'] = $URI;
 
-        include __DIR__.'/../demos/'.$file;
+        include __DIR__ . '/../demos/' . $file;
     }
 
     /**
@@ -70,12 +67,12 @@ final class RouterTest extends TestCase
 
         $this->assertSame($status, http_response_code(), $URI);
 
-        if (false !== $excepted) {
+        if ($excepted !== false) {
             $this->assertSame($excepted, $content);
         }
     }
 
-    public function dataProviderTestDemos()
+    public function dataProviderTestDemos(): array
     {
         $files = [
             'index.php',
@@ -143,7 +140,7 @@ final class RouterTest extends TestCase
             ['test' => 'value'],
         ], $route->toArray());
 
-        $route = RoutedServeStatic::fromArray([static::class, ['test' => 'value']]);
+        $route = Factory::factory([RoutedServeStatic::class], [static::class, ['test' => 'value']]);
         $this->assertSame(
             (new RoutedServeStatic(static::class, ['test' => 'value']))->toArray(),
             $route->toArray()
@@ -153,6 +150,6 @@ final class RouterTest extends TestCase
     public function testExceptionConfig(): void
     {
         $this->expectException(Exception::class);
-        include __DIR__.'/../demos/using-config-unit-test-exception.php';
+        include __DIR__ . '/../demos/using-config-unit-test-exception.php';
     }
 }

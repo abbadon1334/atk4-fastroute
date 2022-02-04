@@ -2,33 +2,35 @@
 
 declare(strict_types=1);
 
+namespace Abbadon1334\ATKFastRoute\Demos;
+
 use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 
 return [
     [
         '/test',
         ['GET', 'POST'],
-        ['StandardClass', 'handleRequest'],
+        [StandardClass::class, 'handleRequest'],
     ],
     [
         '/',
         ['GET', 'POST'],
-        ['StandardClass', 'handleRequest'],
+        [StandardClass::class, 'handleRequest'],
     ],
     [
         '/testStatic',
         ['GET', 'POST'],
-        ['StandardClass', 'staticHandleRequest'],
+        [StandardClass::class, 'staticHandleRequest'],
     ],
     [
         '/test2',
         ['GET', 'POST'],
-        ['ATKView', ['text' => 'it works']],
+        [ATKView::class, ['text' => 'it works']],
     ],
     [
         '/callable',
         ['GET', 'POST'],
-        ['handleWithFunction'],
+        ['\\Abbadon1334\\ATKFastRoute\\Demos\\handleWithFunction'],
         function ($app, ...$parameters): void {
             echo 'BEFORE';
         },
@@ -39,12 +41,12 @@ return [
     [
         '/test-parameters/{id:\d+}/{title}',
         ['GET'],
-        ['StandardClass', 'HandleRequest'],
+        [StandardClass::class, 'HandleRequest'],
     ],
     [
         '/test-parameters-static/{id:\d+}/{title}',
         ['GET'],
-        ['StandardClass', 'staticHandleRequest'],
+        [StandardClass::class, 'staticHandleRequest'],
     ],
     [
         '/resource/{path:.+}',
@@ -52,7 +54,7 @@ return [
         [
             RoutedServeStatic::class,
             [
-                getcwd().'/demo/static_assets',
+                getcwd() . '/demo/static_assets',
                 [
                     'css',
                     'js',

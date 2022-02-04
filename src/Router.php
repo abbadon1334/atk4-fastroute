@@ -21,8 +21,8 @@ use function FastRoute\cachedDispatcher;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
+use Laminas\Diactoros\ServerRequestFactory;
 use Psr\Http\Message\RequestInterface;
-use Zend\Diactoros\ServerRequestFactory;
 
 class Router
 {
@@ -40,29 +40,27 @@ class Router
 
     protected string $cache_file;
 
-    /** @var iRoute[] */
-    protected $route_collection = [];
+    /** @var array<iRoute> */
+    protected array $route_collection = [];
 
     protected string $base_dir = '/';
 
     /**
      * Default View to show when route = not found.
-     *
-     * @var string
      */
-    protected $_default_not_found = NotFound::class;
+    protected string $_default_not_found = NotFound::class;
 
     /**
      * Default View to show when route = method not allowed.
      */
-    protected $_default_method_not_allowed = MethodNotAllowed::class;
+    protected string $_default_method_not_allowed = MethodNotAllowed::class;
 
     public function __construct(App $app)
     {
         $this->setApp($app);
     }
 
-    public function setApp(object $app)
+    public function setApp(object $app): void
     {
         $this->_parentSetApp($app);
 
@@ -85,10 +83,7 @@ class Router
          */
     }
 
-    /**
-     * @param $cache_path
-     */
-    public function enableCacheRoutes($cache_path): void
+    public function enableCacheRoutes(string $cache_path): void
     {
         $this->use_cache = true;
         $this->cache_file = $cache_path;
@@ -96,7 +91,7 @@ class Router
 
     public function setBaseDir(string $base_dir): void
     {
-        $this->base_dir = '/'.trim($base_dir, '/').'/';
+        $this->base_dir = '/' . trim($base_dir, '/') . '/';
     }
 
     public function addRoute(string $routePattern, array $methods = null, iOnRoute $handler = null): iRoute
@@ -106,12 +101,9 @@ class Router
         return $this->_addRoute(new Route($pattern, $methods ?? [], $handler));
     }
 
-    /**
-     * @param $routePattern
-     */
-    protected function buildPattern($routePattern): string
+    protected function buildPattern(string $routePattern): string
     {
-        return $this->base_dir.trim($routePattern, '/');
+        return $this->base_dir . trim($routePattern, '/');
     }
 
     protected function _addRoute(iRoute $route): iRoute
@@ -139,14 +131,14 @@ class Router
 
         // for atk4 / and /index are the same
         // for fastroute obviously not.
-        if ('index' === substr($uri_path, -5)) {
+        if (substr($uri_path, -5) === 'index') {
             $uri_path = substr($uri_path, 0, -5);
         }
 
         $route = $dispatcher->dispatch($request->getMethod(), $uri_path);
         $status = $route[0];
 
-        if (Dispatcher::FOUND !== $status) {
+        if ($status !== Dispatcher::FOUND) {
             $allowed_methods = $route[1] ?? [];
             $this->onRouteFail($request, $status, $allowed_methods);
 
@@ -182,23 +174,23 @@ class Router
     {
         $closure = Closure::fromCallable([$this, 'routeCollect']);
 
-        if (false === $this->use_cache) {
+        if ($this->use_cache === false) {
             return simpleDispatcher($closure);
         }
 
         return cachedDispatcher($closure, [
-            'cacheFile'     => $this->cache_file,
+            'cacheFile' => $this->cache_file,
             'cacheDisabled' => false,
         ]);
     }
 
-    protected function onRouteFail(RequestInterface $request, $status, array $allowed_methods = []): bool
+    protected function onRouteFail(RequestInterface $request, int $status, array $allowed_methods = []): bool
     {
         if (!isset($this->getApp()->html)) {
             $this->getApp()->initLayout([Layout::class]);
         }
 
-        if (Dispatcher::METHOD_NOT_ALLOWED === $status) {
+        if ($status === Dispatcher::METHOD_NOT_ALLOWED) {
             return $this->routeMethodNotAllowed($request, $allowed_methods);
         }
 
@@ -223,11 +215,7 @@ class Router
         return false;
     }
 
-    /**
-     * @param $file
-     * @param $format_type
-     */
-    public function loadRoutes($file, $format_type): void
+    public function loadRoutes(string $file, string $format_type): void
     {
         $this->_readConfig([$file], $format_type);
     }

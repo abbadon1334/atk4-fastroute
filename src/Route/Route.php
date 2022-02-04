@@ -10,7 +10,8 @@ use Abbadon1334\ATKFastRoute\Handler\RoutedMethod;
 use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 use Abbadon1334\ATKFastRoute\Handler\RoutedUI;
 use Atk4\Core\Exception;
-use Atk4\Ui\jsExpressionable;
+use Atk4\Core\Factory;
+use Atk4\Ui\JsExpressionable;
 
 class Route implements iRoute
 {
@@ -39,11 +40,23 @@ class Route implements iRoute
 
     public static function fromArray(array $route): iRoute
     {
-        return new static(
-            $route[0],
-            $route[1],
-            self::getHandlerFromArray($route[2], $route[3] ?? null, $route[4] ?? null)
+        /** @var iRoute $iroute */
+        $iroute = Factory::factory(
+            [
+                static::class,
+            ],
+            [
+                $route[0],
+                $route[1],
+                self::getHandlerFromArray(
+                    $route[2],
+                    $route[3] ?? null,
+                    $route[4] ?? null,
+                ),
+            ]
         );
+
+        return $iroute;
     }
 
     private static function getHandlerFromArray(array $handler_array, ?callable $callbackOnBefore, ?callable $callbackOnAfter): iOnRoute
@@ -55,33 +68,34 @@ class Route implements iRoute
 
         switch (true) {
             case is_callable($first_element):
-                $handler = new RoutedCallable($first_element);
+                $handler = Factory::factory([RoutedCallable::class], [$first_element]);
 
                 break;
             case is_string($first_element) && is_string($second_element):
-                $handler = RoutedMethod::fromArray($handler_array);
+                $handler = Factory::factory([RoutedMethod::class], $handler_array);
 
                 break;
             case is_a($first_element, RoutedServeStatic::class, true):
-                $handler = RoutedServeStatic::fromArray($second_element);
+                $handler = Factory::factory([RoutedServeStatic::class], $second_element);
 
                 break;
             case is_a($first_element, jsExpressionable::class, true):
-                $handler = RoutedUI::fromArray($handler_array);
+                $handler = Factory::factory([RoutedUI::class], $handler_array);
 
                 break;
         }
 
-        if (null === $handler) {
+        if ($handler === null) {
+
             throw (new Exception('Error Transforming Route to Array'))
                 ->addMoreInfo('array', $handler_array);
         }
 
-        if (null !== $callbackOnBefore) {
+        if ($callbackOnBefore !== null) {
             $handler->setBeforeRoute($callbackOnBefore);
         }
 
-        if (null !== $callbackOnAfter) {
+        if ($callbackOnAfter !== null) {
             $handler->setAfterRoute($callbackOnAfter);
         }
 

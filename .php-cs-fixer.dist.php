@@ -1,21 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
 $finder = PhpCsFixer\Finder::create()
+    ->in([__DIR__])
     ->exclude([
-        'cache',
-        'build',
         'vendor',
-        'vendor-extra',
-    ])
-    ->in(__DIR__);
+    ]);
 
-$config = new PhpCsFixer\Config();
+$config = new \PhpCsFixer\Config();
 $config->setRiskyAllowed(true)
     ->setRules([
         '@PhpCsFixer' => true,
-        '@PhpCsFixer:risky' => true,
+        '@PhpCsFixer:risky' =>true,
         '@PHP71Migration:risky' => true,
         '@PHP73Migration' => true,
 
@@ -28,7 +23,7 @@ $config->setRiskyAllowed(true)
         'phpdoc_types' => [
             // keep enabled, but without "alias" group to not fix
             // "Callback" to "callback" in phpdoc
-            'groups' => ['simple', 'meta'],
+            'groups' => ['simple', 'meta']
         ],
         'phpdoc_types_order' => [
             'null_adjustment' => 'always_last',
@@ -36,8 +31,8 @@ $config->setRiskyAllowed(true)
         ],
         'single_line_throw' => false,
         'yoda_style' => [
-            'equal' => true,
-            'identical' => true,
+            'equal' => false,
+            'identical' => false,
         ],
         'native_function_invocation' => false,
         'non_printable_character' => [
@@ -66,11 +61,6 @@ $config->setRiskyAllowed(true)
         ],
         'nullable_type_declaration_for_default_null_value' => [
             'use_nullable_type_declaration' => false,
-        ],
-        'binary_operator_spaces' => [
-            'operators' => [
-                '=>' => 'align',
-            ],
         ],
     ])
     ->setFinder($finder)

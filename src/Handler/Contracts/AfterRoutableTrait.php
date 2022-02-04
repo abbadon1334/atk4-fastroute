@@ -23,7 +23,7 @@ trait AfterRoutableTrait
      */
     public function OnAfterRoute(App $app, ...$parameters): void
     {
-        if (null !== $this->func_after_route) {
+        if ($this->func_after_route !== null) {
             ($this->func_after_route)($app, ...$parameters);
         }
     }

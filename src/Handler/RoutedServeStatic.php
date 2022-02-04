@@ -42,22 +42,12 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         $this->extensions = $extensions;
     }
 
-    public static function fromArray(array $array): iOnRoute
-    {
-        return new static(...$array);
-    }
-
     public function toArray(): array
     {
         return [$this->path, $this->extensions];
     }
 
-    /**
-     * @param mixed ...$parameters
-     *
-     * @return mixed
-     */
-    public function onRoute(...$parameters)
+    public function onRoute(...$parameters): void
     {
         $request_path = array_shift($parameters);
 
@@ -71,10 +61,10 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         $folder_path = $this->getFolderPath($path);
 
         try {
-            $this->isDirAllowed($folder_path);
+            $this->assertDirIsAllowed($folder_path);
 
-            $file_path = $folder_path.\DIRECTORY_SEPARATOR.$file;
-            $this->isFileAllowed($file_path);
+            $file_path = $folder_path . \DIRECTORY_SEPARATOR . $file;
+            $this->assertFileIsAllowed($file_path);
 
             $this->serveFile($file_path);
         } catch (Throwable $t) {
@@ -83,14 +73,14 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         }
     }
 
-    private function getFolderPath(string $path = null)
+    private function getFolderPath(string $path = null): string
     {
-        return null === $path || '.' === $path
+        return $path === null || $path === '.'
             ? $this->path
             : implode(\DIRECTORY_SEPARATOR, [$this->path, $path]);
     }
 
-    private function isDirAllowed($path): void
+    private function assertDirIsAllowed(string $path): void
     {
         $path = realpath($path);
         $vroot = getcwd();
@@ -102,7 +92,7 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         }
     }
 
-    private function isFileAllowed($filepath): void
+    private function assertFileIsAllowed(string $filepath): void
     {
         $ext = pathinfo($filepath, PATHINFO_EXTENSION);
 
@@ -116,7 +106,7 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         }
     }
 
-    private function isExtensionAllowed($ext)
+    private function isExtensionAllowed(string $ext): bool
     {
         return in_array($ext, $this->extensions, true);
     }
@@ -131,10 +121,10 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
         $mimeType = (new MimeTypes())->getMimeType($ext);
 
         header('Cache-Control: max-age=86400');
-        header('X-Sendfile: '.$file_path);
+        header('X-Sendfile: ' . $file_path);
         //header("Content-Type: application/octet-stream");
-        header('Content-Type: '.$mimeType.'');
-        header('Content-Disposition: attachment; filename="'.$filename.'"');
+        header('Content-Type: ' . $mimeType . '');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
 
         readfile($file_path);
     }

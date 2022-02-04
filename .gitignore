@@ -1,9 +1,7 @@
-composer.phar
 /composer.lock
-/.idea
+/build
 /vendor
 .DS_Store
-.php_cs.cache
-/build
-/docs
-routes.cache
+/.idea
+cookie.jar
+/demos/_demo-data/db.sqlite

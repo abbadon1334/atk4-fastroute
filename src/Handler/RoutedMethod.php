@@ -52,11 +52,6 @@ class RoutedMethod implements iOnRoute, iArrayable, iAfterRoutable, iBeforeRouta
         $this->ClassMethod = $ClassMethod;
     }
 
-    public static function fromArray(array $array): iOnRoute
-    {
-        return new static(...$array);
-    }
-
     public function toArray(): array
     {
         return [$this->ClassName, $this->ClassMethod];

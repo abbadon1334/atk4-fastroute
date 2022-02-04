@@ -2,58 +2,68 @@
 
 declare(strict_types=1);
 
-include __DIR__.'/../vendor/autoload.php';
+namespace Abbadon1334\ATKFastRoute\Demos;
 
 use Atk4\Ui\Button;
 use Atk4\Ui\Loader;
 use Atk4\Ui\View;
 
-if (!class_exists(ATKView::class)) {
-    class StandardClass
+class StandardClass
+{
+    /**
+     * @param mixed ...$parameters
+     */
+    public function handleRequest(...$parameters): void
     {
-        public function handleRequest(...$parameters): void
-        {
-            echo json_encode($parameters);
-        }
-
-        public static function staticHandleRequest(...$parameters): void
-        {
-            echo json_encode($parameters);
-        }
+        echo json_encode($parameters);
     }
 
-    class ATKView extends View
+    /**
+     * @param mixed ...$parameters
+     */
+    public static function staticHandleRequest(...$parameters): void
     {
-        public $text;
+        echo json_encode($parameters);
+    }
+}
 
-        protected function init(): void
-        {
-            parent::init();
+class ATKView extends View
+{
+    public string $text;
 
-            $this->set($this->text);
+    protected function init(): void
+    {
+        parent::init();
 
-            /** @var Loader $loader */
-            $loader = Loader::addTo($this->getApp());
-            $loader->set(function ($l): void {
-                $number = random_int(1, 100);
-                $l->add(['Text', 'random :'.$number]);
-            });
+        $this->set($this->text);
 
-            /** @var Button $button */
-            $button = Button::addTo($this->getApp(), ['test']);
-            $button->on('click', function ($j) use ($loader) {
-                return $loader->jsReload();
-            });
-        }
+        /** @var Loader $loader */
+        $loader = Loader::addTo($this->getApp());
+        $loader->set(function ($l): void {
+            $number = random_int(1, 100);
+            $l->add(['Text', 'random :' . $number]);
+        });
 
-        public function onRoute(...$parameters): void
-        {
-            $this->set('pass_on_route');
-        }
+        /** @var Button $button */
+        $button = Button::addTo($this->getApp(), ['test']);
+        $button->on('click', function ($j) use ($loader) {
+            return $loader->jsReload();
+        });
     }
 
-    function handleWithFunction(...$parameters)
+    /**
+     * @param mixed ...$parameters
+     */
+    public function onRoute(...$parameters): void
     {
-        return 'handled with global function';
+        $this->set('pass_on_route');
     }
+}
+
+/**
+ * @param mixed ...$parameters
+ */
+function handleWithFunction(...$parameters): string
+{
+    return 'handled with global function';
 }

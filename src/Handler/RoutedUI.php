@@ -24,18 +24,12 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
         OnBeforeRoute as _OnBeforeRoute;
     }
 
-    /**
-     * @var string
-     */
-    protected $ClassName;
+    protected string $ClassName;
+
+    protected array $default;
 
     /**
-     * @var array
-     */
-    protected $default;
-
-    /**
-     * @var
+     * @var mixed
      */
     protected $onRouteResult;
 
@@ -46,11 +40,6 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
     {
         $this->ClassName = $ClassName;
         $this->default = $default;
-    }
-
-    public static function fromArray(array $array): iOnRoute
-    {
-        return new static(...$array);
     }
 
     public function toArray(): array
@@ -75,7 +64,7 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
      */
     public function OnAfterRoute(App $app, ...$parameters): void
     {
-        if (null !== $this->onRouteResult) {
+        if ($this->onRouteResult !== null) {
             $app->add($this->onRouteResult);
 
             if (method_exists($this->onRouteResult, 'onRoute')) {
@@ -93,7 +82,7 @@ class RoutedUI implements iOnRoute, iArrayable, iNeedAppRun, iAfterRoutable, iBe
      */
     public function OnBeforeRoute(App $app, ...$parameters): void
     {
-        if (!isset($app->html) && null === $this->func_before_route) {
+        if (!isset($app->html) && $this->func_before_route === null) {
             $app->initLayout([Layout::class]);
         }
 

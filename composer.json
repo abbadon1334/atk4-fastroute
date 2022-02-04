@@ -9,26 +9,36 @@
       "email": "fdanti@gmail.com"
     }
   ],
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "require": {
-    "php": ">=7.4",
+    "ext-json": "*",
+    "php": ">=7.4 <8.2",
     "atk4/core": "~3.1.0",
     "nikic/fast-route": "1.3.0",
-    "ralouphie/mimey": "2.1.0",
-    "zendframework/zend-diactoros": "2.2.1"
+    "xantios/mimey": "v2.2.0",
+    "laminas/laminas-diactoros": "*"
+  },
+  "require-release": {
+    "ext-json": "*",
+    "php": ">=7.4 <8.2",
+    "atk4/core": "~3.1.0",
+    "nikic/fast-route": "1.3.0",
+    "xantios/mimey": "v2.2.0",
+    "laminas/laminas-diactoros": "*"
   },
   "require-dev": {
-    "atk4/ui": "3.1.0",
-    "codacy/coverage": "dev-master",
-    "friendsofphp/php-cs-fixer": "v3.4.0",
-    "phpmetrics/phpmetrics": "2.7.4",
-    "phpunit/phpunit": "9.5.12",
-    "satooshi/php-coveralls": "2.2.0"
+    "atk4/ui": "~3.1.0",
+    "ergebnis/composer-normalize": "^2.13",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "guzzlehttp/guzzle": "7.4.1",
+    "johnkary/phpunit-speedtrap": "^3.3",
+    "phpstan/extension-installer": "^1.1",
+    "phpstan/phpstan-deprecation-rules": "^1.0",
+    "phpunit/phpunit": "^9.5.5",
+    "symfony/console": "^4.4.30 || ^5.3.7",
+    "symfony/process": "^5.4"
   },
-  "config": {
-    "sort-packages": true
-  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload": {
     "psr-4": {
       "Abbadon1334\\ATKFastRoute\\": "src/"
@@ -39,40 +49,10 @@
       "Abbadon1334\\ATKFastRoute\\Tests\\": "tests/"
     }
   },
-  "scripts": {
-    "fix": "php-cs-fixer fix",
-    "stan": "phpstan analyse src",
-    "stan1": "phpstan analyse --level 1 src",
-    "stan2": "phpstan analyse --level 2 src",
-    "stan3": "phpstan analyse --level 3 src",
-    "stan4": "phpstan analyse --level 4 src",
-    "stan5": "phpstan analyse --level 5 src",
-    "stan6": "phpstan analyse --level 6 src",
-    "stan7": "phpstan analyse --level 7 src",
-    "metrics": [
-      "mkdir -p ./build/report",
-      "mv ./build/report ./build/report_$(date +\"%Y.%m.%d_%H%M%S\")",
-      "phpmetrics --config=./.phpmetrics.json .",
-      "firefox ./build/report/phpmetrics.html/index.html"
-    ],
-    "metrics-clear": [
-      "rm -rf ./build/report_*",
-      "rm -rf ./build/report"
-    ],
-    "unit": [
-      "mkdir -p ./build/coverage",
-      "mv ./build/coverage ./build/coverage_$(date +\"%Y.%m.%d_%H%M%S\")",
-      "phpunit --configuration phpunit.xml"
-    ],
-    "unit-html": [
-      "mkdir -p ./build/coverage",
-      "mv ./build/coverage ./build/coverage_$(date +\"%Y.%m.%d_%H%M%S\")",
-      "phpunit --configuration phpunit.xml --coverage-html ./build/coverage",
-      "firefox ./build/coverage/index.html"
-    ],
-    "unit-clear": [
-      "rm -rf ./build/coverage_*",
-      "rm -rf ./build/coverage"
-    ]
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "ergebnis/composer-normalize": true
+    }
   }
 }
