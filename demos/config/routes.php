@@ -54,7 +54,7 @@ return [
         [
             RoutedServeStatic::class,
             [
-                getcwd() . '/demo/static_assets',
+                getcwd().'/demo/static_assets',
                 [
                     'css',
                     'js',
