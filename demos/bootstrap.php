@@ -42,7 +42,7 @@ class ATKView extends View
         $loader = Loader::addTo($this->getApp());
         $loader->set(function ($l): void {
             $number = random_int(1, 100);
-            Text::addTo($l)->set('random :' . $number);
+            Text::addTo($l)->set('random :'.$number);
         });
 
         /** @var Button $button */
