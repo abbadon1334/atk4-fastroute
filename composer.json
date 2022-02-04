@@ -1,58 +1,50 @@
 {
-  "name": "abbadon1334/atk4-fastroute",
-  "description": "description",
-  "license": "MIT",
-  "type": "project",
-  "authors": [
-    {
-      "name": "Francesco Danti",
-      "email": "fdanti@gmail.com"
-    }
-  ],
-  "require": {
-    "php": ">=7.4 <8.2",
-    "ext-json": "*",
-    "atk4/core": "~3.1.0",
-    "laminas/laminas-diactoros": "~2.8.0",
-    "nikic/fast-route": "~1.3.0",
-    "xantios/mimey": "~v2.2.0"
-  },
-  "require-release": {
-    "php": ">=7.4 <8.2",
-    "ext-json": "*",
-    "atk4/core": "~3.1.0",
-    "laminas/laminas-diactoros": "~2.8.0",
-    "nikic/fast-route": "~1.3.0",
-    "xantios/mimey": "~v2.2.0"
-  },
-  "require-dev": {
-    "atk4/ui": "~3.1.0",
-    "ergebnis/composer-normalize": "^2.13",
-    "friendsofphp/php-cs-fixer": "^3.0",
-    "guzzlehttp/guzzle": "7.4.1",
-    "johnkary/phpunit-speedtrap": "^3.3",
-    "phpstan/extension-installer": "^1.1",
-    "phpstan/phpstan-deprecation-rules": "^1.0",
-    "phpunit/phpunit": "^9.5.5",
-    "symfony/console": "^4.4.30 || ^5.3.7",
-    "symfony/process": "^5.4"
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "autoload": {
-    "psr-4": {
-      "Abbadon1334\\ATKFastRoute\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Abbadon1334\\ATKFastRoute\\Tests\\": "tests/"
-    }
-  },
-  "config": {
-    "allow-plugins": {
-      "ergebnis/composer-normalize": true
+    "name": "abbadon1334/atk4-fastroute",
+    "description": "description",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Francesco Danti",
+            "email": "fdanti@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4 <8.2",
+        "ext-json": "*",
+        "atk4/core": "~3.1.0",
+        "laminas/laminas-diactoros": "~2.8.0",
+        "nikic/fast-route": "~1.3.0",
+        "xantios/mimey": "~v2.2.0"
     },
-    "sort-packages": true
-  }
+    "require-dev": {
+        "atk4/ui": "~3.1.0",
+        "ergebnis/composer-normalize": "^2.13",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "guzzlehttp/guzzle": "7.4.1",
+        "johnkary/phpunit-speedtrap": "^3.3",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpunit/phpunit": "^9.5.5",
+        "symfony/console": "^4.4.30 || ^5.3.7",
+        "symfony/process": "^5.4"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Abbadon1334\\ATKFastRoute\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Abbadon1334\\ATKFastRoute\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        },
+        "sort-packages": true
+    }
 }
