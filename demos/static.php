@@ -15,7 +15,7 @@ use Abbadon1334\ATKFastRoute\Handler\RoutedServeStatic;
 use Abbadon1334\ATKFastRoute\Router;
 
 $router = new Router($app);
-//$router->setBaseDir('/'); // added only for coverage in unit test
+// $router->setBaseDir('/'); // added only for coverage in unit test
 $router->addRoute(
     '/assets/{path:.+}',
     ['GET'],

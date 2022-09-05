@@ -122,7 +122,7 @@ class RoutedServeStatic implements iOnRoute, iArrayable, iAfterRoutable, iBefore
 
         header('Cache-Control: max-age=86400');
         header('X-Sendfile: ' . $file_path);
-        //header("Content-Type: application/octet-stream");
+        // header("Content-Type: application/octet-stream");
         header('Content-Type: ' . $mimeType . '');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
 

@@ -17,10 +17,14 @@ use Atk4\Core\ConfigTrait;
 use Atk4\Ui\App;
 use Atk4\Ui\Layout;
 use Closure;
+
 use function FastRoute\cachedDispatcher;
+
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
+
 use function FastRoute\simpleDispatcher;
+
 use Laminas\Diactoros\ServerRequestFactory;
 use Psr\Http\Message\RequestInterface;
 
@@ -64,10 +68,16 @@ class Router
     {
         $this->_parentSetApp($app);
 
+        $app = $this->getApp();
+
+        if ($app->alwaysRun) {
+            throw new \Atk4\Core\Exception('App need to have alwaysRun=false', 500);
+        }
+
         // prepare ui\App for pretty urls
         $this->getApp()->setDefaults([
-            //'always_run' => false, cannot be changed after _construct
-            'url_building_ext' => '',
+            'urlBuildingExt' => '',
+            'page' => '',
         ]);
 
         $this->getApp()->addMethod('getRouter', function () {

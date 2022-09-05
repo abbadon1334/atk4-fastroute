@@ -24,7 +24,7 @@ class RouterTest extends TestCase
 
     public function testSetBasePath(): void
     {
-        $router = new Router(new App(['always_run' => false]));
+        $router = new Router(new App(['alwaysRun' => false]));
         $router->setBaseDir('basedir');
 
         $this->addToAssertionCount(1);
@@ -40,6 +40,7 @@ class RouterTest extends TestCase
 
     /**
      * @dataProvider dataProviderTestDemos
+     *
      * @runInSeparateProcess
      *
      * @param mixed $file

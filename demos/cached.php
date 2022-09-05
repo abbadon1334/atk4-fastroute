@@ -16,7 +16,7 @@ require __DIR__ . '/init-app.php';
 
 $router = new Router($app);
 $router->enableCacheRoutes(__DIR__ . '/routes.cache');
-//$router->setBaseDir('/nemesi/atk4-fastroute/demos');
+// $router->setBaseDir('/nemesi/atk4-fastroute/demos');
 $router->addRoute(
     '/',
     ['GET', 'POST'],

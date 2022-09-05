@@ -133,7 +133,7 @@ class Route implements iRoute
         return [
             $this->getMethods(),
             $this->getRoute(),
-            $this->getHandler() /*->toArray()*/,
+            $this->getHandler() /* ->toArray() */,
         ];
     }
 }

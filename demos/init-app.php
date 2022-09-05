@@ -19,10 +19,10 @@ if (file_exists(__DIR__ . '/CoverageUtil.php') && !class_exists(\PHPUnit\Framewo
 }
 
 $app = new App([
-    'catch_exceptions' => false,
-    'always_run' => false,
-    'catch_runaway_callbacks' => false,
-    'call_exit' => false,
+    'catchExceptions' => false,
+    'alwaysRun' => false,
+    'catchRunawayCallbacks' => false,
+    'callExit' => false,
 ]);
 
 // collect coverage for HTTP tests 2/2
