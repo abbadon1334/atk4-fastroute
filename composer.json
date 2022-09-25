@@ -33,7 +33,7 @@
     "guzzlehttp/guzzle": "7.4.1",
     "johnkary/phpunit-speedtrap": "^3.3",
     "phpstan/extension-installer": "^1.1",
-    "phpstan/phpstan-deprecation-rules": "^1.0",
+    "phpstan/phpstan-deprecation-rules": "1.0.0",
     "phpunit/phpunit": "^9.5.5",
     "symfony/console": "^4.4.30 || ^5.3.7",
     "symfony/process": "^5.4"
