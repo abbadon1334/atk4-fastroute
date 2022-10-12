@@ -35,8 +35,8 @@
     "phpstan/extension-installer": "^1.1",
     "phpstan/phpstan-deprecation-rules": "^1.0",
     "phpunit/phpunit": "^9.5.5",
-    "symfony/console": "^4.4.30 || ^5.3.7",
-    "symfony/process": "^5.4"
+    "symfony/console": "5.4.14",
+    "symfony/process": "5.4.11"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
