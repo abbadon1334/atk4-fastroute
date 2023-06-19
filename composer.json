@@ -30,7 +30,7 @@
     "atk4/ui": "dev-develop",
     "ergebnis/composer-normalize": "^2.13",
     "friendsofphp/php-cs-fixer": "^3.0",
-    "guzzlehttp/guzzle": "7.4.1",
+    "guzzlehttp/guzzle": "7.4.5",
     "johnkary/phpunit-speedtrap": "^3.3",
     "phpstan/extension-installer": "^1.1",
     "phpstan/phpstan-deprecation-rules": "^1.0",
