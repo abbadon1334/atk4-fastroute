@@ -11,7 +11,7 @@
   ],
   "require": {
     "ext-json": "*",
-    "php": ">=7.4 <8.2",
+    "php": "<8.4",
     "ext-json": "*",
     "atk4/core": "dev-develop",
     "laminas/laminas-diactoros": "~2.8.0",
